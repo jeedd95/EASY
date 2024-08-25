@@ -25,4 +25,12 @@ public class RecipeController {
 		return list;
 	}
 	
+	public List<RecipeVO> recommendRecipeByMemberUsed(int memberNo){
+		List<RecipeVO> list = null;
+		
+		list = service.recommendRecipeByMemberUsed(memberNo);
+		
+		return list;
+	}
+	
 }
