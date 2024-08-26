@@ -17,6 +17,7 @@ public interface RefrigeratorDAO {
 	/**
 	 * 식재료 상세보기
 	 */
-	List<RefrigeratorVO> searchIngredientByMemberNo(String memberNo);
+
+	List<RefrigeratorVO> searchIngredientByMemberNo(int memberNo);
 	
 }
