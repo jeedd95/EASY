@@ -30,10 +30,21 @@ public interface RecipeDAO {
 	/**
 	 * 식재료 번호로 레시피재료 가져오기
 	 */
-	List<RecipeIngredientVO> searchRecipeIngredientByRecipeName(int ingredientNo);
+	List<RecipeIngredientVO> searchRecipeIngredientListByIngredientNumber(int ingredientNo);
 	
 	/**
 	 * 일련번호로 레시피 찾기
 	 */
 	RecipeVO searchRecipeBySerialNumber(int serialNumber);
+	
+	/**
+	 * 레시피 일련번호로 레시피재료테이블에서 레시피재료 리스트 찾기
+	 */
+	List<RecipeIngredientVO> searchRecipeIngredientListByRecipeSerialNumber(int recipeSerialNumber);
+	
+	/**
+	 * 식재료번호로 식재료테이블에서 재료이름찾기
+	 */
+	String searchIngredientName(int ingredientNumber);
+
 }

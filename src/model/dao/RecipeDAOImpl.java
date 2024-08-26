@@ -36,7 +36,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1,recipeName);
+			ps.setString(1, recipeName);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
@@ -62,7 +62,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 	}
 
 	@Override
-	public List<RecipeIngredientVO> searchRecipeIngredientByRecipeName(int ingredientNo) {
+	public List<RecipeIngredientVO> searchRecipeIngredientListByIngredientNumber(int ingredientNo) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -78,7 +78,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 			while (rs.next()) {
 				int serialNumber = rs.getInt("RECIPE_INGREDIENT_NO");
 				int recipeNo = rs.getInt("RECIPE_NO");
-				
+
 				recipeIngredient.add(new RecipeIngredientVO(serialNumber, recipeNo, ingredientNo));
 			}
 		} catch (SQLException e) {
@@ -101,7 +101,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1,serialNumber);
+			ps.setInt(1, serialNumber);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
@@ -119,4 +119,59 @@ public class RecipeDAOImpl implements RecipeDAO {
 		return recipe;
 	}
 
+	@Override
+	public List<RecipeIngredientVO> searchRecipeIngredientListByRecipeSerialNumber(int recipeSerialNumber) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from RECIPE_INGREDIENT where RECIPE_NO = ?";
+		List<RecipeIngredientVO> recipeIngredientList = new ArrayList<RecipeIngredientVO>();
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, recipeSerialNumber);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int serialNumber = rs.getInt("RECIPE_INGREDIENT_NO");
+				int ingredientNumber = rs.getInt("INGREDIENT_NO");
+
+				RecipeIngredientVO ingredient = new RecipeIngredientVO(serialNumber, recipeSerialNumber,ingredientNumber);
+				recipeIngredientList.add(ingredient);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+
+		return recipeIngredientList;
+	}
+
+	@Override
+	public String searchIngredientName(int ingredientNumber) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from INGREDIENT where INGREDIENT_NO = ?";
+		String name = null;
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, ingredientNumber);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				name = rs.getString("INGREDIENT_NAME");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+
+		return name;
+	}
 }

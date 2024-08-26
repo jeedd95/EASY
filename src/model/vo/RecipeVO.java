@@ -66,4 +66,11 @@ public class RecipeVO {
 		return name.equals(other.getName());
 	}
 
+	@Override
+	public String toString() {
+		return "RecipeVO [serialNumber=" + serialNumber + ", name=" + name + ", method=" + method
+				+ ", recipeIngredientList=" + recipeIngredientList + "]";
+	}
+	
+
 }

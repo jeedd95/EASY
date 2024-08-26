@@ -4,7 +4,8 @@ public class RecipeIngredientVO {
 	private int serialNumber;
 	private int recipe_No;
 	private int ingredient_No;
-	
+	private String ingredientName;
+
 	public RecipeIngredientVO() {
 	
 	}
@@ -13,6 +14,14 @@ public class RecipeIngredientVO {
 		this.serialNumber = serialNumber;
 		this.recipe_No = recipe_No;
 		this.ingredient_No = ingredient_No;
+	}
+
+	public String getIngredientName() {
+		return ingredientName;
+	}
+
+	public void setIngredientName(String ingredientName) {
+		this.ingredientName = ingredientName;
 	}
 
 	public int getSerialNumber() {
@@ -38,6 +47,13 @@ public class RecipeIngredientVO {
 	public void setIngredient_No(int ingredient_No) {
 		this.ingredient_No = ingredient_No;
 	}
+
+	@Override
+	public String toString() {
+		return "RecipeIngredientVO [serialNumber=" + serialNumber + ", recipe_No=" + recipe_No + ", ingredient_No="
+				+ ingredient_No + ", name=" + ingredientName + "]";
+	}
+
 	
 	
 	
