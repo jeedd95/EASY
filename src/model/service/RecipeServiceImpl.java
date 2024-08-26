@@ -56,8 +56,10 @@ public class RecipeServiceImpl implements RecipeService {
 				recipeList.add(recipe);
 			}
 		}
-		recipeList.forEach(x -> System.out.println(x.getName()) );
-		return recipeList; // 중복 제거해주기(set)
+		
+		recipeList= recipeList.stream().distinct().toList();  // 중복 제거
+		
+		return recipeList;
 	}
 
 	@Override
@@ -71,8 +73,27 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public int makeRecipe(RecipeVO recipeVo) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		
+		RefrigeratorDAO refrigDao = new RefrigeratorDAOImpl();
+		
+		//레시피 바로 만들기
+		//인수로 들어온 레시피의 재료들의 목록을 냉장고 현황에서 빼줌
+		int recipeSerialNumber = recipeVo.getSerialNumber();
+		System.out.println(recipeSerialNumber);
+		
+		List<RecipeIngredientVO> ingredientList= dao.searchRecipeIngredientByRecipeName(recipeSerialNumber);
+		for (RecipeIngredientVO r : ingredientList) {
+			//식재료 일련번호
+			int ingredientNumber = r.getIngredient_No();
+
+			//식재료 일련번호로 냉장고 현황에서 식재료 일련번호에 해당하는 데이터 삭제(빼기)
+			//refrigDao.식재료 일련번호로 냉장고 객체(RefrigeratorVO) 리턴
+		}
+		//null 자리에 위에서 한거 모은 리스트 넣어주기
+		result = refrigDao.subtractIngredient(null);
+		
+		return result;
 	}
 
 }
