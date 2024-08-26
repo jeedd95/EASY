@@ -16,19 +16,19 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
     }
 
     @Override
-    public int addIngredients(List<RefrigeratorVO> ingredients) {
+    public int insertIngredient(List<RefrigeratorVO> ingredients) {
         
         return refrigeratorDAO.insertIngredient(ingredients);
     }
 
     @Override
-    public int removeIngredients(List<RefrigeratorVO> ingredients) {
+    public int subtractIngredient(List<RefrigeratorVO> ingredients) {
         
         return refrigeratorDAO.subtractIngredient(ingredients);
     }
 
     @Override
-    public List<RefrigeratorVO> getIngredientsByMemberNo(int memberNo) {
+    public List<RefrigeratorVO> searchIngredientByMemberNo(int memberNo) {
         
         return refrigeratorDAO.searchIngredientByMemberNo(memberNo);
     }

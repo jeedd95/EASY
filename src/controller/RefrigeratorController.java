@@ -13,18 +13,19 @@ public class RefrigeratorController {
         this.refrigeratorService = new RefrigeratorServiceImpl();
     }
 
-    public void addNewIngredients(List<RefrigeratorVO> ingredients) {
-        int result = refrigeratorService.addIngredients(ingredients);
+    public void insertIngredient(List<RefrigeratorVO> ingredients) {
+        int result = refrigeratorService.insertIngredient(ingredients);
         System.out.println("추가된 재료의 수: " + result);
     }
 
-    public void removeIngredients(List<RefrigeratorVO> ingredients) {
-        int result = refrigeratorService.removeIngredients(ingredients);
+
+    public void subtractIngredient(List<RefrigeratorVO> ingredients) {
+        int result = refrigeratorService.subtractIngredient(ingredients);
         System.out.println("제거된 재료의 수: " + result);
     }
 
-    public void showIngredients(int memberNo) {
-        List<RefrigeratorVO> ingredients = refrigeratorService.getIngredientsByMemberNo(memberNo);
+    public void searchIngredientByMemberNo(int memberNo) {
+        List<RefrigeratorVO> ingredients = refrigeratorService.searchIngredientByMemberNo(memberNo);
         ingredients.forEach(System.out::println);
     }
 }
