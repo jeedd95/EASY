@@ -7,11 +7,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.service.BoardService;
 import model.vo.BoardVO;
 import model.vo.CommentVO;
 import model.vo.RecipeBoardVO;
-import model.vo.ReviewBoardVO;
+import model.vo.RecipeCommentVO;
+import model.vo.ReviewCommentVO;
 import util.DbManager;
 
 public class BoardDAOImpl implements  BoardDAO {
@@ -84,9 +84,38 @@ public class BoardDAOImpl implements  BoardDAO {
 	}
 
 	@Override
-	public int writeComment(CommentVO comment) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int writeComment(CommentVO comment,String boardName) {
+		int result=0;
+		Connection con = null;
+		PreparedStatement ps =null;
+		
+		String sql = "insert into "+boardName+" values(1,?,?,?,?)";
+		System.out.println(sql);
+		try {
+			con=DbManager.getConnection();
+			ps=con.prepareStatement(sql);
+
+			if(comment instanceof RecipeCommentVO recipeComment) {
+				ps.setInt(1,recipeComment.getBoardNo()); 
+				ps.setString(2,recipeComment.getContent());
+				ps.setInt(3, recipeComment.getRating());
+				ps.setString(4, recipeComment.getMemberNickName());
+			}
+			
+			if(comment instanceof ReviewCommentVO reviewComment) {
+				ps.setInt(1,reviewComment.getrecipeNo()); 
+				ps.setString(2,reviewComment.getContent());
+				ps.setInt(3, reviewComment.getRating());
+				ps.setString(4, reviewComment.getMemberNickName());
+			}
+			
+			result = ps.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	@Override
 	public List<BoardVO> searchPostByName(String name) {
@@ -134,6 +163,74 @@ public class BoardDAOImpl implements  BoardDAO {
 		}
 		System.out.println("DAO 확인");
 		return boardList;
+		
+	}
+	@Override
+	public BoardVO boardSelectByNo(int boardNO) {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from my_recipe_board where MY_RECIPE_BOARD_NO = ?";
+		List<CommentVO> comment;
+		BoardVO board = null;
+		try {
+			con=DbManager.getConnection();
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, boardNO);
+			rs = ps.executeQuery();
+           
+            if(rs.next()) {
+	        int boardNo = rs.getInt(1);
+	        int memberNo = rs.getInt(2);
+	        String title  = rs.getString(3);
+	        String content = rs.getString(4);
+	        String date = rs.getString(5);
+	        board = new RecipeBoardVO(boardNo,memberNo, title, content, date);
+	        comment = replyBoardByNo(con,boardNo);
+	        board.setComment(comment);
+            }
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DbManager.dbClose(con, ps);
+		}
+		System.out.println("DAO 확인");
+		
+		return board;
+		
+	}
+	
+	private List<CommentVO> replyBoardByNo(Connection con, int boardNo) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from MY_RECIPE_COMMENT where MY_RECIPE_BOARD_NO = ?"
+				+ "";
+		List<CommentVO> comment = new ArrayList<CommentVO>();
+		try {
+			con=DbManager.getConnection();
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, boardNo);
+			rs = ps.executeQuery();
+           
+            while(rs.next()) {
+	        int relpyNo = rs.getInt(1);
+	        boardNo = rs.getInt(2);
+	        String cotent  = rs.getString(3);
+	        int rating = rs.getInt(4);
+	        String M_Id = rs.getString(5);
+	        CommentVO commentVO= new RecipeCommentVO(relpyNo,cotent,rating,M_Id,boardNo);
+            comment.add(commentVO);
+            }
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DbManager.dbClose(con, ps);
+		}
+		System.out.println("DAO 확인");
+		return comment;
 		
 	}
 

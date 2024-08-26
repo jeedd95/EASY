@@ -5,6 +5,7 @@ import java.util.List;
 import model.service.BoardService;
 import model.service.BoardServiceImpl;
 import model.vo.BoardVO;
+import model.vo.CommentVO;
 import view.SuccessView;
 
 public class BoardController {
@@ -17,5 +18,15 @@ public class BoardController {
 	}
 	public static void postBoard(BoardVO board) {
 		boardService.postBoard(board);
+	}
+	public static void postBoardByNo(int boardNo) {
+		BoardVO board = boardService.boardSelectByNo(boardNo);
+		SuccessView.printCommentByBoard(board);
+	}
+	public static void writeComment(CommentVO comment,String boardName) {
+		boardService.writeComment(comment,boardName);
+		SuccessView.printMessage("댓글 작성 완료");
+
+		
 	}
 }

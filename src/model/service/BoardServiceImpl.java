@@ -5,9 +5,12 @@ import java.util.List;
 import model.dao.BoardDAO;
 import model.dao.BoardDAOImpl;
 import model.vo.BoardVO;
+import model.vo.CommentVO;
 
 public class BoardServiceImpl implements BoardService {
 	
+	private static final BoardVO board = null;
+
 	private static BoardService boardService;
 	
 	BoardDAO boardDAO = BoardDAOImpl.getInstance();
@@ -37,6 +40,20 @@ public class BoardServiceImpl implements BoardService {
 		if(result ==0)
 			System.out.println("오류 던지기");
 			
+	}
+
+	@Override
+	public BoardVO boardSelectByNo(int boardNO) {
+		BoardVO board = boardDAO.boardSelectByNo(boardNO);
+
+		return board;
+	}
+
+	@Override
+	public void writeComment(CommentVO comment,String boardName) {
+		int result = boardDAO.writeComment(comment,boardName);
+		if(result == 0)
+			System.out.println("오류 던지기");
 	}
 	
 }
