@@ -66,18 +66,19 @@ public class RecipeDAOImpl implements RecipeDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from RECIPE_INGREDIENT";
+		String sql = "select * from RECIPE_INGREDIENT where INGREDIENT_NO = ?";
 
 		List<RecipeIngredientVO> recipeIngredient = new ArrayList<RecipeIngredientVO>();
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
+			ps.setInt(1, ingredientNo);
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				int serialNumber = rs.getInt("'RECIPE_INGREDIENT_NO'");
-				int recipeNo = rs.getInt("'RECIPE_NO'");
-
+				int serialNumber = rs.getInt("RECIPE_INGREDIENT_NO");
+				int recipeNo = rs.getInt("RECIPE_NO");
+				
 				recipeIngredient.add(new RecipeIngredientVO(serialNumber, recipeNo, ingredientNo));
 			}
 		} catch (SQLException e) {
@@ -94,12 +95,13 @@ public class RecipeDAOImpl implements RecipeDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from RECIPE";
+		String sql = "select * from RECIPE where RECIPE_NO = ?";
 		RecipeVO recipe = null;
 
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
+			ps.setInt(1,serialNumber);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
