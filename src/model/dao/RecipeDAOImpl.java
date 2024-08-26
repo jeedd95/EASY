@@ -30,20 +30,21 @@ public class RecipeDAOImpl implements RecipeDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from RECIPE";
+		String sql = "select * from RECIPE where RECIPE_NAME = ?";
 		RecipeVO recipe = null;
 
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
+			ps.setString(1,recipeName);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
 				int serialNumber = rs.getInt("RECIPE_NO");
-				String name = rs.getString("RECIPE_NAME");
+//				String name = rs.getString("RECIPE_NAME");
 				String method = rs.getString("METHOD");
 
-				recipe = new RecipeVO(serialNumber, name, method);
+				recipe = new RecipeVO(serialNumber, recipeName, method);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
