@@ -1,10 +1,13 @@
 package model.vo;
 
+import java.util.List;
+
 public class WishListVO {
-	private int wishListNo;
-	private int memberNo;
-	private int ingredientNo;
+	private int wishListNo; //PK
+	private int memberNo; //FK
+	private int ingredientNo; //FK
 	private int amount;
+	
 	
 	public WishListVO() {} //기본 생성자
 
@@ -15,7 +18,7 @@ public class WishListVO {
 		this.ingredientNo = ingredientNo;
 		this.amount = amount;
 	}
-
+	
 	public int getWishListNo() {
 		return wishListNo;
 	}
@@ -51,13 +54,16 @@ public class WishListVO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("WishListVO [wishListNo=");
+		builder.append("[찜번호: ");
 		builder.append(wishListNo);
-		builder.append(", memberNo=");
+		builder.append(" | ");
+		builder.append(", 회원번호: ");
 		builder.append(memberNo);
-		builder.append(", ingredientNo=");
+		builder.append(" | ");
+		builder.append(", 식자재 번호: ");
 		builder.append(ingredientNo);
-		builder.append(", amount=");
+		builder.append(" | ");
+		builder.append(", 수량: ");
 		builder.append(amount);
 		builder.append("]");
 		return builder.toString();

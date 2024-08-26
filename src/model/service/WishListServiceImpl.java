@@ -29,6 +29,7 @@ public class WishListServiceImpl implements WishListService {
 		
 		List<WishListVO> list = wldao.searchWishList(memberNo);
 		if(list.isEmpty()) throw new ListNotFoundException("생성된 찜목록이 없습니다.");
+		else 
 		return list;
 	}
 
