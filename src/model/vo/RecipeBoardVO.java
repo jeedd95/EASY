@@ -9,7 +9,11 @@ public class RecipeBoardVO extends BoardVO{
 		this.memberNo = memberNo;
 	
 	}
+	public RecipeBoardVO (int no,int memberNo) {
+		super(no);
+		this.memberNo = memberNo;
 	
+	}
 	public RecipeBoardVO (int memberNo, String title, String content) {
 		super(title,content);
 		this.memberNo = memberNo;
@@ -25,8 +29,8 @@ public class RecipeBoardVO extends BoardVO{
 		this.memberNo = memberNo;
 	}
 	
-	public String colmun() {
-		return "m_no";
+	public int getColmun() {
+		return memberNo;
 		
 	}
 	public String toString() {

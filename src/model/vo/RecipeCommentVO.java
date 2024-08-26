@@ -4,12 +4,12 @@ public class RecipeCommentVO extends CommentVO{
 	int boardNo;
 	
 	
-	public RecipeCommentVO(int commentNo, String content, int rating, String memberNickName,int boardNo) {
-		super(commentNo,content,rating,memberNickName);
+	public RecipeCommentVO(int commentNo, String content, int rating, String NickName,int boardNo) {
+		super(commentNo,content,rating,NickName);
 		this.boardNo =boardNo;
 	}
-	public RecipeCommentVO(String content, int rating, String memberNickName,int boardNo) {
-		super(content,rating,memberNickName);
+	public RecipeCommentVO(String content, int rating, String NickName,int boardNo) {
+		super(content,rating,NickName);
 		this.boardNo =boardNo;
 	}
 	

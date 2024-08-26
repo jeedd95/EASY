@@ -22,8 +22,8 @@ public class ReviewBoardVO extends BoardVO{
 	public void setRecipeNo(int RecipeNo) {
 		this.RecipeNo = RecipeNo;
 	}
-	public String colmun() {
-		return "Recipe_no	";		
+	public int colmun() {
+		return RecipeNo;		
 	}
 	@Override
 	public String toString() {

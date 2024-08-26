@@ -1,6 +1,8 @@
 package model.dao;
 
 import java.util.List;
+import java.util.Map;
+
 import model.vo.BoardVO;
 import model.vo.CommentVO;
 
@@ -22,7 +24,7 @@ public interface BoardDAO {
 	/**
 	 * 내가 쓴 댓글 보기
 	 */
-	List<CommentVO> searchMyComment(int memberNo);
+	 Map<String, Map<String,Object>> searchMyComment(String nickName);
 	
 	/**
 	 * 게시판 삭제

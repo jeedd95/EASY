@@ -5,7 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.vo.BoardVO;
 import model.vo.CommentVO;
@@ -18,11 +20,18 @@ import util.DbManager;
 public class BoardDAOImpl implements  BoardDAO {
 	private static BoardDAO boardDAO;
 	
+	/*
+	 * 싱글톤
+	 */
 	public static BoardDAO getInstance() {
 		if(boardDAO ==null)
 			boardDAO = new BoardDAOImpl();
 		return boardDAO;
 	}
+	/*
+	 * 게시물 작성
+	 * 유저는 내 레시피 게시판 밖에 못함
+	 */
 	@Override
 	public int postBoard(BoardVO board) {
 		int result=0;
@@ -59,23 +68,141 @@ public class BoardDAOImpl implements  BoardDAO {
 		return result;
 		
 	}
-
+	
+	/*
+	 * 내가 쓴 글 목록 출력
+	 */
 	@Override
 	public List<BoardVO> searchMyPost(int memberNo) {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<BoardVO> boardList = new ArrayList<BoardVO>();
+		String sql = "select * from MY_RECIPE_BOARD WHERE M_NO = ?";
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, memberNo);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				BoardVO board = new RecipeBoardVO(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5));		
+				boardList.add(board);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			DbManager.dbClose(con, ps,rs);
+		}
+		return boardList;
 	}
-
+	/*
+	 * 내가 쓴 댓글들 출력
+	 * 댓글은 2 게시판에 다 쓸 수 있어서
+	 * TableName를 DB에서 불러와 TABLENAME를 조회해서 댓글 정보를 갖고와 
+	 * TableName를 String(key)로 쓰고 댓글들의 번호와 Object(클래스 동적할당으로) 받아 
+	 * Map<String(댓글번호,Object(CommentVO))써서
+	 * Map 안에 Map 구조를 이룸 
+	 */
 	@Override
-	public List<CommentVO> searchMyComment(int memberNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Map<String,Object>> searchMyComment(String nickName) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		//user 테이블에 있는 board 포함 테이블 이름 갖고오기
+		String sql ="SELECT initcap(TABLE_NAME) FROM USER_TABLES where TABLE_NAME like '%COMMENT%'";
+		
+		Map<String, Map<String,Object>> commentList = new HashMap<String, Map<String,Object>>();
+		System.out.println(sql);
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				String name = rs.getString(1);
+				commentList = commentFindByMNo(con,name,commentList,nickName);
+			}
+			
+						
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return commentList;
 	}
+	
 
+	/*
+	 * 테이블 이름과 닉네임을 받아 해당 테이블 이름에 닉네임이 일치하면 댓글들 출력
+	 */
+	public Map<String, Map<String,Object>> commentFindByMNo(Connection con,
+		String name, Map<String, Map<String,Object>> board,String nickName){
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		//테이블 이름 갖고 온걸로 그 테이블 정보 검색
+		String sql = "select * from "+name+" where M_NICKNAME = ?";
+		
+		//name 당 map 생성해서 <게시판번호,게시판> 해서 map에 넣고 그걸 board에 넣을 것이다.
+        Map<String,Object> map = new HashMap<String, Object>();
+        System.out.println(name);
+		try {
+			String[] boardName = name.split("_");
+			String className = "model.vo."+boardName[1]+"CommentVO"; // 전체 패키지 경로와 클래스 이름
+
+			ps=con.prepareStatement(sql);
+			ps.setString(1, nickName);
+			rs = ps.executeQuery();
+
+            
+            while(rs.next()) {
+	        // 클래스를 로드하고 객체를 생성
+	        Class<?> clazz = Class.forName(className);
+	        int no = rs.getInt(1);
+	        int tableNo = rs.getInt(2);
+	        String content  = rs.getString(3);
+	        int rating = rs.getInt(4);
+	        
+	        //생성자에 넣을 필드 선언
+	        Object[] constructorArgs = { no,content,rating,nickName,tableNo};
+            //클래스에 넣을 생성자 필드 타입 설정
+	        Class<?>[] paramTypes = { int.class,  String.class, int.class, String.class,int.class, };
+            
+            Constructor<?> constructor = clazz.getConstructor(paramTypes);
+	        
+            Object obj = constructor.newInstance(constructorArgs);
+            map.put(String.valueOf(no),obj);
+			board.put(name,map);
+            }
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+		return board;
+		
+	}
 	@Override
 	public int deleteBoard(BoardVO board) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result=0;
+		Connection con = null;
+		PreparedStatement ps =null;
+		
+		String sql = "delete from My_recipe_Board where MY_RECIPE_BOARD_NO = ? AND M_NO = ?";
+		try {
+			con=DbManager.getConnection();
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, board.getNo());
+			ps.setInt(2, board.getColmun());
+			
+			result = ps.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -117,6 +244,11 @@ public class BoardDAOImpl implements  BoardDAO {
 		
 		return result;
 	}
+	/*
+	 * 해당 게시판 출력 인데 name를 받아서 name에 해당하는 테이블 조회와
+	 * 클래스를 동적 할당하여 생성하여 출력한다.
+	 * 
+	 */
 	@Override
 	public List<BoardVO> searchPostByName(String name) {
 		Connection con = null;
@@ -152,7 +284,8 @@ public class BoardDAOImpl implements  BoardDAO {
             Constructor<?> constructor = clazz.getConstructor(paramTypes);
 	        
             Object obj = constructor.newInstance(constructorArgs);
-            
+            BoardVO board = (BoardVO)obj;
+            board.setComment(replyBoardByNo(con,no,name));;
             boardList.add((BoardVO)obj);
             }
 			
@@ -181,18 +314,19 @@ public class BoardDAOImpl implements  BoardDAO {
 			rs = ps.executeQuery();
            
             if(rs.next()) {
-	        int boardNo = rs.getInt(1);
-	        int tableNo = rs.getInt(2);
-	        String title  = rs.getString(3);
-	        String content = rs.getString(4);
-	        String date = rs.getString(5);
-	        if(boardName.equals("MY_RECIPE_BOARD"))
-	        	board = new RecipeBoardVO(boardNo,tableNo, title, content, date);
-	        if(boardName.equals("RECIPE_REVIEW_BOARD"))
-	        	board = new ReviewBoardVO(boardNo,tableNo, title, content, date);
+            	int boardNo = rs.getInt(1);
+            	int tableNo = rs.getInt(2);
+            	String title  = rs.getString(3);
+            	String content = rs.getString(4);
+            	String date = rs.getString(5);
+            	
+            	if(boardName.equals("My_Recipe_Board"))
+            		board = new RecipeBoardVO(boardNo,tableNo, title, content, date);
+            	if(boardName.equals("Recipe_Review_Board"))
+            		board = new ReviewBoardVO(boardNo,tableNo, title, content, date);
 	        
-	        comment = replyBoardByNo(con,boardNo,boardName);
-	        board.setComment(comment);
+            	comment = replyBoardByNo(con,boardNo,boardName);
+            	board.setComment(comment);
             }
 			
 		} catch (Exception e) {
@@ -205,12 +339,14 @@ public class BoardDAOImpl implements  BoardDAO {
 		
 	}
 	
-	private List<CommentVO> replyBoardByNo(Connection con, int boardNo,String boardName) {
+	private List<CommentVO> replyBoardByNo(Connection con, int boardNo,String commentName) {
+		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String[] name = boardName.split("_");
+		String[] name = commentName.split("_");
 		String tableName = name[0]+"_"+name[1]+"_Comment";
-		String sql = "select * from "+tableName+" where "+boardName+"_NO = ?";
+		String sql = "select * from "+tableName+" where "+commentName+"_NO = ?";
+		
 		List<CommentVO> comment = new ArrayList<CommentVO>();
 		try {
 			con=DbManager.getConnection();
@@ -224,15 +360,16 @@ public class BoardDAOImpl implements  BoardDAO {
 	        int tableNo = rs.getInt(2);
 	        String cotent  = rs.getString(3);
 	        int rating = rs.getInt(4);
-	        String M_Id = rs.getString(5);
+	        String M_nickName = rs.getString(5);
 	        
 	        CommentVO commentVO=null;
-	        if(boardName.equals("MY_RECIPE_BOARD"))
-		        commentVO= new RecipeCommentVO(relpyNo,cotent,rating,M_Id,tableNo);
-	        if(boardName.equals("RECIPE_REVIEW_BOARD"))
-		        commentVO= new ReviewCommentVO(relpyNo,cotent,rating,M_Id,tableNo);
 	        
-            comment.add(commentVO);
+	        if(commentName.equals("My_Recipe_Board"))
+		        commentVO= new RecipeCommentVO(relpyNo,cotent,rating,M_nickName,tableNo);
+	        if(commentName.equals("Recipe_Review_Board1"))
+		        commentVO= new ReviewCommentVO(relpyNo,cotent,rating,M_nickName,tableNo);
+
+	        comment.add(commentVO);
             }
 			
 		} catch (Exception e) {
