@@ -23,8 +23,5 @@ public class RefrigeratorController {
         System.out.println("제거된 재료의 수: " + result);
     }
 
-    public void showIngredients(int memberNo) {
-        List<RefrigeratorVO> ingredients = refrigeratorService.getIngredientsByMemberNo(memberNo);
-        ingredients.forEach(System.out::println);
-    }
+   
 }
