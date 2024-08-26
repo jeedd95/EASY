@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+import controller.BoardController;
 import controller.WishListController;
 
 public class MenuView {
@@ -30,6 +31,7 @@ public class MenuView {
 			switch(menu){
 			
 //			case 1: MenuView.login();
+			
 //					break;
 //			case 2: MenuView.register();
 //					break;
@@ -39,7 +41,8 @@ public class MenuView {
 //					break;
 			case 5: MenuView.wishList(memberNo);
 				break;
-//			case 6: MenuView.login();
+			case 6: board();
+				break;
 //				break;
 //			case 7: MenuView.login();
 //				break;
@@ -135,6 +138,42 @@ public class MenuView {
 			break;
 		}
 	}
+	
+	
+	public static void board() {
+		System.out.println("1.레시피 후기 게시판 ");
+		System.out.println("2.나만의 레시피 게시판");
+		System.out.println("3.메인 메뉴로 가기");
+
+		int choice = sc.nextInt();
+		
+		switch(choice) {
+		
+		case 1:
+				BoardController.selectBoard("RECIPE_Review_BOARD");
+				System.out.println("레시피 상세보기 번호: ");
+				
+				continues();
+				break;
+		case 2:
+				BoardController.selectBoard("MY_Recipe_BOARD");
+				continues();
+				break;
+		case 3:
+				login(1);
+				break;
+		default:
+				
+				break;
+				
+		}
+	}
+	static void continues() {
+		System.out.println("메인 메뉴로 가겠습니까?(아무키나 누르십쇼)");
+		String a = sc.next();
+		
+	}
+	
 	/*
 	 * 게시판 
 	 * 클릭 하면 

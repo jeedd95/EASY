@@ -15,7 +15,10 @@ public interface BoardDAO {
 	 * 내가 쓴 글 보기
 	 */
 	List<BoardVO> searchMyPost(int memberNo);
-	
+	/*
+	 * 게시판별로 검색
+	 */
+	 List<BoardVO> searchPostByName(String name);
 	/**
 	 * 내가 쓴 댓글 보기
 	 */

@@ -8,6 +8,7 @@ import model.vo.BoardVO;
 
 public class BoardServiceImpl implements BoardService {
 	private static BoardService boardService;
+	
 	BoardDAO boardDAO = BoardDAOImpl.getInstance();
 	
 	public static BoardService getInstance() {
