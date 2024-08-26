@@ -12,10 +12,11 @@ public class BoardVO {
 	
 	List<CommentVO> comment;
 	
-	public BoardVO() {
+	public BoardVO() {}
 	
+	public BoardVO(int no) {
+		this.no = no;
 	}
-	
 	public BoardVO (int no,String title, String content, String postdate) {
 		this.no = no;
 		this.title = title;
@@ -62,8 +63,8 @@ public class BoardVO {
 		
 	}
 	
-	public String colmun() {
-		return "";		
+	public int getColmun() {
+		return 0;		
 	}
 	
 	
@@ -76,9 +77,12 @@ public class BoardVO {
 	}
 	public double getRating() {
 		int sum =0;
-		if(comment==null)
+		if(comment.isEmpty() || comment==null)
 			return 0;
+		
 		for(CommentVO commentVo : comment) {
+			if(commentVo==null)
+				break;
 			sum+=commentVo.getRating();
 		}
 		double avg = sum/comment.size();

@@ -22,19 +22,18 @@ public class ReviewBoardVO extends BoardVO{
 	public void setRecipeNo(int RecipeNo) {
 		this.RecipeNo = RecipeNo;
 	}
-	public String colmun() {
-		return "Recipe_no	";		
+	public int colmun() {
+		return RecipeNo;		
 	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("AboardVO ");
+		builder.append("레시피 후기 게시판 : ");
 		builder.append(super.toString());
-		builder.append(", RecipeNo=");
+		builder.append(", 레시피 번호=");
 		builder.append(RecipeNo);
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
+
 }

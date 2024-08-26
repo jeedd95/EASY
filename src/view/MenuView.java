@@ -32,7 +32,7 @@ public class MenuView {
 			System.out.println("7. 통계");
 			System.out.println("8. 로그아웃");
 			System.out.println("9. 시스템 종료");
-
+			System.out.println("10. 마이 페이지");
 			
 			int menu = sc.nextInt();
 			
@@ -57,6 +57,9 @@ public class MenuView {
 //				break;
 			case 9:
 					System.exit(0);
+					break;
+			case 10: myPage(member);
+				   
 				
 			}
 			
@@ -180,19 +183,24 @@ public class MenuView {
 		switch(choice) {
 		
 		case 1:
-				BoardController.selectBoard("MY_Recipe_BOARD");
+				BoardController.selectBoard("My_Recipe_Board");
 				System.out.println("1. 글 작성하기");
-				System.out.println("2. 나만의 레시피 게시물 상세보기 ");
+				System.out.println("2. 나만의 레시피 글 상세보기 ");
 				System.out.println("3. 돌아가기");
 				int num = sc.nextInt();
 				
-				recipeBoard(num,memberNo);
+				recipeBoard(num,memberNo,"My_Recipe_Board");
 				continues();
 
 				break;
 		case 2:
-				BoardController.selectBoard("RECIPE_Review_BOARD");
-				System.out.println("글 작성하기");
+				BoardController.selectBoard("Recipe_Review_Board");
+				System.out.println("1. 레시피 후기 글 상세보기 ");
+				System.out.println("2. 돌아가기");
+				num = sc.nextInt();
+				num+=1;
+				recipeBoard(num,memberNo,"Recipe_Review_Board");
+				continues();
 				break;
 		case 3:
 				//login(1);
@@ -204,7 +212,7 @@ public class MenuView {
 		}
 		
 	}
-	static void recipeBoard(int num,int memberNo) {
+	static void recipeBoard(int num,int memberNo,String name) {
 		switch(num) {
 			case 1:
 				sc.nextLine();
@@ -219,7 +227,7 @@ public class MenuView {
 			case 2:
 				System.out.println("게시판 번호 입력 :");
 				int no = sc.nextInt();
-				BoardController.postBoardByNo(no);
+				BoardController.postBoardByNo(no,name);
 				System.out.println("1.댓글 작성");
 				System.out.println("2.메인메뉴 가기");
 				int menu = sc.nextInt();
@@ -229,8 +237,12 @@ public class MenuView {
 					String commentContent = sc.nextLine();
 					System.out.println("평점 : (1~5)점");
 					int rating = sc.nextInt();
-					CommentVO comment = new RecipeCommentVO(commentContent, rating,"제육",no);
-					BoardController.writeComment(comment,"my_recipe_comment");
+					CommentVO comment =null;
+					if(name.equals("My_Recipe_Board"))
+						comment = new RecipeCommentVO(commentContent, rating,"제육",no);
+					if(name.equals("Recipe_Review_Board"))
+						comment = new RecipeCommentVO(commentContent, rating,"제육",no);
+					BoardController.writeComment(comment,name);
 				}else {
 				}
 				break;
@@ -305,5 +317,52 @@ public class MenuView {
 	/*
 	 * 로그아웃
 	 */
+	
+	
+	/*
+	 * 마이페이지
+	 */
+	
+	static void myPage(MemberVO member) {
+		System.out.println(member.getMNickname()+"님 안녕하세요");
+		System.out.println("1.내가 쓴 글 보기");
+		System.out.println("2.내가 쓴 댓글 보기");
+		System.out.println("3.회원 탈퇴");
+		int myPageNum = sc.nextInt();
+		
+		switch(myPageNum) {
+			case 1:
+				//BoardController.searchMyPost(member.getMNo());
+				BoardController.searchMyPost(1);
+				System.out.println("1.삭제하기");
+				System.out.println("2.이전으로");
+				int selectNum = sc.nextInt();
+				if(selectNum==1) {
+					System.out.println("삭제할 게시물 번호 고르세요");
+					int boardNo = sc.nextInt();
+					System.out.println("비번을 입력하세요");
+					String pw = sc.next();
+					String a ="1234";
+					if(a.equals(pw)) {
+						//BoardVO board = new RecipeBoardVO(boardNo,member.getMNo());
+						BoardVO board = new RecipeBoardVO(boardNo,1);
+
+						BoardController.deleteMyPost(board);
+					}
+					else
+						System.out.println("비번이 틀립니다");
+				}
+				else
+					myPage(member);
+				
+			case 2:
+				BoardController.searchMyComment("제육");
+			case 3:
+		
+			default:
+		}
+	}
+	
+	
 	
 }

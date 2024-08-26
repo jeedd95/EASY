@@ -9,7 +9,11 @@ public class RecipeBoardVO extends BoardVO{
 		this.memberNo = memberNo;
 	
 	}
+	public RecipeBoardVO (int no,int memberNo) {
+		super(no);
+		this.memberNo = memberNo;
 	
+	}
 	public RecipeBoardVO (int memberNo, String title, String content) {
 		super(title,content);
 		this.memberNo = memberNo;
@@ -25,16 +29,16 @@ public class RecipeBoardVO extends BoardVO{
 		this.memberNo = memberNo;
 	}
 	
-	public String colmun() {
-		return "m_no";
+	public int getColmun() {
+		return memberNo;
 		
 	}
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("RecipeBoardVO ");
-		builder.append(super.toString());
-		builder.append(", memberNo=");
+		builder.append("나만의 레시피 게시판 ");
+		builder.append(": 회원 닉네임: ");
 		builder.append(memberNo);
+		builder.append(super.toString());
 		builder.append("]");
 		return builder.toString();
 	}
