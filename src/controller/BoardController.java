@@ -18,9 +18,10 @@ public class BoardController {
 	}
 	public static void postBoard(BoardVO board) {
 		boardService.postBoard(board);
+		System.out.println("작성 완료 ");
 	}
-	public static void postBoardByNo(int boardNo) {
-		BoardVO board = boardService.boardSelectByNo(boardNo);
+	public static void postBoardByNo(int boardNo,String boardName) {
+		BoardVO board = boardService.boardSelectByNo(boardNo,boardName);
 		SuccessView.printCommentByBoard(board);
 	}
 	public static void writeComment(CommentVO comment,String boardName) {

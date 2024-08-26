@@ -43,8 +43,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardVO boardSelectByNo(int boardNO) {
-		BoardVO board = boardDAO.boardSelectByNo(boardNO);
+	public BoardVO boardSelectByNo(int boardNO, String boardName) {
+		BoardVO board = boardDAO.boardSelectByNo(boardNO,boardName);
 
 		return board;
 	}
