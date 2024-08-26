@@ -12,18 +12,18 @@ public class WishListServiceImpl implements WishListService {
 	WishListDAO wldao = new WishListDAOImpl();
 
 	@Override
-	public int addWishList(WishListVO wishList) throws InputFormatException {
+	public int addWishList(WishListVO wishList) throws InputFormatException, ListNotFoundException{
 		int result = wldao.addWishList(wishList);
 		if (result == 0)
-			System.out.println("찜목록 추가에 실패하였습니다.");
+			throw new ListNotFoundException("찜목록 추가에 실패하였습니다.");
 		return result;
 	}
 
 	@Override
-	public int removeWishList(WishListVO wishList) throws InputFormatException {
+	public int removeWishList(WishListVO wishList) throws InputFormatException, ListNotFoundException {
 		int result = wldao.removeWishList(wishList);
 		if (result == 0)
-			System.out.println("찜목록 삭제에 실패하였습니다.");
+			throw new ListNotFoundException("찜목록 삭제에 실패하였습니다.");
 		return result;
 	}
 

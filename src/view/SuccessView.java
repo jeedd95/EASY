@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.vo.BoardVO;
 import model.vo.CommentVO;
+import model.vo.StatsVO;
 import model.vo.WishListVO;
 
 public class SuccessView {
@@ -13,7 +14,6 @@ public class SuccessView {
 	}
 	
 	public static void printWishList(List<WishListVO> list) {
-		System.out.println("=========<찜 목록>=========");
 		for ( WishListVO wishlist : list) {
 			System.out.println(wishlist);
 		}
@@ -43,6 +43,11 @@ public class SuccessView {
 		System.out.println(message);
 	}
 	
-
+	public static void printStats(List<StatsVO> list) {
+		for( StatsVO stats : list) {
+			System.out.println(stats);
+		}
+	}
+	
 }
 

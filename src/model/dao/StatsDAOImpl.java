@@ -44,16 +44,61 @@ public class StatsDAOImpl implements StatsDAO {
 	}
 
 	@Override
-	public List<StatsVO> searchIngredientStatsByGender() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<StatsVO> searchIngredientStatsByGender(String gender) throws InputFormatException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<StatsVO> list = new ArrayList<StatsVO>();
+		String Sql = "select * from stats where M_NO in (select m_no from member where M_GENDER=?)";
+		
+		try {
+			
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(Sql);
+			ps.setString(1, gender);	
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				StatsVO stats = new StatsVO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
+				list.add(stats);
+			}
+			
+		} catch (SQLException e) {
+			throw new InputFormatException("성별(" + gender + ") 전체 현황 조회 중 DB 오류 발생. 다시 시도해주세요.");
+			//e.printStackTrace();
+			
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+		return list;
 	}
 
 	@Override
-	public List<StatsVO> searchIngredientStatsByAmount() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<StatsVO> searchIngredientStatsByAmount() throws InputFormatException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<StatsVO> list = new ArrayList<StatsVO>();
+		String sql = "select * from stats order by amount desc, usedate";
+		
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			rs =ps.executeQuery();
+			
+			while(rs.next()) {
+				StatsVO stats = new StatsVO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
+				list.add(stats);
+			}
+			
+		} catch (SQLException e) {
+			throw new InputFormatException("전체 현황 조회 중 DB 오류 발생. 다시 시도해주세요.");
+			//e.printStackTrace();
+			
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+		return list;
 	}
 
-	
 }
