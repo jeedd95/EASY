@@ -88,6 +88,3 @@ nb-configuration.xml
 ## Miscellaneous
 ##############################
 *.log
-
-##############################
-DbProperties.java
