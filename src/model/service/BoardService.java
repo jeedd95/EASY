@@ -11,7 +11,7 @@ public interface BoardService {
 	
 	public void postBoard(BoardVO board);
 	
-	public BoardVO boardSelectByNo(int boardNO);
+	public BoardVO boardSelectByNo(int boardNO, String boardName);
 	
 	public void writeComment(CommentVO comment, String boardName);
 }

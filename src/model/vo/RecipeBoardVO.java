@@ -31,10 +31,10 @@ public class RecipeBoardVO extends BoardVO{
 	}
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("RecipeBoardVO ");
-		builder.append(super.toString());
-		builder.append(", memberNo=");
+		builder.append("나만의 레시피 게시판 ");
+		builder.append(": 회원 닉네임: ");
 		builder.append(memberNo);
+		builder.append(super.toString());
 		builder.append("]");
 		return builder.toString();
 	}

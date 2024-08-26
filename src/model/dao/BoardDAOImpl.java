@@ -11,6 +11,7 @@ import model.vo.BoardVO;
 import model.vo.CommentVO;
 import model.vo.RecipeBoardVO;
 import model.vo.RecipeCommentVO;
+import model.vo.ReviewBoardVO;
 import model.vo.ReviewCommentVO;
 import util.DbManager;
 
@@ -90,7 +91,6 @@ public class BoardDAOImpl implements  BoardDAO {
 		PreparedStatement ps =null;
 		
 		String sql = "insert into "+boardName+" values(1,?,?,?,?)";
-		System.out.println(sql);
 		try {
 			con=DbManager.getConnection();
 			ps=con.prepareStatement(sql);
@@ -166,12 +166,12 @@ public class BoardDAOImpl implements  BoardDAO {
 		
 	}
 	@Override
-	public BoardVO boardSelectByNo(int boardNO) {
+	public BoardVO boardSelectByNo(int boardNO,String boardName) {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from my_recipe_board where MY_RECIPE_BOARD_NO = ?";
+		String sql = "select * from "+boardName +" where "+boardName+"_NO = ?";
 		List<CommentVO> comment;
 		BoardVO board = null;
 		try {
@@ -182,31 +182,35 @@ public class BoardDAOImpl implements  BoardDAO {
            
             if(rs.next()) {
 	        int boardNo = rs.getInt(1);
-	        int memberNo = rs.getInt(2);
+	        int tableNo = rs.getInt(2);
 	        String title  = rs.getString(3);
 	        String content = rs.getString(4);
 	        String date = rs.getString(5);
-	        board = new RecipeBoardVO(boardNo,memberNo, title, content, date);
-	        comment = replyBoardByNo(con,boardNo);
+	        if(boardName.equals("MY_RECIPE_BOARD"))
+	        	board = new RecipeBoardVO(boardNo,tableNo, title, content, date);
+	        if(boardName.equals("RECIPE_REVIEW_BOARD"))
+	        	board = new ReviewBoardVO(boardNo,tableNo, title, content, date);
+	        
+	        comment = replyBoardByNo(con,boardNo,boardName);
 	        board.setComment(comment);
             }
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			DbManager.dbClose(con, ps);
+			DbManager.dbClose(con, ps,rs);
 		}
-		System.out.println("DAO 확인");
 		
 		return board;
 		
 	}
 	
-	private List<CommentVO> replyBoardByNo(Connection con, int boardNo) {
+	private List<CommentVO> replyBoardByNo(Connection con, int boardNo,String boardName) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from MY_RECIPE_COMMENT where MY_RECIPE_BOARD_NO = ?"
-				+ "";
+		String[] name = boardName.split("_");
+		String tableName = name[0]+"_"+name[1]+"_Comment";
+		String sql = "select * from "+tableName+" where "+boardName+"_NO = ?";
 		List<CommentVO> comment = new ArrayList<CommentVO>();
 		try {
 			con=DbManager.getConnection();
@@ -215,21 +219,27 @@ public class BoardDAOImpl implements  BoardDAO {
 			rs = ps.executeQuery();
            
             while(rs.next()) {
-	        int relpyNo = rs.getInt(1);
-	        boardNo = rs.getInt(2);
+	        
+            int relpyNo = rs.getInt(1);
+	        int tableNo = rs.getInt(2);
 	        String cotent  = rs.getString(3);
 	        int rating = rs.getInt(4);
 	        String M_Id = rs.getString(5);
-	        CommentVO commentVO= new RecipeCommentVO(relpyNo,cotent,rating,M_Id,boardNo);
+	        
+	        CommentVO commentVO=null;
+	        if(boardName.equals("MY_RECIPE_BOARD"))
+		        commentVO= new RecipeCommentVO(relpyNo,cotent,rating,M_Id,tableNo);
+	        if(boardName.equals("RECIPE_REVIEW_BOARD"))
+		        commentVO= new ReviewCommentVO(relpyNo,cotent,rating,M_Id,tableNo);
+	        
             comment.add(commentVO);
             }
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			DbManager.dbClose(con, ps);
+			DbManager.dbClose(con,ps, rs);
 		}
-		System.out.println("DAO 확인");
 		return comment;
 		
 	}
