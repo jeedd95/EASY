@@ -22,7 +22,7 @@ public class RecipeServiceImpl implements RecipeService {
 		List<RecipeVO> recipeList = new ArrayList<RecipeVO>();
 
 		// 회원번호로 통계 테이블에서 가진 식재료 리스트들 가져오기
-		List<StatsVO> statsList = statsDao.searchIngredientStatsAmount(memberNo);
+		List<StatsVO> statsList = statsDao.searchIngredientStatsByMine(memberNo);
 
 		for (StatsVO s : statsList) {
 			int ingredientNo = -1; // s에서 식재료 번호 가져오기
