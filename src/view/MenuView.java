@@ -230,7 +230,6 @@ public class MenuView {
 					CommentVO comment = new RecipeCommentVO(commentContent, rating,"제육",no);
 					BoardController.writeComment(comment,"my_recipe_comment");
 				}else {
-					login(memberNo);
 				}
 				break;
 				
