@@ -27,19 +27,17 @@ public class WishListDAOImpl implements WishListDAO {
 
 	@Override
 	public List<WishListVO> searchWishList(int memberNo) throws InputFormatException{
-		System.out.println(memberNo);
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<WishListVO> list = new ArrayList<WishListVO>();
-		String sql = "select * from wishlist";
+		String sql = "select* from wishlist where M_NO = ?";
 		
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
-			//ps.setInt(1, memberNo);
+			ps.setInt(1, memberNo);
 			rs = ps.executeQuery();
-			
 			while(rs.next()) {
 				WishListVO wishlist = new WishListVO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));
 				list.add(wishlist);
