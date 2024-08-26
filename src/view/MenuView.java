@@ -3,6 +3,7 @@ package view;
 import java.util.Scanner;
 
 import controller.BoardController;
+import controller.StatsController;
 import controller.WishListController;
 import model.vo.MemberVO;
 import model.vo.WishListVO;
@@ -45,9 +46,8 @@ public class MenuView {
 				break;
 			case 6: board();
 				break;
-//				break;
-//			case 7: MenuView.login();
-//				break;
+			case 7: MenuView.stats(member.getMNo());
+				break;
 //			case 8: MenuView.login();
 //				break;
 			case 9:
@@ -138,15 +138,16 @@ public class MenuView {
 		int botton = Integer.parseInt(sc.next());
 		
 		switch (botton) {
-		case 1: MenuView.addWishList(member.getMNo());  //추가
-			break;
-		case 2: MenuView.removeWishList(member.getMNo());  //제거
-			break;
-		case 3: MenuView.login(member); //뒤로가기
-			break;
-
-		default: System.out.println("1, 2, 3번만 입력해주세요.");
-			break;
+			case 1: MenuView.addWishList(member.getMNo());  //추가
+				break;
+			case 2: MenuView.removeWishList(member.getMNo());  //제거
+				break;
+			case 3: MenuView.login(member); //뒤로가기
+				break;
+			default: {
+				System.out.println("1, 2, 3번만 입력해주세요.");
+				MenuView.wishList(member);
+			}
 		}
 	}
 	
@@ -219,10 +220,35 @@ public class MenuView {
 	
 	/*
 	 * 통계
+	 * 나의 식재료 사용량 통계DTO에서 구분
 	 * 남, 여 구분 통계DTO에서 구분
 	 * 식재료 사용량 통계DTO에서 구분
 	 */
-	
+	public static void stats (int memberNo) {
+		System.out.println("---------------------------------------------------------------");
+		System.out.println(" 1.나의 통계보기 |  2. 성별로 통계보기 |  3. 식재료별 통계보기 ");
+		System.out.println("---------------------------------------------------------------");
+		System.out.println("선택 > ");
+		
+		int botton = Integer.parseInt(sc.next());
+		
+		switch (botton) {
+			case 1: 
+				StatsController.searchIngredientStatsByMine(memberNo);
+				break;
+			case 2: 
+				StatsController.searchIngredientStatsByGender();
+				break;
+			case 3: 
+				StatsController.searchIngredientStatsByAmount();
+				break;
+			default: {
+				System.out.println("1, 2, 3번만 입력해주세요.");
+				MenuView.stats(memberNo);
+			}
+			
+		}
+	}
 	
 	/*
 	 * 로그아웃
