@@ -1,6 +1,5 @@
 package controller;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import exception.InputFormatException;
@@ -13,19 +12,45 @@ import view.SuccessView;
 
 public class WishListController {
 	public static WishListService wls = new WishListServiceImpl();
-	
-	public static void searchWishList (int memberNo) {
-		List<WishListVO> list = null;
-	
-			try {
-				list = wls.searchWishList(memberNo);
-			} catch (ListNotFoundException | InputFormatException e) {
-				FailView.printMessage(e.getMessage());
-				e.printStackTrace();
-			}
 
-		SuccessView.printWishList(list);
+	// 추가
+	public static void addWishList(WishListVO wishList) {
+		try {
+			wls.addWishList(wishList);
+			SuccessView.printmessage( wishList.getIngredientNo() + "번 찜목록에서 추가 성공");
+
+		} catch (InputFormatException e) {
+			FailView.printMessage(e.getMessage());
+			// e.printStackTrace();
+		}
 		
 	}
-	
+
+	// 제거
+	public static void removeWishList(WishListVO wishList) {
+		try {
+			wls.removeWishList(wishList);
+			SuccessView.printmessage( wishList.getIngredientNo() + "번 찜목록에서 삭제 성공");
+			
+		} catch (InputFormatException e) {
+			FailView.printMessage(e.getMessage());
+			// e.printStackTrace();
+		}
+	}
+
+	// 조회
+	public static void searchWishList(int memberNo) {
+		List<WishListVO> list = null;
+
+		try {
+			list = wls.searchWishList(memberNo);
+			SuccessView.printWishList(list);
+			
+		} catch (ListNotFoundException | InputFormatException e) {
+			FailView.printMessage(e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+
 }

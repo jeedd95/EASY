@@ -2,6 +2,8 @@ package view;
 
 import java.util.Scanner;
 
+import model.vo.MemberVO;
+
 /**
  * 메인 메뉴를 출력한다 (1. 로그인 |  2.회원가입 | 3. 시스템 종료)
  */
@@ -25,11 +27,11 @@ public class MainView {
 		while(true) {
 			System.out.println("1. 로그인 ");
 			System.out.println("2. 회원가입 ");
-			
+			MemberVO member = new MemberVO();
 			int menu = sc.nextInt();
 			
 			switch(menu){
-			case 1: MenuView.login(2);
+			case 1: MenuView.login(member);
 					break;
 					
 			case 2: MenuView.register();

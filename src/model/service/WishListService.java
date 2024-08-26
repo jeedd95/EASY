@@ -11,12 +11,12 @@ public interface WishListService {
 	/**
 	 * 찜목록 추가
 	 */
-	int addWishList(WishListVO wishList);
+	int addWishList(WishListVO wishList) throws InputFormatException;
 	
 	/**
 	 * 찜목록 제거
 	 */
-	int removeWishList(WishListVO wishList);
+	int removeWishList(WishListVO wishList) throws InputFormatException;
 	
 	/**
 	 * 찜목록 조회

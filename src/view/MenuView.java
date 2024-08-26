@@ -4,13 +4,15 @@ import java.util.Scanner;
 
 import controller.BoardController;
 import controller.WishListController;
+import model.vo.MemberVO;
+import model.vo.WishListVO;
 
 public class MenuView {
 	public static Scanner sc = new Scanner(System.in);
 	/*
 	 * 로그인 성공 했을 때 화면 
 	 */
-	public static void login(int memberNo) {
+	public static void login(MemberVO member) {
 
 		RefrigeratorView refri =RefrigeratorView.getInstance();
 		while(true) {
@@ -39,7 +41,7 @@ public class MenuView {
 //					break;
 //			case 4: MenuView.login();
 //					break;
-			case 5: MenuView.wishList(memberNo);
+			case 5: MenuView.wishList(member);
 				break;
 			case 6: board();
 				break;
@@ -122,23 +124,46 @@ public class MenuView {
 	 *  3번 클릭시
 	 *  로그인 성공 화면으로 출력
 	 */
-	public static void wishList(int memberNo) { //추가, 제거, 조회
-		System.out.println("---------<찜 목록>----------");
-		System.out.println(" 1.추가 |  2.제거 |  3.조회 ");
-		System.out.println("----------------------------");
+	public static void wishList(MemberVO member) { //추가, 제거, 조회
+		
+		System.out.println("----------<찜 목록>-----------");
+		WishListController.searchWishList(2); //조회
+		System.out.println();
+		
+		System.out.println("------------------------------");
+		System.out.println(" 1.추가 |  2.제거 |  3.뒤로가기 ");
+		System.out.println("------------------------------");
+		System.out.println("선택 > ");
+		
 		int botton = Integer.parseInt(sc.next());
 		
 		switch (botton) {
-		case 1: //추가
-		case 2: //제거
-		case 3: WishListController.searchWishList(memberNo);       //조회
+		case 1: MenuView.addWishList(member.getMNo());  //추가
+			break;
+		case 2: MenuView.removeWishList(member.getMNo());  //제거
+			break;
+		case 3: MenuView.login(member); //뒤로가기
 			break;
 
-		default:
+		default: System.out.println("1, 2, 3번만 입력해주세요.");
 			break;
 		}
 	}
 	
+	public static void addWishList (int memberNo) {
+		//ingredientVO 만들어서 가져오는 메소드 호출 (일단 25로 셋팅)
+		System.out.println("보관 유지 수량 입력 > ");
+		int amount = Integer.parseInt(sc.next());
+		WishListVO wl = new WishListVO(0, 2, 27, amount);
+		WishListController.addWishList(wl);
+		
+	}
+	
+	public static void removeWishList(int memberNo) {
+		//ingredientVO 만들어서 가져오는 메소드 호출 (일단 27로 셋팅)
+		WishListVO wl = new WishListVO(0, 3, 27);
+		WishListController.removeWishList(wl);
+	}
 	
 	public static void board() {
 		System.out.println("1.레시피 후기 게시판 ");
@@ -160,7 +185,7 @@ public class MenuView {
 				continues();
 				break;
 		case 3:
-				login(1);
+				//login(1);
 				break;
 		default:
 				
