@@ -1,13 +1,21 @@
 package model.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoardVO {
 	
 	int no;
 	String title;
 	String content;
 	String postDate;
+	
+	List<CommentVO> comment;
+	
 	public BoardVO() {
+	
 	}
+	
 	public BoardVO (int no,String title, String content, String postdate) {
 		this.no = no;
 		this.title = title;
@@ -58,6 +66,25 @@ public class BoardVO {
 		return "";		
 	}
 	
+	
+	public List<CommentVO> getComment() {
+		return comment;
+	}
+
+	public void setComment(List<CommentVO> comment) {
+		this.comment = comment;
+	}
+	public double getRating() {
+		int sum =0;
+		if(comment==null)
+			return 0;
+		for(CommentVO commentVo : comment) {
+			sum+=commentVo.getRating();
+		}
+		double avg = sum/comment.size();
+		return avg;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -65,13 +92,20 @@ public class BoardVO {
 		builder.append(no);
 		builder.append(", title=");
 		builder.append(title);
-		builder.append(", content=");
-		builder.append(content);
 		builder.append(", postDate=");
 		builder.append(postDate);
 		return builder.toString();
 	}
 	
+	public String toStringDetail() {
+			StringBuilder builder = new StringBuilder();
+			builder.append("제목 :");
+			builder.append(title);
+			builder.append("\n");
+			builder.append(content);
+			return builder.toString();
+		
+	}
 	
 	
 }

@@ -6,6 +6,10 @@ import controller.BoardController;
 import controller.WishListController;
 import model.vo.MemberVO;
 import model.vo.WishListVO;
+import model.vo.BoardVO;
+import model.vo.CommentVO;
+import model.vo.RecipeBoardVO;
+import model.vo.RecipeCommentVO;
 
 public class MenuView {
 	public static Scanner sc = new Scanner(System.in);
@@ -43,7 +47,7 @@ public class MenuView {
 //					break;
 			case 5: MenuView.wishList(member);
 				break;
-			case 6: board();
+			case 6: board(1);
 				break;
 //				break;
 //			case 7: MenuView.login();
@@ -165,9 +169,9 @@ public class MenuView {
 		WishListController.removeWishList(wl);
 	}
 	
-	public static void board() {
-		System.out.println("1.레시피 후기 게시판 ");
-		System.out.println("2.나만의 레시피 게시판");
+	public static void board(int memberNo) {
+		System.out.println("1.나만의 레시피 게시판 ");
+		System.out.println("2.레시피 후기 게시판");
 		System.out.println("3.메인 메뉴로 가기");
 
 		int choice = sc.nextInt();
@@ -175,14 +179,19 @@ public class MenuView {
 		switch(choice) {
 		
 		case 1:
-				BoardController.selectBoard("RECIPE_Review_BOARD");
-				System.out.println("레시피 상세보기 번호: ");
+				BoardController.selectBoard("MY_Recipe_BOARD");
+				System.out.println("1. 글 작성하기");
+				System.out.println("2. 나만의 레시피 게시물 상세보기 ");
+				System.out.println("3. 돌아가기");
+				int num = sc.nextInt();
 				
+				recipeBoard(num,memberNo);
 				continues();
+
 				break;
 		case 2:
-				BoardController.selectBoard("MY_Recipe_BOARD");
-				continues();
+				BoardController.selectBoard("RECIPE_Review_BOARD");
+				System.out.println("글 작성하기");
 				break;
 		case 3:
 				//login(1);
@@ -192,6 +201,42 @@ public class MenuView {
 				break;
 				
 		}
+		
+	}
+	static void recipeBoard(int num,int memberNo) {
+		switch(num) {
+			case 1:
+				sc.nextLine();
+				System.out.println("글 제목");
+				String title = sc.nextLine();
+				System.out.println("글 내용");
+				String content = sc.nextLine();
+				int id =memberNo;
+				BoardVO board = new RecipeBoardVO(memberNo,title, content);
+				BoardController.postBoard(board);
+				break;
+			case 2:
+				System.out.println("게시판 번호 입력 :");
+				int no = sc.nextInt();
+				BoardController.postBoardByNo(no);
+				System.out.println("1.댓글 작성");
+				System.out.println("2.메인메뉴 가기");
+				int menu = sc.nextInt();
+				if(menu==1) {
+					System.out.println("댓글 내용");
+					sc.nextLine();
+					String commentContent = sc.nextLine();
+					System.out.println("평점 : (1~5)점");
+					int rating = sc.nextInt();
+					CommentVO comment = new RecipeCommentVO(commentContent, rating,"제육",no);
+					BoardController.writeComment(comment,"my_recipe_comment");
+				}else {
+					login(memberNo);
+				}
+				break;
+				
+		}
+		
 	}
 	static void continues() {
 		System.out.println("메인 메뉴로 가겠습니까?(아무키나 누르십쇼)");
