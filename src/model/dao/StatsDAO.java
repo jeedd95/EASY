@@ -15,7 +15,7 @@ public interface StatsDAO {
 	/**
 	 * 성별로 통계보기(전체 현황)
 	 */
-	List<StatsVO> searchIngredientStatsByGender() throws InputFormatException;
+	List<StatsVO> searchIngredientStatsByGender(String gender) throws InputFormatException;
 	
 	/**
 	 * 식재료별 통계보기(전체 현황)

@@ -18,7 +18,7 @@ public class WishListDAOImpl implements WishListDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = "insert into wishlist values (7, ? , ? , ?)";
+		String sql = "insert into wishlist values (8, ? , ? , ?)";
 		
 		try {
 			con = DbManager.getConnection();

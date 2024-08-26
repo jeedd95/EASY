@@ -62,14 +62,18 @@ public class StatsVO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("StatsVO [일련번호: ");
+		builder.append("[일련번호: ");
 		builder.append(statsNo);
+		builder.append(" | ");
 		builder.append(", 회원번호: ");
 		builder.append(memberNo);
+		builder.append(" | ");
 		builder.append(", 식재료번호: ");
 		builder.append(ingredientNo);
+		builder.append(" | ");
 		builder.append(", 수량: ");
 		builder.append(amount);
+		builder.append(" | ");
 		builder.append(", 사용한날짜: ");
 		builder.append(usedDate);
 		builder.append("]");

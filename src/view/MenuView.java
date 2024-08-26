@@ -21,6 +21,7 @@ public class MenuView {
 
 		RefrigeratorView refri =RefrigeratorView.getInstance();
 		while(true) {
+			System.out.println();
 			refri.DrawMap("하하");
 			System.out.println("1. 식재료 넣기");
 			System.out.println("2. 식재료 빼기");
@@ -50,7 +51,7 @@ public class MenuView {
 				break;
 			case 6: board(member.getMNo());
 				break;
-			case 7: MenuView.stats(member.getMNo());
+			case 7: MenuView.stats(member);
 				break;
 //			case 8: MenuView.login();
 //				break;
@@ -131,9 +132,8 @@ public class MenuView {
 	 *  3번 클릭시
 	 *  로그인 성공 화면으로 출력
 	 */
-	public static void wishList(MemberVO member) { //추가, 제거, 조회
-		
-		System.out.println("----------<찜 목록>-----------");
+	public static void wishList(MemberVO member) { //조회, 추가, 제거
+		System.out.println("=========<찜 목록>=========");
 		WishListController.searchWishList(2); //조회
 		System.out.println();
 		
@@ -280,27 +280,35 @@ public class MenuView {
 	 * 남, 여 구분 통계DTO에서 구분
 	 * 식재료 사용량 통계DTO에서 구분
 	 */
-	public static void stats (int memberNo) {
-		System.out.println("---------------------------------------------------------------");
-		System.out.println(" 1.나의 통계보기 |  2. 성별로 통계보기 |  3. 식재료별 통계보기 ");
-		System.out.println("---------------------------------------------------------------");
+	public static void stats (MemberVO member) {
+		
+		System.out.println();
+		System.out.println("-----------------------------------------------------------------------");
+		System.out.println("1.나의 현황 | 2. 성별(남) | 3. 성별(여) | 4. 식재료별 | 5. 뒤로가기 ");
+		System.out.println("-----------------------------------------------------------------------");
 		System.out.println("선택 > ");
 		
 		int botton = Integer.parseInt(sc.next());
 		
 		switch (botton) {
 			case 1: 
-				StatsController.searchIngredientStatsByMine(memberNo);
-				break;
+				StatsController.searchIngredientStatsByMine(2);
+				MenuView.stats(member);
 			case 2: 
-				StatsController.searchIngredientStatsByGender();
-				break;
+				StatsController.searchIngredientStatsByGender("남");
+				MenuView.stats(member);
 			case 3: 
+				StatsController.searchIngredientStatsByGender("여");
+				MenuView.stats(member);
+			case 4: 
 				StatsController.searchIngredientStatsByAmount();
+				MenuView.stats(member);
+			case 5: 
+				MenuView.login(member); //뒤로가기
 				break;
 			default: {
 				System.out.println("1, 2, 3번만 입력해주세요.");
-				MenuView.stats(memberNo);
+				MenuView.stats(member);
 			}
 			
 		}

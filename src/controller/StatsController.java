@@ -12,26 +12,43 @@ import view.SuccessView;
 
 public class StatsController {
 	public static StatsService sts = new StatsServiceImpl();
-	
-	//많이 사용한 식재료 통계 보기(나의 현황)
+
+	// 많이 사용한 식재료 통계 보기(나의 현황)
 	public static void searchIngredientStatsByMine(int memberNo) {
 		try {
 			List<StatsVO> list = sts.searchIngredientStatsByMine(memberNo);
-			//SuccessView.
+			System.out.println("=========<나의 통계>=========");
+			SuccessView.printStats(list);
 		} catch (ListNotFoundException | InputFormatException e) {
 			FailView.printMessage(e.getMessage());
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
-	
-	//성별로 통계보기
-	public static void searchIngredientStatsByGender() {
-		//sts.searchIngredientStatsByGender();
+
+	// 성별로 통계보기
+	public static void searchIngredientStatsByGender(String gender) {
+		try {
+			List<StatsVO> list = sts.searchIngredientStatsByGender(gender);
+			System.out.println("=========<전체 통계(" + gender + ")>=========");
+			SuccessView.printStats(list);
+		} catch (InputFormatException e) {
+			FailView.printMessage(e.getMessage());
+			// e.printStackTrace();
+		}
 	}
-	
-	//식재료별 통계보기
+
+	// 식재료별 통계보기
 	public static void searchIngredientStatsByAmount() {
-		//sts.searchIngredientStatsByAmount();
+		try {
+			List<StatsVO> list = sts.searchIngredientStatsByAmount();
+			System.out.println("=========<전체 통계(식재료별)>=========");
+			SuccessView.printStats(list);
+
+		} catch (InputFormatException e) {
+			FailView.printMessage(e.getMessage());
+			// e.printStackTrace();
+		}
+
 	}
 
 }
