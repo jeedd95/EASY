@@ -37,6 +37,8 @@ public interface BoardDAO {
 	/**
 	 * 댓글 작성
 	 */
-	int writeComment(CommentVO comment);
+	int writeComment(CommentVO comment,String boardName);
+	
+	BoardVO boardSelectByNo(int boardNO);
 	
 }
