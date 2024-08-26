@@ -1,5 +1,9 @@
 package model.service;
 
-public interface BoardService {
+import java.util.List;
 
+import model.vo.BoardVO;
+
+public interface BoardService {
+	public List<BoardVO> searchPostByName(String name);
 }

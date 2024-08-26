@@ -31,6 +31,7 @@ public class MainView {
 			switch(menu){
 			case 1: MenuView.login(2);
 					break;
+					
 			case 2: MenuView.register();
 					break;
 			case 9:
