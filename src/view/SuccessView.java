@@ -7,6 +7,10 @@ import model.vo.WishListVO;
 
 public class SuccessView {
 
+	public static void printmessage(String message) {
+		System.out.println(message);
+	}
+	
 	public static void printWishList(List<WishListVO> list) {
 		System.out.println("=========<찜 목록>=========");
 		for ( WishListVO wishlist : list) {

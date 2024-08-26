@@ -14,15 +14,54 @@ import util.DbManager;
 public class WishListDAOImpl implements WishListDAO {
 
 	@Override
-	public int addWishList(WishListVO wishList) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int addWishList(WishListVO wishList) throws InputFormatException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		String sql = "insert into wishlist values (7, ? , ? , ?)";
+		
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, wishList.getMemberNo());
+			ps.setInt(2, wishList.getIngredientNo());
+			ps.setInt(3, wishList.getAmount());
+			result = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new InputFormatException("찜목록 추가 중 DB에러 발생하였습니다. 다시 시도해주세요");
+			//e.printStackTrace();
+			
+		} finally {
+			DbManager.dbClose(con, ps);
+		}
+		
+		return result;
 	}
 
 	@Override
-	public int removeWishList(WishListVO wishList) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int removeWishList(WishListVO wishList) throws InputFormatException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		String sql = "delete from wishlist where ingredient_no = ?";
+			
+		try {
+			
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, wishList.getIngredientNo());
+			result = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new InputFormatException("찜목록 삭제 중 DB에러 발생하였습니다. 다시 시도해주세요");
+			//e.printStackTrace();
+		
+		} finally {
+			DbManager.dbClose(con, ps);
+		}
+				
+		return result;
 	}
 
 	@Override
