@@ -10,6 +10,7 @@ import model.vo.CommentVO;
 import model.vo.MemberVO;
 import model.vo.RecipeBoardVO;
 import model.vo.RecipeCommentVO;
+import model.vo.ReviewCommentVO;
 import model.vo.WishListVO;
 
 public class MenuView {
@@ -182,17 +183,22 @@ public class MenuView {
 		case 1:
 				BoardController.selectBoard("MY_Recipe_BOARD");
 				System.out.println("1. 글 작성하기");
-				System.out.println("2. 나만의 레시피 게시물 상세보기 ");
+				System.out.println("2. 나만의 레시피 글 상세보기 ");
 				System.out.println("3. 돌아가기");
 				int num = sc.nextInt();
 				
-				recipeBoard(num,memberNo);
+				recipeBoard(num,memberNo,"MY_RECIPE_BOARD");
 				continues();
 
 				break;
 		case 2:
 				BoardController.selectBoard("RECIPE_Review_BOARD");
-				System.out.println("글 작성하기");
+				System.out.println("1. 레시피 후기 글 상세보기 ");
+				System.out.println("2. 돌아가기");
+				num = sc.nextInt();
+				num+=1;
+				recipeBoard(num,memberNo,"RECIPE_REVIEW_BOARD");
+				continues();
 				break;
 		case 3:
 				//login(1);
@@ -204,7 +210,7 @@ public class MenuView {
 		}
 		
 	}
-	static void recipeBoard(int num,int memberNo) {
+	static void recipeBoard(int num,int memberNo,String name) {
 		switch(num) {
 			case 1:
 				sc.nextLine();
@@ -219,7 +225,7 @@ public class MenuView {
 			case 2:
 				System.out.println("게시판 번호 입력 :");
 				int no = sc.nextInt();
-				BoardController.postBoardByNo(no);
+				BoardController.postBoardByNo(no,name);
 				System.out.println("1.댓글 작성");
 				System.out.println("2.메인메뉴 가기");
 				int menu = sc.nextInt();
@@ -229,8 +235,12 @@ public class MenuView {
 					String commentContent = sc.nextLine();
 					System.out.println("평점 : (1~5)점");
 					int rating = sc.nextInt();
-					CommentVO comment = new RecipeCommentVO(commentContent, rating,"제육",no);
-					BoardController.writeComment(comment,"my_recipe_comment");
+					CommentVO comment =null;
+					if(name.equals("MY_RECIPE_BOARD"))
+						comment = new RecipeCommentVO(commentContent, rating,"제육",no);
+					if(name.equals("RECIPE_REVIEW_BOARD"))
+						comment = new RecipeCommentVO(commentContent, rating,"제육",no);
+					BoardController.writeComment(comment,name);
 				}else {
 				}
 				break;
