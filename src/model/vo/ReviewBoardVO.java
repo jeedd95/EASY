@@ -10,8 +10,9 @@ public class ReviewBoardVO extends BoardVO{
 	}
 	public ReviewBoardVO() {
 	}
-	public ReviewBoardVO (String title, String content) {
+	public ReviewBoardVO (int RecipeNo,String title, String content) {
 		super(title,content);
+		this.RecipeNo = RecipeNo;
 	
 	}
 	public int getRecipeNo() {

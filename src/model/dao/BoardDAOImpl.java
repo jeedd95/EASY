@@ -5,16 +5,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import model.service.BoardService;
 import model.vo.BoardVO;
 import model.vo.CommentVO;
+import model.vo.RecipeBoardVO;
+import model.vo.ReviewBoardVO;
 import util.DbManager;
 
-public class BoardDAOImpl implements BoardService, BoardDAO {
+public class BoardDAOImpl implements  BoardDAO {
 	private static BoardDAO boardDAO;
 	
 	public static BoardDAO getInstance() {
@@ -24,8 +24,39 @@ public class BoardDAOImpl implements BoardService, BoardDAO {
 	}
 	@Override
 	public int postBoard(BoardVO board) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result=0;
+		Connection con = null;
+		PreparedStatement ps =null;
+		
+		String sql = "insert into my_recipe_board values(?,?,?,?,sysdate)";
+		System.out.println(sql);
+		try {
+			con=DbManager.getConnection();
+			ps=con.prepareStatement(sql);
+			
+			if(board instanceof RecipeBoardVO recipeBoard) {
+				ps.setInt(1, 5);
+				ps.setInt(2, recipeBoard.getMemberNo());
+				ps.setString(3, recipeBoard.getTitle());
+				ps.setString(4, recipeBoard.getContent());
+			}
+			
+			/* 관리자 모드 할꺼면 
+			if(board instanceof ReviewBoardVO reviewBoard) {
+				ps.setInt(1, 2);
+				ps.setInt(2, 2);
+				ps.setString(3, reviewBoard.getTitle());
+				ps.setString(4, reviewBoard.getContent());
+			}
+			*/
+			result = ps.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+		
 	}
 
 	@Override
@@ -85,7 +116,7 @@ public class BoardDAOImpl implements BoardService, BoardDAO {
 	        String date = rs.getString(5);
 	        
 	        //생성자에 넣을 필드 선언
-	        Object[] constructorArgs = { no,tableNo,content,date,title };
+	        Object[] constructorArgs = { no,tableNo,title,content,date };
             //클래스에 넣을 생성자 필드 타입 설정
 	        Class<?>[] paramTypes = { int.class, int.class, String.class, String.class, String.class };
             

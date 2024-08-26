@@ -15,4 +15,7 @@ public class BoardController {
 		SuccessView.printPostByName(boardList);
 		
 	}
+	public static void postBoard(BoardVO board) {
+		boardService.postBoard(board);
+	}
 }
