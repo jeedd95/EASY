@@ -2,6 +2,7 @@ package controller;
 
 import java.util.List;
 
+import exception.InputFormatException;
 import model.service.RecipeService;
 import model.service.RecipeServiceImpl;
 import model.vo.RecipeVO;
@@ -28,7 +29,11 @@ public class RecipeController {
 	public List<RecipeVO> recommendRecipeByMemberUsed(int memberNo){
 		List<RecipeVO> list = null;
 		
-		list = service.recommendRecipeByMemberUsed(memberNo);
+		try {
+			list = service.recommendRecipeByMemberUsed(memberNo);
+		} catch (InputFormatException e) {
+			e.printStackTrace();
+		}
 		
 		return list;
 	}

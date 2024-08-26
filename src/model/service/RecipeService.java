@@ -2,6 +2,7 @@ package model.service;
 
 import java.util.List;
 
+import exception.InputFormatException;
 import model.vo.RecipeVO;
 
 public interface RecipeService {
@@ -9,7 +10,7 @@ public interface RecipeService {
 	/**
 	 * 사용 기반 레시피 추천받기
 	 */
-	List<RecipeVO> recommendRecipeByMemberUsed(int memberNo);
+	List<RecipeVO> recommendRecipeByMemberUsed(int memberNo) throws InputFormatException;
 	
 	/**
 	 * 냉장고 기반 레시피 추천받기
