@@ -28,19 +28,18 @@ public class StatsDAOImpl implements StatsDAO {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				new StatsVO(0, rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
+				StatsVO myStats = new StatsVO(0, rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5));
+				list.add(myStats);
 			}
-			
 			
 		} catch (SQLException e) {
 			throw new InputFormatException("나의 현황 조회 중 DB 오류 발생. 다시 시도해주세요.");
 			//e.printStackTrace();
+			
+		} finally {
+			DbManager.dbClose(con, ps, rs);
 		}
 	
-		
-		
-		
-		
 		return list;
 	}
 

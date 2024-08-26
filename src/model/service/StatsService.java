@@ -3,6 +3,7 @@ package model.service;
 import java.util.List;
 
 import exception.InputFormatException;
+import exception.ListNotFoundException;
 import model.vo.StatsVO;
 
 public interface StatsService {
@@ -10,7 +11,7 @@ public interface StatsService {
 	/**
 	 * 많이 사용한 식재료 통계 보기(나의 현황)
 	 */
-	List<StatsVO> searchIngredientStatsByMine(int memberNo) throws InputFormatException;
+	List<StatsVO> searchIngredientStatsByMine(int memberNo) throws InputFormatException, ListNotFoundException;
 
 	/**
 	 * 성별로 통계보기(전체 현황)
