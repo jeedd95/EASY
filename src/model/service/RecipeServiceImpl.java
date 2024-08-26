@@ -43,7 +43,7 @@ public class RecipeServiceImpl implements RecipeService {
 		List<RecipeVO> recipeList = new ArrayList<RecipeVO>();
 
 		// 회원번호로 냉장고현황 테이블에서 가진 식재료 리스트들 가져오기
-		List<RefrigeratorVO> refrigeratorList = refrigeratorDao.searchIngredientByMemberNo(Integer.toString(memberNo));
+		List<RefrigeratorVO> refrigeratorList = refrigeratorDao.searchIngredientByMemberNo(memberNo);
 
 		for (RefrigeratorVO r : refrigeratorList) {
 			int ingredientNo = -1; // r에서 식재료 번호 가져오기
