@@ -33,4 +33,12 @@ public class RecipeController {
 		return list;
 	}
 	
+	public int makeRecipe(RecipeVO recipeVo) {
+		int result=0;
+		
+		result = service.makeRecipe(recipeVo);
+		
+		return result;
+	};
+	
 }

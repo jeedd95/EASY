@@ -55,5 +55,15 @@ public class RecipeVO {
 	public void setRecipeIngredientList(List<RecipeIngredientVO> recipeIngredientList) {
 		this.recipeIngredientList = recipeIngredientList;
 	}
+	
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
+	@Override
+	public boolean equals(Object obj) {
+		RecipeVO other = (RecipeVO)obj;
+		return name.equals(other.getName());
+	}
 
 }

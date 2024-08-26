@@ -5,8 +5,11 @@ import java.util.Scanner;
 import controller.BoardController;
 import controller.StatsController;
 import controller.WishListController;
+<<<<<<< HEAD
+=======
 import model.vo.MemberVO;
 import model.vo.WishListVO;
+>>>>>>> 1bf48ff048e9e63ce0c9398b29b78934d4efbc1a
 import model.vo.BoardVO;
 import model.vo.CommentVO;
 import model.vo.RecipeBoardVO;
@@ -48,7 +51,11 @@ public class MenuView {
 //					break;
 			case 5: MenuView.wishList(member);
 				break;
+<<<<<<< HEAD
+			case 6: board(memberNo);
+=======
 			case 6: board(1);
+>>>>>>> 1bf48ff048e9e63ce0c9398b29b78934d4efbc1a
 				break;
 			case 7: MenuView.stats(member.getMNo());
 				break;
