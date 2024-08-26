@@ -10,8 +10,9 @@ public class RecipeBoardVO extends BoardVO{
 	
 	}
 	
-	public RecipeBoardVO (String title, String content) {
+	public RecipeBoardVO (int memberNo, String title, String content) {
 		super(title,content);
+		this.memberNo = memberNo;
 	
 	}
 
@@ -30,7 +31,7 @@ public class RecipeBoardVO extends BoardVO{
 	}
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("CboardVO ");
+		builder.append("RecipeBoardVO ");
 		builder.append(super.toString());
 		builder.append(", memberNo=");
 		builder.append(memberNo);
