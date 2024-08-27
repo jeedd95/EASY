@@ -29,9 +29,9 @@ public class ReviewBoardVO extends BoardVO{
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("레시피 후기 게시판 : ");
+		builder.append("레시피 번호=");
+		builder.append(RecipeNo+" : ");
 		builder.append(super.toString());
-		builder.append(", 레시피 번호=");
-		builder.append(RecipeNo);
 		builder.append("]");
 		return builder.toString();
 	}

@@ -10,6 +10,7 @@ import model.vo.CommentVO;
 import model.vo.MemberVO;
 import model.vo.RecipeBoardVO;
 import model.vo.RecipeCommentVO;
+import model.vo.ReviewCommentVO;
 import model.vo.WishListVO;
 
 public class MenuView {
@@ -49,7 +50,7 @@ public class MenuView {
 //					break;
 			case 5: MenuView.wishList(member);
 				break;
-			case 6: board(member.getMNo());
+			case 6: board(member);
 				break;
 			case 7: MenuView.stats(member);
 				break;
@@ -173,7 +174,7 @@ public class MenuView {
 		WishListController.removeWishList(wl);
 	}
 	
-	public static void board(int memberNo) {
+	public static void board(MemberVO member) {
 		System.out.println("1.나만의 레시피 게시판 ");
 		System.out.println("2.레시피 후기 게시판");
 		System.out.println("3.메인 메뉴로 가기");
@@ -183,23 +184,23 @@ public class MenuView {
 		switch(choice) {
 		
 		case 1:
-				BoardController.selectBoard("My_Recipe_Board");
+				BoardController.selectBoard("My_Recipe");
 				System.out.println("1. 글 작성하기");
 				System.out.println("2. 나만의 레시피 글 상세보기 ");
 				System.out.println("3. 돌아가기");
 				int num = sc.nextInt();
 				
-				recipeBoard(num,memberNo,"My_Recipe_Board");
+				recipeBoard(num,member,"My_Recipe");
 				continues();
 
 				break;
 		case 2:
-				BoardController.selectBoard("Recipe_Review_Board");
+				BoardController.selectBoard("Recipe_Review");
 				System.out.println("1. 레시피 후기 글 상세보기 ");
 				System.out.println("2. 돌아가기");
 				num = sc.nextInt();
 				num+=1;
-				recipeBoard(num,memberNo,"Recipe_Review_Board");
+				recipeBoard(num,member,"Recipe_Review");
 				continues();
 				break;
 		case 3:
@@ -212,7 +213,7 @@ public class MenuView {
 		}
 		
 	}
-	static void recipeBoard(int num,int memberNo,String name) {
+	static void recipeBoard(int num, MemberVO member,String name) {
 		switch(num) {
 			case 1:
 				sc.nextLine();
@@ -220,8 +221,7 @@ public class MenuView {
 				String title = sc.nextLine();
 				System.out.println("글 내용");
 				String content = sc.nextLine();
-				int id =memberNo;
-				BoardVO board = new RecipeBoardVO(memberNo,title, content);
+				BoardVO board = new RecipeBoardVO(member.getMNickname(),title, content);
 				BoardController.postBoard(board);
 				break;
 			case 2:
@@ -238,11 +238,11 @@ public class MenuView {
 					System.out.println("평점 : (1~5)점");
 					int rating = sc.nextInt();
 					CommentVO comment =null;
-					if(name.equals("My_Recipe_Board"))
+					if(name.equals("My_Recipe"))
 						comment = new RecipeCommentVO(commentContent, rating,"제육",no);
-					if(name.equals("Recipe_Review_Board"))
-						comment = new RecipeCommentVO(commentContent, rating,"제육",no);
-					BoardController.writeComment(comment,name);
+					if(name.equals("Recipe_Review"))
+						comment = new ReviewCommentVO(commentContent, rating,"제육",no);
+					BoardController.writeComment(comment,name+"_Comment");
 				}else {
 				}
 				break;
@@ -336,8 +336,8 @@ public class MenuView {
 				BoardController.searchMyPost(1);
 				System.out.println("1.삭제하기");
 				System.out.println("2.이전으로");
-				int selectNum = sc.nextInt();
-				if(selectNum==1) {
+				int selectPost = sc.nextInt();
+				if(selectPost==1) {
 					System.out.println("삭제할 게시물 번호 고르세요");
 					int boardNo = sc.nextInt();
 					System.out.println("비번을 입력하세요");
@@ -345,7 +345,7 @@ public class MenuView {
 					String a ="1234";
 					if(a.equals(pw)) {
 						//BoardVO board = new RecipeBoardVO(boardNo,member.getMNo());
-						BoardVO board = new RecipeBoardVO(boardNo,1);
+						BoardVO board = new RecipeBoardVO(boardNo,member.getMNickname());
 
 						BoardController.deleteMyPost(board);
 					}
@@ -354,9 +354,30 @@ public class MenuView {
 				}
 				else
 					myPage(member);
-				
+				break;
 			case 2:
+				//BoardController.searchMyComment(member.getMNickeName());
 				BoardController.searchMyComment("제육");
+				System.out.println("1.삭제하기");
+				System.out.println("2.이전으로");
+				int selectComment = sc.nextInt();
+				if(selectComment==1) {
+					System.out.println("삭제할 댓글 번호 고르세요");
+					int commentNo = sc.nextInt();
+					System.out.println("비번을 입력하세요");
+					String pw = sc.next();
+					String a ="1234";
+					if(a.equals(pw)) {//member.getPw.equals(pw)
+						//CommentVO comment = new ReviewCommentVO(member.getMNickeName());
+						BoardController.deleteMyComment(commentNo,"제육");
+					}
+					else
+						System.out.println("비번이 틀립니다");
+				}
+				else
+					myPage(member);
+				
+				
 			case 3:
 		
 			default:

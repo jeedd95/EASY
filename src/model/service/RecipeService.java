@@ -26,5 +26,4 @@ public interface RecipeService {
 	 * 레시피 바로 만들기
 	 */
 	int makeRecipe(RecipeVO recipeVo);
-
 }

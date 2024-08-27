@@ -5,14 +5,21 @@ public class CommentVO {
 	String content;
 	int rating;
 	String memberNickName;
+	
 	public CommentVO(String content, int rating, String memberNickName){
 		this.content = content;
 		this.rating = rating;
 		this.memberNickName = memberNickName;
 	}
 	
+	public CommentVO(int commentNo, String memberNickName){
+		this.commentNo = commentNo;
+		this.memberNickName = memberNickName;
+	}
+	
 	public CommentVO(int commentNO,String content, int rating, String memberNickName){
 		this(content,rating,memberNickName);
+		this.commentNo = commentNO;
 		this.memberNickName = memberNickName;
 
 	}
@@ -43,12 +50,14 @@ public class CommentVO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
+		builder.append("댓글번호- "+ commentNo +" 닉네임 \"");
 		builder.append(memberNickName);
-		builder.append(": ");
+		builder.append("\" 댓글내용[");
 		builder.append(content);
-		builder.append(" 별점 =");
+		builder.append("] 평점 =");
 		builder.append(rating);
 		return builder.toString();
 	}
-		
+	
+
 }

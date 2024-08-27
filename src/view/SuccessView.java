@@ -38,14 +38,12 @@ public class SuccessView {
 	}
 	
 	public static void printCommentByMNo(Map<String,Map<String,Object>> commentList) {
-		int num=0;
 		for(String k : commentList.keySet()) {
 			Map<String,Object> a = commentList.get(k);
 			
 			for(String key : a.keySet()) {
-				System.out.println(num++ +" :"+ a.get(key).toString());
+				System.out.println(a.get(key).toString());
 			}
-			num-=a.size();
 			System.out.println("=====================================================");
 		}
 		
@@ -56,14 +54,15 @@ public class SuccessView {
 		System.out.println("==================");
 	
 		List<CommentVO> commentList = board.getComment();
-		if(commentList == null)
-			System.out.println("댓글이 없습니다");
-		else {
-			for(CommentVO comment : commentList) {
+		for(CommentVO comment : commentList) {
+				if(comment==null) {
+					System.out.println("댓글이 없습니다");
+					break;
+				}		
 				System.out.println(comment.toString());
 			}
 		}
-	}
+	
 	
 	public static void printMessage(String message) {
 		System.out.println(message);

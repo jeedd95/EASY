@@ -80,4 +80,12 @@ public class BoardServiceImpl implements BoardService {
 			System.out.println("오류 던지기");
 		
 	}
+
+	
+	@Override
+	public void deleteComment(int commentNo,String NickName) {
+		int result = boardDAO.deleteComment(commentNo,NickName);
+		
+	}
+	
 }

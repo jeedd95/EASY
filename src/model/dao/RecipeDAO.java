@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.vo.RecipeIngredientVO;
 import model.vo.RecipeVO;
+import model.vo.RefrigeratorVO;
 
 public interface RecipeDAO {
 
@@ -46,5 +47,10 @@ public interface RecipeDAO {
 	 * 식재료번호로 식재료테이블에서 재료이름찾기
 	 */
 	String searchIngredientName(int ingredientNumber);
+	
+	/**
+	 * 식재료번호로 냉장고현황에서 냉장고객체가져오기
+	 */
+	List<RefrigeratorVO> getRefrigeratorByIngredientNumber(int ingredientNumber);
 
 }
