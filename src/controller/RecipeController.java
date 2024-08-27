@@ -5,6 +5,7 @@ import java.util.List;
 import exception.InputFormatException;
 import model.service.RecipeService;
 import model.service.RecipeServiceImpl;
+import model.vo.RecipeIngredientVO;
 import model.vo.RecipeVO;
 import model.vo.StatsVO;
 
@@ -28,21 +29,24 @@ public class RecipeController {
 	}
 	
 	
-	public static List<RecipeVO> recommendRecipeByMemberUsed(int memberNo){
-		List<RecipeVO> list = null;
+	public static List<StatsVO> recommendRecipeByMemberUsed(int memberNo){
+		List<StatsVO> statsList = null;
 		
 		try {
-			List<StatsVO> statsList = service.recommendRecipeByMemberUsed(memberNo);
-			for (StatsVO statsVO : statsList) {
-				System.out.println("재료 번호" + statsVO.getIngredientNo());
-				System.out.println("양 "+statsVO.getAmount());
-			}
-			//받은 
+			statsList = service.recommendRecipeByMemberUsed(memberNo);
+			
+//			for (StatsVO statsVO : statsList) {
+//				//통계의 식재료 번호로 식재료 가져오기
+//				
+//				//통계의 양은 킵
+//				System.out.println("재료 번호" + statsVO.getIngredientNo());
+//				System.out.println("양 "+statsVO.getAmount());
+//			}
 		} catch (InputFormatException e) {
 			e.printStackTrace();
 		}
 		
-		return list;
+		return statsList;
 	}
 	
 	public static int makeRecipe(RecipeVO recipeVo) {
@@ -62,6 +66,20 @@ public class RecipeController {
 		result =service.recipeDetail(recipeSerialNumber);
 		
 		return result;
+	}
+
+	/**
+	 * 식재료 번호로 식재료 명 가져오기
+	 */
+	public static String searchIngredientName(int ingredientNo) {
+		return service.searchIngredientName(ingredientNo);
+	}
+
+	/**
+	 * 사용기반통계로레시피상세보기
+	 */
+	public static List<RecipeVO> recipeDetailByIngredientNumber(int ingredientNumber) {
+		return service.recipeDetailByIngredientNumber(ingredientNumber);
 	}
 	
 }

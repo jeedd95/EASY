@@ -60,4 +60,9 @@ public interface RecipeDAO {
 	 */
 	RecipeVO recipeDetail(int recipeSerialNumber);
 
+	/**
+	 * 식재료로 레시피 보기
+	 */
+	List<RecipeIngredientVO> searchRecipeByIngredientNumber(int ingredientNumber);
+
 }

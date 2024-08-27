@@ -1,6 +1,7 @@
 package view;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,6 +19,7 @@ import model.vo.RecipeCommentVO;
 import model.vo.RecipeIngredientVO;
 import model.vo.RecipeVO;
 import model.vo.ReviewCommentVO;
+import model.vo.StatsVO;
 import model.vo.WishListVO;
 
 public class MenuView {
@@ -168,21 +170,39 @@ public class MenuView {
 	}
 	
 	public static void 사용기반으로추천받기() {
-		System.out.println("회원의 사용기반으로 추천 받기 메뉴에 들어오셨습니다");
+		System.out.println("사용기반으로 추천 받기 메뉴에 들어오셨습니다");
 		System.out.println("통계를 확인 중 입니다 잠시만 기다려주세요...");
-		
 		//3대신 현재 회원 받기
-		List<RecipeVO> recipeList = RecipeController.recommendRecipeByMemberUsed(3);
+		List<StatsVO> statsList = RecipeController.recommendRecipeByMemberUsed(3);
+		System.out.println();
+		System.out.println("지난 기간동안 사용한 식재료의 순위입니다===========");
+		System.out.print("순위" +"\t");
+		System.out.print("식재료명" +"\t");
+		System.out.println("수량" +"\t");
 		
-//		System.out.println(recipeList);
+		Map<Integer, Integer> serialNumberMap = new HashMap<>();
+		for(int i=0; i<statsList.size(); i++) {
+			System.out.print((i+1) + "위" + "\t");
+			
+			String name= RecipeController.searchIngredientName(statsList.get(i).getIngredientNo());
+			System.out.print(name+ "\t");
+			System.out.print(statsList.get(i).getAmount());
+			System.out.println();
+			serialNumberMap.put(i+1, statsList.get(i).getIngredientNo());
+		}
+		System.out.println();
 		
-//		System.out.println("가장 많이 사용한 재료로 만들 수 있는 레시피는 아래와 같습니다");
-//		for(int i=0; i<3; i++) {
-//			System.out.print(i + " 위 : ");
-//			System.out.println("(식재료명)");
-//			System.out.println("▶▶ "+"레시피");
-//			System.out.println();
-//		}
+		System.out.println("재료의 레시피를 보시려면 순위를, 뒤로가시려면 0번을 입력해주세요");
+		int choice = sc.nextInt();
+		if(choice ==0) return;
+		사용기반통계로레시피상세보기(serialNumberMap.get(choice));
+		
+		System.out.println();
+		System.out.println("아무 입력으로 뒤로 갑니다");
+		sc.next();
+		레시피추천받기();
+//		return;
+		
 		
 	}
 	
@@ -198,6 +218,14 @@ public class MenuView {
 		System.out.println();
 		System.out.println(recipe.getMethod());
 
+	}
+	
+	public static void 사용기반통계로레시피상세보기(int ingredientNumber) {
+		List<RecipeVO> recipeList= RecipeController.recipeDetailByIngredientNumber(ingredientNumber);
+		for (RecipeVO recipeVO : recipeList) {
+			System.out.println("▶ " + recipeVO.getName());
+			System.out.println(recipeVO.getMethod());
+		}
 	}
 	
 	
