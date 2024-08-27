@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import model.vo.RecipeIngredientVO;
 import model.vo.RecipeVO;
+import model.vo.RefrigeratorVO;
 import util.DbManager;
 
 public class RecipeDAOImpl implements RecipeDAO {
@@ -41,7 +43,6 @@ public class RecipeDAOImpl implements RecipeDAO {
 
 			if (rs.next()) {
 				int serialNumber = rs.getInt("RECIPE_NO");
-//				String name = rs.getString("RECIPE_NAME");
 				String method = rs.getString("METHOD");
 
 				recipe = new RecipeVO(serialNumber, recipeName, method);
@@ -173,5 +174,38 @@ public class RecipeDAOImpl implements RecipeDAO {
 		}
 
 		return name;
+	}
+
+	@Override
+	public List<RefrigeratorVO> getRefrigeratorByIngredientNumber(int ingredientNumber) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from REFRIGERATOR where INGREDIENT_NO = ?";
+		List<RefrigeratorVO> refrigeratorList = new ArrayList<RefrigeratorVO>();
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, ingredientNumber);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int serialNumber = rs.getInt("R_NO");
+				int memberNumber = rs.getInt("M_NO");
+				int amount = rs.getInt("AMOUNT");
+				Date registDate = rs.getDate("REGISTDATE");
+				Date expirationDate = rs.getDate("EXPIRATIONDATE");
+				
+				RefrigeratorVO refrigerator= new RefrigeratorVO(serialNumber,memberNumber,ingredientNumber,amount,registDate,expirationDate);
+				refrigeratorList.add(refrigerator);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+
+		return refrigeratorList;
 	}
 }
