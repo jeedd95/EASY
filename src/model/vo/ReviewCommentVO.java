@@ -8,6 +8,11 @@ public class ReviewCommentVO extends CommentVO{
 		super(commentNo,content,rating,nickName);
 		this.recipeNo = recipeNo;
 	}
+	
+	public ReviewCommentVO(int commentNo,String NickName) {
+		super(commentNo,NickName);
+	}
+	
 	public ReviewCommentVO( String content, int rating, String nickName,int recipeNo) {
 		super(content,rating,nickName);
 		this.recipeNo = recipeNo;
@@ -22,6 +27,14 @@ public class ReviewCommentVO extends CommentVO{
 		this.recipeNo = recipeNo;
 	}
 
-	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("후기 게시판의 댓글 :");
+		builder.append(super.toString());
+
+
+		return builder.toString();
+	}
 		
 }

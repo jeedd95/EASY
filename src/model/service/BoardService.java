@@ -21,5 +21,7 @@ public interface BoardService {
 	public Map<String, Map<String,Object>> searchMyComment(String nickName);
 	
 	public void deletePost(BoardVO board);
+	
+	public void deleteComment(int commentNo,String NickName);
 }
 

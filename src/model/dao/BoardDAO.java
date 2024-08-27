@@ -34,7 +34,7 @@ public interface BoardDAO {
 	/**
 	 * 댓글 삭제
 	 */
-	int deleteComment(CommentVO comment);
+	int deleteComment(int commentNo,String NickName);
 	
 	/**
 	 * 댓글 작성

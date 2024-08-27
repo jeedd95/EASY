@@ -45,4 +45,10 @@ public class BoardController {
 		boardService.deletePost(board);
 		SuccessView.printMessage("삭제 성공");
 	}
+	
+	public static void deleteMyComment(int commentNo,String NickName) {
+		boardService.deleteComment(commentNo,NickName);
+		SuccessView.printMessage("삭제 성공");
+
+	}
 }
