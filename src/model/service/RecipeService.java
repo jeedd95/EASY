@@ -27,8 +27,11 @@ public interface RecipeService {
 	 * 레시피 바로 만들기
 	 */
 	int makeRecipe(RecipeVO recipeVo);
-	
+
 	/**
-	 *
+	 * 레시피 상세보기
+	 * @param recipeSerialNumber 레시피일련번호
+	 * @return 레시피
 	 */
+	RecipeVO recipeDetail(int recipeSerialNumber);
 }

@@ -208,4 +208,33 @@ public class RecipeDAOImpl implements RecipeDAO {
 
 		return refrigeratorList;
 	}
+
+	@Override
+	public RecipeVO recipeDetail(int recipeSerialNumber) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from RECIPE where RECIPE_NO = ?";
+		RecipeVO recipe = null;
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, recipeSerialNumber);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				String name = rs.getString("RECIPE_NAME");
+				String method = rs.getString("METHOD");
+
+				recipe = new RecipeVO(recipeSerialNumber, name, method);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+
+		return recipe;
+	}
 }
