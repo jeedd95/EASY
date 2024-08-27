@@ -1,5 +1,6 @@
 package model.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardService;
 	}
 
-	public List<BoardVO> searchPostByName(String name) throws BoardException{
+	public List<BoardVO> searchPostByName(String name) throws BoardException,SQLException{
 		List<BoardVO> boardList = boardDAO.searchPostByName(name);
  		
 		if(boardList == null)
@@ -32,7 +33,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardList;
 	}
 	
-	public void postBoard(BoardVO board) throws BoardException {
+	public void postBoard(BoardVO board) throws BoardException,SQLException {
 		
 		int result = boardDAO.postBoard(board);
 		if(result ==0)
@@ -41,7 +42,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardVO boardSelectByNo(int boardNO, String boardName) throws BoardException {
+	public BoardVO boardSelectByNo(int boardNO, String boardName) throws BoardException,SQLException {
 		
 		BoardVO board = boardDAO.boardSelectByNo(boardNO,boardName);
 		if(board == null)
@@ -52,14 +53,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void writeComment(CommentVO comment,String boardName) throws BoardException {
+	public void writeComment(CommentVO comment,String boardName) throws BoardException,SQLException {
 		int result = boardDAO.writeComment(comment,boardName);
 		if(result == 0)
 			throw new BoardException("댓글 작성이 되지 않았습니다");
 	}
 
 	@Override
-	public List<BoardVO> searchMyPost(int memberNo) throws BoardException {
+	public List<BoardVO> searchMyPost(int memberNo) throws BoardException ,SQLException{
 		List<BoardVO> boardList = boardDAO.searchMyPost(memberNo);
 		if(boardList==null)
 			throw new BoardException("내가 쓴 글이 없습니다");
@@ -67,7 +68,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	
-	public Map<String, Map<String,Object>>  searchMyComment(String nickName) throws BoardException {
+	public Map<String, Map<String,Object>>  searchMyComment(String nickName) throws BoardException,SQLException {
 		Map<String, Map<String,Object>> commentList = boardDAO.searchMyComment(nickName);
 		if(commentList==null)
 			throw new BoardException("글에 해당하는 댓글이 없습니다");
@@ -75,7 +76,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void deletePost(BoardVO board) throws BoardException {
+	public void deletePost(BoardVO board) throws BoardException ,SQLException{
 		int result = boardDAO.deleteBoard(board);
 		if(result == 0)
 			throw new BoardException("글이 삭제 되지 않았습니다");
@@ -84,7 +85,7 @@ public class BoardServiceImpl implements BoardService {
 
 	
 	@Override
-	public void deleteComment(int commentNo,String NickName) throws BoardException {
+	public void deleteComment(int commentNo,String NickName) throws BoardException ,SQLException{
 		int result = boardDAO.deleteComment(commentNo,NickName);
 		if(result == 0)
 			throw new BoardException("댓글이 삭제 되지 않았습니다");
