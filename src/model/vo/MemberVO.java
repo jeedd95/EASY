@@ -9,7 +9,7 @@ public class MemberVO {
     private String mName;     // 이름
     private String mNickname; // 닉네임
     private String mGender;   // 성별
-    private Date joinDate;    // 가입일
+    private String joinDate;    // 가입일
 
     
     public MemberVO() {}
@@ -20,14 +20,18 @@ public class MemberVO {
         this.mPw = mPw;
  
     }
-    
-    public MemberVO(int mNo, String mId, String mPw, String mName, String mNickname, String mGender, Date joinDate) {
+    public MemberVO(String mId, String mPw, String mName, String mNickname, String mGender) {
         this(mId,mPw);
-    	this.mNo = mNo;
         this.mName = mName;
         this.mNickname = mNickname;
         this.mGender = mGender;
+    }
+
+    public MemberVO(int mNo, String mId, String mPw, String mName, String mNickname, String mGender,String joinDate) {
+        this(mId,mPw,mName,mNickname,mGender);
+    	this.mNo = mNo;
         this.joinDate = joinDate;
+
     }
 
     
@@ -79,11 +83,11 @@ public class MemberVO {
         this.mGender = mGender;
     }
 
-    public Date getJoinDate() {
+    public String getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDate(Date joinDate) {
+    public void setJoinDate(String joinDate) {
         this.joinDate = joinDate;
     }
 

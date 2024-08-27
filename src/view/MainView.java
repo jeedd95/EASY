@@ -42,6 +42,61 @@ public class MainView {
 					break;
 					
 			case 2: MenuView.register();
+			
+					while(true) {
+						System.out.println("아이디 입력하세요");
+						id = sc.next();
+						if(!MemberController.checkIdDuplicate(id)) {
+							break;
+						}
+
+					}
+					while(true) {
+						System.out.println("비밀번호를 입력하세요");
+						pw = sc.next();
+						if(!MemberController.checkPw(pw)) {
+							break;
+						}
+					}
+					System.out.println("이름을 입력하세요");	
+					String name = sc.next();
+					String nickName;
+					
+					while(true) {
+						System.out.println("닉네임을 입력하세요");
+						nickName = sc.next();
+						if(!MemberController.checkNickNameDuplicate(nickName)) {
+							break;
+						}
+
+					}
+					String gender;
+					while(true) {
+						System.out.println("성별을 입력하세요 (남,여)");
+						gender = sc.next();
+						if(gender.equals("남") || gender.equals("여")) {
+							break;
+						}
+						System.out.println("남 , 여 한글자 만 입력하세요");
+
+					}
+					MemberVO joinMember = new MemberVO(
+							id,
+							pw,
+							name,
+							nickName,
+							gender				
+					);
+					
+					MemberController.joinMember(joinMember);
+							
+					
+							
+							
+				
+					
+				
+					
 					break;
 			case 9:
 					System.exit(0);

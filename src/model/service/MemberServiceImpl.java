@@ -21,28 +21,37 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void joinMember(MemberVO member) {
-        // ID 중복 확인
-        if (memberDAO.checkIdDuplicate(member.getMId())) {
-            throw new DuplicationIdOrNickNameException("이미 존재하는 ID입니다.");
-        }
+    public void joinMember(MemberVO member) throws Exception {
+        int result =memberDAO.joinMember(member);
+        if(result==0)
+        	throw new Exception("회원가입이 되지 않았습니다");
+    }
+    public boolean checkPw(String pw) {
         
-        // 비밀번호 유효성 검사
-        String password = member.getMPw();
-        if (password.length() < 5 || password.length() > 20) {
+        if (pw.length() < 5 || pw.length() > 20) {
             throw new IllegalArgumentException("비밀번호는 5자 이상 20자 이하로 설정해야 합니다.");
         }
         
-        // 회원 가입 진행
-        memberDAO.joinMember(member);
+        return false;
     }
 
 
     @Override
-    public boolean checkIdDuplicate(String id) {
-        return memberDAO.checkIdDuplicate(id);
+    public boolean checkNickNameDuplicate(String nickName) {
+        boolean isDuplicate = memberDAO.checkNickNameDuplicate(nickName);
+        if(isDuplicate)
+        	throw new DuplicationIdOrNickNameException("이미 존재하는 NickName입니다.");
+        return isDuplicate;
     }
 
+    @Override
+    public boolean checkIdDuplicate(String id) {
+    	 boolean isDuplicate = memberDAO.checkIdDuplicate(id);
+        if(isDuplicate)
+        	throw new DuplicationIdOrNickNameException("이미 존재하는 ID입니다.");
+        return isDuplicate;
+    }
+    
     @Override
     public MemberVO login(MemberVO member) {
         // 입력값 검증
@@ -93,6 +102,8 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 }
         
    
