@@ -6,6 +6,7 @@ import exception.InputFormatException;
 import model.service.RecipeService;
 import model.service.RecipeServiceImpl;
 import model.vo.RecipeVO;
+import model.vo.RefrigeratorVO;
 
 public class RecipeController {
 	RecipeService service = new RecipeServiceImpl();
@@ -21,10 +22,11 @@ public class RecipeController {
 	public List<RecipeVO> recommendRecipeByRefrigerator(int memberNo){
 		List<RecipeVO> list = null;
 		
-		list = service.recommendRecipeByRefrigerator(memberNo);
+		list = service.recommendRecipeByRefrigerator(memberNo); //레시피에서 내가 재료를 하나라도 가지고 있는 리스트
 		
 		return list;
 	}
+	
 	
 	public List<RecipeVO> recommendRecipeByMemberUsed(int memberNo){
 		List<RecipeVO> list = null;
