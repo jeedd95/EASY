@@ -27,7 +27,7 @@ public class MenuView {
 		RefrigeratorView refri =RefrigeratorView.getInstance();
 		while(true) {
 			System.out.println();
-			refri.DrawMap("하하");
+			refri.DrawMap(member);
 			System.out.println("1. 식재료 넣기");
 			System.out.println("2. 식재료 빼기");
 			System.out.println("3. 식재료 상세보기");

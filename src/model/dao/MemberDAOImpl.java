@@ -9,7 +9,13 @@ import model.vo.MemberVO;
 import util.DbManager;
 
 public class MemberDAOImpl implements MemberDAO {
-
+	private static MemberDAO memberDAO;
+	
+	public static MemberDAO getInstance() {
+		if(memberDAO == null)
+			memberDAO = new MemberDAOImpl();
+		return memberDAO;
+	}
     
 
     @Override
@@ -77,20 +83,23 @@ public class MemberDAOImpl implements MemberDAO {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        MemberVO result = null;
+        
+        MemberVO storedMember=null;
 
         String sql = "SELECT * FROM member WHERE m_id = ? AND m_pw = ?";
 
         try {
             con = DbManager.getConnection();
             ps = con.prepareStatement(sql);
+            
             ps.setString(1, member.getMId());
             ps.setString(2, member.getMPw());  
+  
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                result = new MemberVO(
-                    rs.getInt("m_no"),
+            	storedMember = new MemberVO(
+                	rs.getInt("m_no"),
                     rs.getString("m_id"),
                     rs.getString("m_pw"),  
                     rs.getString("m_name"),
@@ -106,7 +115,7 @@ public class MemberDAOImpl implements MemberDAO {
             DbManager.dbClose(con, ps, rs);
         }
 
-        return result;  
+        return storedMember;  
     }
     @Override
     public int removeMember(String pw) {

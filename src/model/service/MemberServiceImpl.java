@@ -2,13 +2,22 @@ package model.service;
 
 import exception.DuplicationIdOrNickNameException;
 import model.dao.MemberDAO;
+import model.dao.MemberDAOImpl;
 import model.vo.MemberVO;
 
 public class MemberServiceImpl implements MemberService {
-    private MemberDAO memberDAO;
 
-    public MemberServiceImpl(MemberDAO memberDAO) {
-        this.memberDAO = memberDAO;
+	private static MemberService service;
+	private static MemberDAO memberDAO = MemberDAOImpl.getInstance();
+	
+	public static MemberService getInstance() {
+		if(service==null)
+			return service = new MemberServiceImpl();
+		return service;
+	}
+	
+    public MemberServiceImpl() {
+    	
     }
 
     @Override
@@ -46,15 +55,9 @@ public class MemberServiceImpl implements MemberService {
 
         // 조회된 사용자 정보가 없으면 로그인 실패
         if (storedMember == null) {
-            throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
+            throw new IllegalArgumentException("아이디와 비밀번호가 일치하지 않습니다.");
         }
 
-        // 비밀번호 확인
-        if (!storedMember.getMPw().equals(member.getMPw())) {
-            throw new IllegalArgumentException("잘못된 비밀번호 입니다");
-        }
-
-        // 로그인 성공 시 사용자 정보 반환
         return storedMember;
     }
 
