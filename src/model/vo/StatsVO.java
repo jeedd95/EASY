@@ -83,7 +83,7 @@ public class StatsVO {
 	public String toString(String ingredientName) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(ingredientName);
-		builder.append("\t    | ");
+		builder.append("\t | ");
 		builder.append(amount);
 		return builder.toString();
 	}

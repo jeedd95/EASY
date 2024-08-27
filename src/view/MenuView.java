@@ -24,16 +24,18 @@ public class MenuView {
 		while(true) {
 			System.out.println();
 			refri.DrawMap(member);
-			System.out.println("1. 식재료 넣기");
-			System.out.println("2. 식재료 빼기");
-			System.out.println("3. 식재료 상세보기");
-			System.out.println("4. 레시피 추천받기");
-			System.out.println("5. 찜 목록");
-			System.out.println("6. 게시판 보기");
-			System.out.println("7. 통계");
-			System.out.println("8. 로그아웃");
-			System.out.println("9. 시스템 종료");
-			System.out.println("10. 마이 페이지");
+			System.out.println("<메뉴를 선택해주세요>");
+			System.out.println("[1] 식재료 넣기");
+			System.out.println("[2] 식재료 빼기");
+			System.out.println("[3] 식재료 상세보기");
+			System.out.println("[4] 레시피 추천받기");
+			System.out.println("[5] 찜 목록");
+			System.out.println("[6] 게시판 보기");
+			System.out.println("[7] 통계");
+			System.out.println("[8] 로그아웃");
+			System.out.println("[9] 시스템 종료");
+			System.out.println("[10] 마이 페이지");
+			System.out.println("선택 > ");
 			
 			int menu = sc.nextInt();
 			
@@ -136,7 +138,7 @@ public class MenuView {
 	public static void wishList(MemberVO member) { //조회, 추가, 제거
 		System.out.println();
 		System.out.println("=========<찜 목록>=========");
-		WishListController.searchWishList(2); //조회
+		WishListController.searchWishList(member.getMNo()); //조회
 		System.out.println();
 		
 		System.out.println("------------------------------");
@@ -166,17 +168,19 @@ public class MenuView {
 	}
 	
 	public static void addWishList (int memberNo) {
-		//ingredientVO 만들어서 가져오는 메소드 호출 (일단 25로 셋팅)
+		//ingredientVO 만들어서 가져오는 메소드 호출 (일단 27로 셋팅)
 		System.out.println("보관 유지 수량 입력 > ");
 		int amount = Integer.parseInt(sc.next());
-		WishListVO wl = new WishListVO(0, 2, 27, amount);
+		//★★ 추후 수정 필요(시퀀스, 식재료 번호 연동)
+		WishListVO wl = new WishListVO(0, memberNo, 27, amount);
 		WishListController.addWishList(wl);
 		
 	}
 	
 	public static void removeWishList(int memberNo) {
 		//ingredientVO 만들어서 가져오는 메소드 호출 (일단 27로 셋팅)
-		WishListVO wl = new WishListVO(0, 3, 27);
+		//★★ 추후 수정 필요(시퀀스, 식재료 번호 연동)
+		WishListVO wl = new WishListVO(0, memberNo, 27);
 		WishListController.removeWishList(wl);
 	}
 	
@@ -289,9 +293,9 @@ public class MenuView {
 	public static void stats (MemberVO member) {
 		
 		System.out.println();
-		System.out.println("-----------------------------------------------------------------------");
+		System.out.println("--------------------------------------------------------");
 		System.out.println("1.나의 현황 | 2. 성별(남) | 3. 성별(여) | 4. 식재료별 | 5. 뒤로가기 ");
-		System.out.println("-----------------------------------------------------------------------");
+		System.out.println("--------------------------------------------------------");
 		System.out.println("선택 > ");
 		
 		int botton = Integer.parseInt(sc.next());
