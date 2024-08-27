@@ -21,9 +21,10 @@ public interface MemberService {
     MemberVO login(MemberVO member);
     /**
      * 회원탈퇴 기능
+     * @throws Exception 
      */
     
-    int removeMember(String pw);
+    void removeMember(MemberVO member) throws Exception;
     
 	boolean checkNickNameDuplicate(String nickName);
 	

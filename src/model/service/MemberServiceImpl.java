@@ -75,33 +75,14 @@ public class MemberServiceImpl implements MemberService {
      * @param mId 탈퇴할 회원의 ID
      * @param pw 탈퇴할 회원의 비밀번호
      * @return 탈퇴 성공 여부를 나타내는 정수 값 (1: 성공, 0: 실패)
+     * @throws Exception 
      */
-    public int removeMember(String mId, String pw) {
+    public void removeMember(MemberVO member) throws Exception {
         // 입력값 검증
-        if (mId == null || mId.isEmpty() || pw == null || pw.isEmpty()) {
-            throw new IllegalArgumentException("ID와 비밀번호는 null이거나 빈 문자열일 수 없습니다.");
-        }
-
-        // 아이디와 비밀번호로 사용자 정보 조회
-        MemberVO member = memberDAO.login(new MemberVO(mId, pw));
-
-        // 조회된 사용자가 없거나 비밀번호가 일치하지 않는 경우
-        if (member == null || !member.getMPw().equals(pw)) {
-            return 0; // 로그인 실패로 탈퇴 실패
-        }
-
-        // 비밀번호로 회원 정보 삭제
-        int result = memberDAO.removeMember(pw);
-
-        // 삭제 결과 반환
-        return result;
+        int result = memberDAO.removeMember(member);
+        if(result == 0)
+        	throw new Exception("삭제 되지 않음");
     }
-
-	@Override
-	public int removeMember(String pw) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 
 }

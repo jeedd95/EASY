@@ -34,12 +34,12 @@ public class MemberController {
       
     }
     
-    public static void removeMember(String pw) {
-        int result = memberService.removeMember(pw);  // 비즈니스 로직은 서비스에서 처리
-        if (result > 0) {
-            System.out.println("회원 탈퇴가 완료되었습니다.");
-        } else {
-            System.out.println("회원 탈퇴 실패. 비밀번호를 확인하세요.");
+    public static void removeMember(MemberVO member) {
+        try {
+        	memberService.removeMember(member);  // 비즈니스 로직은 서비스에서 처리
+        	SuccessView.printmessage("삭제되었습니다");
+        }catch(Exception e){
+        	FailView.printMessage(e.toString());
         }
     }
 

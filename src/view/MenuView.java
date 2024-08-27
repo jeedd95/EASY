@@ -3,6 +3,7 @@ package view;
 import java.util.Scanner;
 
 import controller.BoardController;
+import controller.MemberController;
 import controller.StatsController;
 import controller.WishListController;
 import model.vo.BoardVO;
@@ -235,7 +236,7 @@ public class MenuView {
 				int no = sc.nextInt();
 				BoardController.postBoardByNo(no,name);
 				System.out.println("1.댓글 작성");
-				System.out.println("2.메인메뉴 가기");
+				System.out.println("2.뒤로 가기");
 				int menu = sc.nextInt();
 				if(menu==1) {
 					System.out.println("댓글 내용");
@@ -249,7 +250,9 @@ public class MenuView {
 					if(name.equals("Recipe_Review"))
 						comment = new ReviewCommentVO(commentContent, rating,"제육",no);
 					BoardController.writeComment(comment,name+"_Comment");
+					login(member);
 				}else {
+					recipeBoard(num,member,name);
 				}
 				break;
 				
@@ -384,8 +387,22 @@ public class MenuView {
 					myPage(member);
 				
 				
-			case 3:
 		
+				break;
+			case 3:
+				System.out.println("비밀번호를 입력하세요");
+				String pw = sc.next();
+				if(member.getMPw().equals(pw)) {
+					System.out.println("정말로 탈퇴하시겠습니까?");
+					String ans = sc.next();
+					if(ans.equals("y"))
+						MemberController.removeMember(member);
+					else
+						login(member);
+				}
+				else
+					login(member);
+				break;		
 			default:
 		}
 	}

@@ -153,17 +153,18 @@ public class MemberDAOImpl implements MemberDAO {
         return storedMember;  
     }
     @Override
-    public int removeMember(String pw) {
+    public int removeMember(MemberVO member) {
         Connection con = null;
         PreparedStatement ps = null;
+        
         int result = 0;
 
-        String sql = "DELETE FROM member WHERE m_pw = ?";
+        String sql = "DELETE FROM member WHERE m_id = ?";
 
         try {
             con = DbManager.getConnection();
             ps = con.prepareStatement(sql);
-            ps.setString(1, pw);
+            ps.setString(1, member.getMId());
             result = ps.executeUpdate();
 
         } catch (SQLException e) {
