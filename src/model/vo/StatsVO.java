@@ -82,21 +82,9 @@ public class StatsVO {
 	
 	public String toString(String ingredientName) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[일련번호: ");
-		builder.append(statsNo);
-		builder.append(" | ");
-		builder.append(", 회원번호: ");
-		builder.append(memberNo);
-		builder.append(" | ");
-		builder.append(", 식재료 이름: ");
-		builder.append(ingredientNo);
-		builder.append(" | ");
-		builder.append(", 수량: ");
+		builder.append(ingredientName);
+		builder.append("\t    | ");
 		builder.append(amount);
-		builder.append(" | ");
-		builder.append(", 사용한날짜: ");
-		builder.append(usedDate);
-		builder.append("]");
 		return builder.toString();
 	}
 	

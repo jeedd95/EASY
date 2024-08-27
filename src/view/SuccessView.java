@@ -15,7 +15,7 @@ public class SuccessView {
 	}
 	
 	public static void printWishList(List<WishListVO> list, List<String> ingredientNamelist) {
-	
+		System.out.println("식재료 이름 | 관리 수량 ");
 		for ( int i = 0 ; i<ingredientNamelist.size() ; i++) {
 			WishListVO wishlist = list.get(i);
 			String ingredientName = ingredientNamelist.get(i);
@@ -68,9 +68,12 @@ public class SuccessView {
 		System.out.println(message);
 	}
 	
-	public static void printStats(List<StatsVO> list) {
-		for ( StatsVO stats : list) {
-			System.out.println(stats);
+	public static void printStats(List<StatsVO> list, List<String> ingredientNameList) {
+		System.out.println("식재료 이름 | 사용 수량 ");
+		for (int i = 0; i<list.size() ; i++) {
+			StatsVO stats = list.get(i);
+			String ingredient = ingredientNameList.get(i);
+			System.out.println(stats.toString(ingredient));
 		}
 		
 		

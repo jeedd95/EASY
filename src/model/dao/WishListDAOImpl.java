@@ -104,38 +104,15 @@ public class WishListDAOImpl implements WishListDAO {
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
-			
-			for( WishListVO wishlist : list) {
+
+			for (WishListVO wishlist : list) {
 				ps.setInt(1, wishlist.getIngredientNo());
 				rs = ps.executeQuery();
-				
-					while(rs.next()) {
-						ingredientName.add(rs.getString(1));
-					}
+
+				while (rs.next()) {
+					ingredientName.add(rs.getString(1));
+				}
 			}
-			
-			
-			
-			
-			
-			
-			
-//			for (int i = 0; i <= list.size(); i++) {
-//
-//				WishListVO wishlist = list.get(3);
-//				ps.setInt(1, wishlist.getIngredientNo());
-//				//System.out.println(wishlist.getIngredientNo());
-//
-//				rs = ps.executeQuery();
-//
-//				while (rs.next()) {
-//					//System.out.println(rs.getString(1));
-//					ingredientName.add(rs.getString(1));
-//				}
-//
-//				ps.clearParameters();
-//
-//			} // forEnd
 
 		} catch (SQLException e) {
 			e.printStackTrace();

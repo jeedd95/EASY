@@ -17,8 +17,9 @@ public class StatsController {
 	public static void searchIngredientStatsByMine(int memberNo) {
 		try {
 			List<StatsVO> list = sts.searchIngredientStatsByMine(memberNo);
+			List<String> ingredient = sts.searchByIngredientNo(list);
 			System.out.println("=========<나의 통계>=========");
-			SuccessView.printStats(list);
+			SuccessView.printStats(list, ingredient);
 		} catch (ListNotFoundException | InputFormatException e) {
 			FailView.printMessage(e.getMessage());
 			// e.printStackTrace();
@@ -29,8 +30,10 @@ public class StatsController {
 	public static void searchIngredientStatsByGender(String gender) {
 		try {
 			List<StatsVO> list = sts.searchIngredientStatsByGender(gender);
+			List<String> ingredient = sts.searchByIngredientNo(list);
 			System.out.println("=========<전체 통계(" + gender + ")>=========");
-			SuccessView.printStats(list);
+			System.out.println();
+			SuccessView.printStats(list, ingredient);
 		} catch (InputFormatException e) {
 			FailView.printMessage(e.getMessage());
 			// e.printStackTrace();
@@ -41,8 +44,9 @@ public class StatsController {
 	public static void searchIngredientStatsByAmount() {
 		try {
 			List<StatsVO> list = sts.searchIngredientStatsByAmount();
+			List<String> ingredient = sts.searchByIngredientNo(list);
 			System.out.println("=========<전체 통계(식재료별)>=========");
-			SuccessView.printStats(list);
+			SuccessView.printStats(list, ingredient);
 
 		} catch (InputFormatException e) {
 			FailView.printMessage(e.getMessage());

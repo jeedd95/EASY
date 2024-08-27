@@ -4,6 +4,7 @@ import java.util.List;
 
 import exception.InputFormatException;
 import exception.ListNotFoundException;
+import model.vo.StatsVO;
 import model.vo.WishListVO;
 
 public interface WishListService {
