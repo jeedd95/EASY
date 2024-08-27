@@ -16,7 +16,7 @@ import view.SuccessView;
 public class BoardController {
 	private static BoardService boardService = BoardServiceImpl.getInstance();
 	
-	public static void selectBoard(String name) {
+	public static void searchPostByName(String name) {
 		try {
 			List<BoardVO> boardList = boardService.searchPostByName(name);
 			SuccessView.printPostByName(boardList);
@@ -57,10 +57,10 @@ public class BoardController {
 		}
 	}
 	
-	public static void searchMyPost(int memberNo) {
+	public static void searchMyPost(String memberNickName) {
 		List<BoardVO> boardList;
 		try {
-			boardList = boardService.searchMyPost(memberNo);
+			boardList = boardService.searchMyPost(memberNickName);
 			SuccessView.printPostByMNo(boardList);
 
 		} catch (Exception e) {

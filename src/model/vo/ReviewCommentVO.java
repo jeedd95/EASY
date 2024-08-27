@@ -30,6 +30,7 @@ public class ReviewCommentVO extends CommentVO{
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
+		builder.append("후기 게시판 댓글: ");
 		builder.append(super.toString());
 
 		return builder.toString();

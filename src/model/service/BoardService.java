@@ -18,7 +18,7 @@ public interface BoardService {
 	
 	public void writeComment(CommentVO comment, String boardName) throws BoardException,SQLException;
 	
-	public List<BoardVO> searchMyPost(int memberNo) throws BoardException,SQLException;
+	public List<BoardVO> searchMyPost(String memberNickName) throws BoardException,SQLException;
 	
 	public Map<String, Map<String,Object>> searchMyComment(String nickName) throws BoardException,SQLException;
 	

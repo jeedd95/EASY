@@ -60,8 +60,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> searchMyPost(int memberNo) throws BoardException ,SQLException{
-		List<BoardVO> boardList = boardDAO.searchMyPost(memberNo);
+	public List<BoardVO> searchMyPost(String memberNickName) throws BoardException ,SQLException{
+		List<BoardVO> boardList = boardDAO.searchMyPost(memberNickName);
 		if(boardList==null)
 			throw new BoardException("내가 쓴 글이 없습니다");
 		return boardList;

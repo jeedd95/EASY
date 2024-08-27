@@ -1,17 +1,16 @@
 package model.dao;
 
 import java.lang.reflect.Constructor;
-import java.nio.file.spi.FileSystemProvider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import exception.SqlBoardException;
 import model.vo.BoardVO;
 import model.vo.CommentVO;
 import model.vo.RecipeBoardVO;
@@ -74,16 +73,16 @@ public class BoardDAOImpl implements  BoardDAO {
 	 * 내가 쓴 글 목록 출력
 	 */
 	@Override
-	public List<BoardVO> searchMyPost(int memberNo) {
+	public List<BoardVO> searchMyPost(String memberNickName) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<BoardVO> boardList = new ArrayList<BoardVO>();
-		String sql = "select * from MY_RECIPE_BOARD WHERE M_NO = ?";
+		String sql = "select * from MY_RECIPE_BOARD WHERE M_NICKNAME = ?";
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, memberNo);
+			ps.setString(1, memberNickName);
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
@@ -238,6 +237,8 @@ public class BoardDAOImpl implements  BoardDAO {
 						
 		} catch (Exception e) {
 			e.getMessage();
+		}finally {
+			DbManager.dbClose(con, ps, rs);
 		}
 		
 		return 0;
@@ -265,7 +266,7 @@ public class BoardDAOImpl implements  BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			DbManager.dbClose(con, ps);
+			DbManager.dbClose(ps);
 		}
 		
 		return result;
@@ -331,6 +332,8 @@ public class BoardDAOImpl implements  BoardDAO {
 			
 		} catch (SQLException e) {
 			throw new SQLException("평점은 1~5사이를 입력하세요");
+		}finally {
+			DbManager.dbClose(con, ps);
 		}
 		
 		return result;
@@ -367,7 +370,8 @@ public class BoardDAOImpl implements  BoardDAO {
 	/*
 	 * 해당 게시판 출력 인데 name를 받아서 name에 해당하는 테이블 조회와
 	 * 클래스를 동적 할당하여 생성하여 출력한다.
-	 * 
+	 * boardSelect으로감
+	 * 시작 REVICE_REIVE 슛
 	 */
 	@Override
 	public List<BoardVO> searchPostByName(String table) {
@@ -382,13 +386,11 @@ public class BoardDAOImpl implements  BoardDAO {
 		List<BoardVO> boardList = new ArrayList<BoardVO>();
 		try {
 			con=DbManager.getConnection();
-			
             createBoardView(con);
     		String sql = "select * from Board_VIEW where BOARD_TYPE = ?";
 
 			ps=con.prepareStatement(sql);
 			ps.setString(1, table+"_BOARD");
-			System.out.println(sql+ table+"_BOARD");
 			rs = ps.executeQuery();
 			
             while(rs.next()) {
@@ -397,9 +399,8 @@ public class BoardDAOImpl implements  BoardDAO {
             int boardNo = rs.getInt(2);
 	        
 	       
-            BoardVO board = boardSelectByNo(boardNo, tableName);
+            BoardVO board = boardSelectByNo(con,boardNo, table);
             boardList.add(board);
-            System.out.println(boardList.toString());
             }
 			
 		} catch (Exception e) {
@@ -407,13 +408,14 @@ public class BoardDAOImpl implements  BoardDAO {
 		}finally {
 			DbManager.dbClose(con, ps);
 		}
-		System.out.println("DAO 확인");
 		return boardList;
 		
 	}
 	
 	/*
 	 * 게시물 상세보기
+	 * searchBoard에서 옴 373번 
+	 *그냥 상세 보기 용 
 	 */
 	@Override
 	public BoardVO boardSelectByNo(int boardNO,String boardName) {
@@ -421,19 +423,18 @@ public class BoardDAOImpl implements  BoardDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from "+boardName +"_Board where BOARD_NO = ?";
+		String sql = "select * from "+boardName +"_BOARD where BOARD_NO = ?";
 		List<CommentVO> comment;
 		BoardVO board = null;
 		try {
 			con=DbManager.getConnection();
 			ps=con.prepareStatement(sql);
 			ps.setInt(1, boardNO);
-			System.out.println(sql);
 			rs = ps.executeQuery();
            
             if(rs.next()) {
             	int boardNo =0;
-            	if(boardName.equals("My_Recipe")) {
+            	if(boardName.equals("MY_RECIPE")) {
                 	boardNo = rs.getInt(1);
                 	String nickName = rs.getString(2);
                 	String title  = rs.getString(3);
@@ -442,7 +443,7 @@ public class BoardDAOImpl implements  BoardDAO {
             		board = new RecipeBoardVO(boardNo,nickName, title, content, date);
             	
             	}	
-            	if(boardName.equals("Recipe_Review")) {
+            	if(boardName.equals("RECIPE_REVIEW")) {
             		boardNo = rs.getInt(1);
                 	int recipeNo = rs.getInt(2);
                 	String title  = rs.getString(3);
@@ -452,6 +453,8 @@ public class BoardDAOImpl implements  BoardDAO {
             		
             	}
             	comment = replyBoardByNo(con,boardNo,boardName);
+            	if(comment ==null)
+            		throw new Exception("댓글이 없습니다");
             	board.setComment(comment);
             }
 			
@@ -464,16 +467,68 @@ public class BoardDAOImpl implements  BoardDAO {
 		return board;
 		
 	}
+	/*
+	 * con을 갖고와서 (이름 가지고 비교하는거) 
+	 */
+	public BoardVO boardSelectByNo(Connection con,int boardNO,String boardName) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from "+boardName +"_BOARD where BOARD_NO = ?";
+		List<CommentVO> comment;
+		BoardVO board = null;
+		try {
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, boardNO);
+			rs = ps.executeQuery();
+           
+            if(rs.next()) {
+            	int boardNo =0;
+            	if(boardName.equals("MY_RECIPE")) {
+                	boardNo = rs.getInt(1);
+                	String nickName = rs.getString(2);
+                	String title  = rs.getString(3);
+                	String content = rs.getString(4);
+                	String date = rs.getString(5);
+            		board = new RecipeBoardVO(boardNo,nickName, title, content, date);
+            	
+            	}	
+            	if(boardName.equals("RECIPE_REVIEW")) {
+            		boardNo = rs.getInt(1);
+                	int recipeNo = rs.getInt(2);
+                	String title  = rs.getString(3);
+                	String content = rs.getString(4);
+                	String date = rs.getString(5);
+            		board = new ReviewBoardVO(boardNo,recipeNo, title, content, date);
+            		
+            	}
+            	System.out.println(boardName);
+            	comment = replyBoardByNo(con,boardNo,boardName);
+            	if(comment ==null)
+            		throw new Exception("댓글이 없습니다");
+            	board.setComment(comment);
+            }
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DbManager.dbClose(ps,rs);
+		}
+		
+		return board;
+		
+	}
+	
 	
 	private List<CommentVO> replyBoardByNo(Connection con, int boardNo,String commentName) {
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from "+commentName+"_Comment where "+commentName+"_Board_NO = ?";
-		
+		String[] name = commentName.split("_");
+		commentName = name[0]+"_"+name[1];
+		String sql = "select * from "+commentName+"_Comment where BOARD_NO = ?";
+		System.out.println(commentName);
 		List<CommentVO> comment = new ArrayList<CommentVO>();
 		try {
-			con=DbManager.getConnection();
 			ps=con.prepareStatement(sql);
 			ps.setInt(1, boardNo);
 			rs = ps.executeQuery();
@@ -488,9 +543,9 @@ public class BoardDAOImpl implements  BoardDAO {
 	        
 	        CommentVO commentVO=null;
 	        
-	        if(commentName.equals("My_Recipe"))
+	        if(commentName.equals("MY_RECIPE"))
 		        commentVO= new RecipeCommentVO(relpyNo,cotent,rating,M_nickName,tableNo);
-	        if(commentName.equals("Recipe_Review"))
+	        if(commentName.equals("RECIPE_REVIEW"))
 		        commentVO= new ReviewCommentVO(relpyNo,cotent,rating,M_nickName,tableNo);
 
 	        comment.add(commentVO);
@@ -499,7 +554,7 @@ public class BoardDAOImpl implements  BoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
-			DbManager.dbClose(con,ps, rs);
+			DbManager.dbClose(ps, rs);
 		}
 		return comment;
 		

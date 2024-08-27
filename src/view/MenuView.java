@@ -260,23 +260,23 @@ public class MenuView {
 		switch(choice) {
 		
 		case 1:
-				BoardController.selectBoard("My_Recipe");
+				BoardController.searchPostByName("MY_RECIPE");
 				System.out.println("1. 글 작성하기");
 				System.out.println("2. 나만의 레시피 글 상세보기 ");
 				System.out.println("3. 돌아가기");
 				int num = sc.nextInt();
 				
-				recipeBoard(num,member,"My_Recipe");
+				recipeBoard(num,member,"MY_RECIPE");
 				continues();
 
 				break;
 		case 2:
-				BoardController.selectBoard("Recipe_Review");
+				BoardController.searchPostByName("RECIPE_REVIEW");
 				System.out.println("1. 레시피 후기 글 상세보기 ");
 				System.out.println("2. 돌아가기");
 				num = sc.nextInt();
 				num+=1;
-				recipeBoard(num,member,"Recipe_Review");
+				recipeBoard(num,member,"RECIPE_REVIEW");
 				continues();
 				break;
 		case 3:
@@ -315,9 +315,9 @@ public class MenuView {
 					System.out.println("평점 : (1~5)점");
 					int rating = sc.nextInt();
 					CommentVO comment =null;
-					if(name.equals("My_Recipe"))
+					if(name.equals("MY_RECIPE"))
 						comment = new RecipeCommentVO(commentContent, rating,member.getMNickname(),no);
-					if(name.equals("Recipe_Review"))
+					if(name.equals("RECIOE_REVIEW"))
 						comment = new ReviewCommentVO(commentContent, rating,member.getMNickname(),no);
 					BoardController.writeComment(comment,name+"_Comment");
 					board(member);
@@ -412,7 +412,7 @@ public class MenuView {
 		switch(myPageNum) {
 			case 1:
 				//BoardController.searchMyPost(member.getMNo());
-				BoardController.searchMyPost(1);
+				BoardController.searchMyPost(member.getMNickname());
 				System.out.println("1.삭제하기");
 				System.out.println("2.이전으로");
 				int selectPost = sc.nextInt();
@@ -445,8 +445,7 @@ public class MenuView {
 					int commentNo = sc.nextInt();
 					System.out.println("비번을 입력하세요");
 					String pw = sc.next();
-					String a ="1234";
-					if(a.equals(pw)) {//member.getPw.equals(pw)
+					if(member.getMPw().equals(pw)) {//member.getPw.equals(pw)
 						//CommentVO comment = new ReviewCommentVO(member.getMNickeName());
 						BoardController.deleteMyComment(commentNo,"제육");
 					}

@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ public interface BoardDAO {
 	/**
 	 * 내가 쓴 글 보기
 	 */
-	List<BoardVO> searchMyPost(int memberNo) throws SQLException;
+	List<BoardVO> searchMyPost(String memberNickName) throws SQLException;
 	/*
 	 * 게시판별로 검색
 	 */
