@@ -6,7 +6,6 @@ import exception.InputFormatException;
 import model.service.RecipeService;
 import model.service.RecipeServiceImpl;
 import model.vo.RecipeVO;
-import model.vo.RefrigeratorVO;
 import model.vo.StatsVO;
 
 public class RecipeController {
@@ -53,5 +52,16 @@ public class RecipeController {
 		
 		return result;
 	};
+	
+	/**
+	 * 레시피 일련번호로 레시피 상세보기
+	 */
+	public static RecipeVO recipeDetail(int recipeSerialNumber) {
+		RecipeVO result=null;
+		
+		result =service.recipeDetail(recipeSerialNumber);
+		
+		return result;
+	}
 	
 }

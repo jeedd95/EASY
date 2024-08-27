@@ -95,24 +95,43 @@ public class RecipeServiceImpl implements RecipeService {
 		List<RecipeVO> recipeList = new ArrayList<RecipeVO>();
 
 		// 회원번호로 냉장고현황 테이블에서 가진 식재료 리스트들 가져오기
-		List<RefrigeratorVO> refrigeratorList = refrigeratorDao.searchIngredientByMemberNo(memberNo);
-
+		List<RefrigeratorVO> refrigeratorList = refrigeratorDao.searchIngredientByMemberNo(memberNo);//7,8,9,10,7
+		//	레시피에서 일련번호와 일치하는 레시피 가져오기(중복제거)
 		for (RefrigeratorVO r : refrigeratorList) {
-			int ingredientNo = r.getIngredientNo();
-			// 식재료 번호로 레시피재료 테이블에서 레시피 일련번호 가져오기
+			// 식재료번호로 레시피재료테이블에서 레시피가져오기
 			List<RecipeIngredientVO> recipeIngredientList = dao
-					.searchRecipeIngredientListByIngredientNumber(ingredientNo);
+					.searchRecipeIngredientListByIngredientNumber(r.getIngredientNo());
+			//레시피번호로 레시피에서 레시피 가져오기
 			for (RecipeIngredientVO ri : recipeIngredientList) {
-				int recipeNo = ri.getRecipe_No();
-				RecipeVO recipe = dao.searchRecipeBySerialNumber(recipeNo);
-				recipe = searchRecipeByName(recipe.getName()); // 레시피 이름으로 레시피 찾기
+				RecipeVO recipe = dao.searchRecipeBySerialNumber(ri.getRecipe_No());
+//				recipe = searchRecipeByName(recipe.getName()); // 레시피 이름으로 레시피 찾기
 				recipeList.add(recipe);
 			}
 		}
-
 		recipeList = recipeList.stream().distinct().toList(); // 중복 제거
 
 		return recipeList;
+	}
+	
+	/**
+	 * 레시피가 보유한 레시피 재료들과 레시피 재료들과 일정수량 일치하는지 여부
+	 * @param recipe
+	 * @param ingredient
+	 * @param count 일치하는 수량
+	 * @return
+	 */
+	private boolean findRecipeBymatchingCount(RecipeVO recipe, List<RecipeIngredientVO> ingredient, int count) {
+
+		int matchCount = 0;
+		for (RecipeIngredientVO ri_1 : ingredient) {
+			for (RecipeIngredientVO ri_2 : recipe.getRecipeIngredientList()) {
+				if(ri_1.equals(ri_2)) matchCount++;
+			}
+			
+		}
+		System.out.println(matchCount);
+
+		return matchCount >= count;
 	}
 
 	@Override
@@ -167,5 +186,16 @@ public class RecipeServiceImpl implements RecipeService {
 
 		return result;
 	}
+
+	@Override
+	public RecipeVO recipeDetail(int recipeSerialNumber) {
+		RecipeVO result=null;
+		
+		result =dao.recipeDetail(recipeSerialNumber);
+		result = setIngredientToRecipe(result);
+		
+		return result;
+	}
+	
 
 }

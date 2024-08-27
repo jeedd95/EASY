@@ -53,4 +53,11 @@ public interface RecipeDAO {
 	 */
 	List<RefrigeratorVO> getRefrigeratorByIngredientNumber(int ingredientNumber);
 
+	/**
+	 * 레시피 상세보기
+	 * @param recipeSerialNumber 레시피일련번호
+	 * @return 레시피
+	 */
+	RecipeVO recipeDetail(int recipeSerialNumber);
+
 }
