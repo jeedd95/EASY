@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import exception.BoardException;
+import exception.SqlBoardException;
 import model.service.BoardService;
 import model.service.BoardServiceImpl;
 import model.vo.BoardVO;
@@ -19,49 +20,40 @@ public class BoardController {
 		try {
 			List<BoardVO> boardList = boardService.searchPostByName(name);
 			SuccessView.printPostByName(boardList);
-		}catch(Exception e){
-			FailView.printMessage(e.toString());
+		}catch(BoardException | SQLException e){
+			FailView.printMessage(e.getMessage());
 		}
+		
+		
 	}
 	public static void postBoard(BoardVO board) {
 		try {
 			boardService.postBoard(board);
 			System.out.println("작성 완료 ");
 
-		} catch (BoardException e) {
-			
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			FailView.printMessage(e.getMessage());
 		}
 	}
-	public static void postBoardByNo(int boardNo,String boardName) {
-		BoardVO board;
+	public static boolean postBoardByNo(int boardNo,String boardName) {
+		boolean findBoard=false;
 		try {
-			board = boardService.boardSelectByNo(boardNo,boardName);
+			BoardVO board = boardService.boardSelectByNo(boardNo,boardName);
 			SuccessView.printCommentByBoard(board);
+			return true;
+		} catch (BoardException | SQLException e) {
+			FailView.printMessage(e.getMessage());
 
-		} catch (BoardException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		return false;
 	}
 	public static void writeComment(CommentVO comment,String boardName) {
 		try {
 			boardService.writeComment(comment,boardName);
 			SuccessView.printMessage("댓글 작성 완료");
 
-		} catch (BoardException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			FailView.printMessage(e.getMessage());
 		}
 	}
 	
@@ -71,13 +63,10 @@ public class BoardController {
 			boardList = boardService.searchMyPost(memberNo);
 			SuccessView.printPostByMNo(boardList);
 
-		} catch (BoardException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			FailView.printMessage(e.getMessage());
 		}
+		
 
 		
 	}
@@ -89,12 +78,8 @@ public class BoardController {
 			commentList = boardService.searchMyComment(nickName);
 			SuccessView.printCommentByMNo(commentList);
 
-		} catch (BoardException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			FailView.printMessage(e.getMessage());
 		}
 	}
 	
@@ -103,12 +88,8 @@ public class BoardController {
 			boardService.deletePost(board);
 			SuccessView.printMessage("삭제 성공");
 
-		} catch (BoardException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			FailView.printMessage(e.toString());
 		}
 	}
 	
@@ -117,12 +98,8 @@ public class BoardController {
 			boardService.deleteComment(commentNo,NickName);
 			SuccessView.printMessage("삭제 성공");
 
-		} catch (BoardException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			FailView.printMessage(e.toString());
 		}
 
 	}

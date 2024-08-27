@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.lang.reflect.Constructor;
+import java.nio.file.spi.FileSystemProvider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,7 +42,6 @@ public class BoardDAOImpl implements  BoardDAO {
 		PreparedStatement ps =null;
 		
 		String sql = "insert into my_recipe_board values(board_seq.nextval,?,?,?,sysdate)";
-		System.out.println(sql);
 		try {
 			con=DbManager.getConnection();
 			ps=con.prepareStatement(sql);
@@ -106,7 +106,7 @@ public class BoardDAOImpl implements  BoardDAO {
 	 * Map 안에 Map 구조를 이룸 
 	 */
 	@Override
-	public Map<String, Map<String,Object>> searchMyComment(String nickName) {
+	public Map<String, Map<String,Object>> searchMyComment(String nickName) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -123,13 +123,12 @@ public class BoardDAOImpl implements  BoardDAO {
 			
 			while(rs.next()) {
 				String name = rs.getString(1);
-				System.out.println(name+"1");
 				commentList = commentFindByMNo(con,name,commentList,nickName);
 			}
 			
 						
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (SQLException e) {
+			throw new SQLException("댓글이 없습니다");
 		}
 		return commentList;
 	}
@@ -305,7 +304,7 @@ public class BoardDAOImpl implements  BoardDAO {
 	 * 댓글 작성 시작
 	 */
 	@Override
-	public int writeComment(CommentVO comment,String commentName) {
+	public int writeComment(CommentVO comment,String commentName) throws SQLException {
 		int result=0;
 		Connection con = null;
 		PreparedStatement ps =null;
@@ -330,56 +329,77 @@ public class BoardDAOImpl implements  BoardDAO {
 			
 			result = ps.executeUpdate();
 			
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new SQLException("평점은 1~5사이를 입력하세요");
 		}
 		
 		return result;
 	}
+	
+	/*
+	 * 보드 뷰
+	 */
+	public int	 createBoardView(Connection con) {
+		PreparedStatement ps = null;
+		int result = 0 ;
+		String sql ="CREATE OR REPLACE VIEW BOARD_VIEW as\r\n"
+				+ "select 'MY_RECIPE_BOARD' AS BOARD_TYPE, BOARD_NO\r\n"
+				+ "from MY_RECIPE_BOARD\r\n"
+				+ "union ALL\r\n"
+				+ "select 'RECIPE_REVIEW_BOARD' AS BOARD_TYPE, BOARD_NO\r\n"
+				+ "from RECIPE_REVIEW_BOARD;";
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			result = ps.executeUpdate();
+			
+			
+						
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+		finally {
+			DbManager.dbClose(ps);
+		}
+		return result;
+	}
+	
 	/*
 	 * 해당 게시판 출력 인데 name를 받아서 name에 해당하는 테이블 조회와
 	 * 클래스를 동적 할당하여 생성하여 출력한다.
 	 * 
 	 */
 	@Override
-	public List<BoardVO> searchPostByName(String name) {
+	public List<BoardVO> searchPostByName(String table) {
 
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from "+name+"_Board";
+		
 		//테이블 이름 갖고 온걸로 그 테이블 정보 검색
 		
 		
 		List<BoardVO> boardList = new ArrayList<BoardVO>();
 		try {
 			con=DbManager.getConnection();
+			
+            createBoardView(con);
+    		String sql = "select * from Board_VIEW where BOARD_TYPE = ?";
+
 			ps=con.prepareStatement(sql);
+			ps.setString(1, table+"_BOARD");
+			System.out.println(sql+ table+"_BOARD");
 			rs = ps.executeQuery();
-            
-            String[] boardName = name.split("_");
-			String className = "model.vo."+boardName[1]+"BoardVO"; // 전체 패키지 경로와 클래스 이름
 			
             while(rs.next()) {
 	        // 클래스를 로드하고 객체를 생성
-	        Class<?> clazz = Class.forName(className);
-	        int no = rs.getInt(1);
-	        int tableNo = rs.getInt(2);
-	        String title  = rs.getString(3);
-	        String content = rs.getString(4);
-	        String date = rs.getString(5);
+            String tableName  = rs.getString(1);
+            int boardNo = rs.getInt(2);
 	        
-	        //생성자에 넣을 필드 선언
-	        Object[] constructorArgs = { no,tableNo,title,content,date };
-            //클래스에 넣을 생성자 필드 타입 설정
-	        Class<?>[] paramTypes = { int.class, int.class, String.class, String.class, String.class };
-            
-            Constructor<?> constructor = clazz.getConstructor(paramTypes);
-	        
-            Object obj = constructor.newInstance(constructorArgs);
-            BoardVO board = (BoardVO)obj;
-            board.setComment(replyBoardByNo(con,no,name));;
-            boardList.add((BoardVO)obj);
+	       
+            BoardVO board = boardSelectByNo(boardNo, tableName);
+            boardList.add(board);
+            System.out.println(boardList.toString());
             }
 			
 		} catch (Exception e) {
@@ -408,6 +428,7 @@ public class BoardDAOImpl implements  BoardDAO {
 			con=DbManager.getConnection();
 			ps=con.prepareStatement(sql);
 			ps.setInt(1, boardNO);
+			System.out.println(sql);
 			rs = ps.executeQuery();
            
             if(rs.next()) {
@@ -448,7 +469,6 @@ public class BoardDAOImpl implements  BoardDAO {
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		System.out.println(commentName);
 		String sql = "select * from "+commentName+"_Comment where "+commentName+"_Board_NO = ?";
 		
 		List<CommentVO> comment = new ArrayList<CommentVO>();

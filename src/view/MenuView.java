@@ -303,7 +303,8 @@ public class MenuView {
 			case 2:
 				System.out.println("게시판 번호 입력 :");
 				int no = sc.nextInt();
-				BoardController.postBoardByNo(no,name);
+				if(!BoardController.postBoardByNo(no,name))
+					board(member);
 				System.out.println("1.댓글 작성");
 				System.out.println("2.뒤로 가기");
 				int menu = sc.nextInt();
@@ -315,13 +316,13 @@ public class MenuView {
 					int rating = sc.nextInt();
 					CommentVO comment =null;
 					if(name.equals("My_Recipe"))
-						comment = new RecipeCommentVO(commentContent, rating,"제육",no);
+						comment = new RecipeCommentVO(commentContent, rating,member.getMNickname(),no);
 					if(name.equals("Recipe_Review"))
-						comment = new ReviewCommentVO(commentContent, rating,"제육",no);
+						comment = new ReviewCommentVO(commentContent, rating,member.getMNickname(),no);
 					BoardController.writeComment(comment,name+"_Comment");
-					login(member);
+					board(member);
 				}else {
-					recipeBoard(num,member,name);
+					board(member);
 				}
 				break;
 				
