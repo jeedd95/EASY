@@ -1,8 +1,10 @@
 package view;
 
+import java.util.List;
 import java.util.Scanner;
 
 import controller.BoardController;
+import controller.RecipeController;
 import controller.MemberController;
 import controller.StatsController;
 import controller.WishListController;
@@ -11,6 +13,8 @@ import model.vo.CommentVO;
 import model.vo.MemberVO;
 import model.vo.RecipeBoardVO;
 import model.vo.RecipeCommentVO;
+import model.vo.RecipeIngredientVO;
+import model.vo.RecipeVO;
 import model.vo.ReviewCommentVO;
 import model.vo.WishListVO;
 
@@ -49,8 +53,8 @@ public class MenuView {
 //					break;
 //			case 3: MenuView.login();
 //					break;
-//			case 4: MenuView.login();
-//					break;
+			case 4: 레시피상세보기뷰();
+					break;
 			case 5: MenuView.wishList(member);
 				break;
 			case 6: board(member);
@@ -113,6 +117,67 @@ public class MenuView {
 	 * 현재 냉장고에 있는 식재료들 갯수 파악해서 레시피 재료와 충족 되면 list에 담아서
 	 * list 출력 후 클릭 하면 해당 식재료 뺴고 냉장고 상태 보여주기
 	 */
+	public static void 레시피상세보기뷰() {
+		System.out.println("=========레시피 추천받기===================");
+		System.out.println("1. 냉장고 기반으로 추천받기");
+		System.out.println("2. 사용 기반으로 추천받기");
+		System.out.println("=======================================");
+
+		int choice = sc.nextInt();
+
+		switch (choice) {
+		case 1:
+			냉장고기반으로추천받기();
+			break;
+		case 2:
+			사용기반으로추천받기();
+			break;
+		default:
+		}
+	}
+	
+	public static void 냉장고기반으로추천받기() {
+		System.out.println("냉장고 기반으로 추천 받기 메뉴에 들어오셨습니다");
+		System.out.println("현재 냉장고의 재료를 확인 중 입니다... 잠시만 기다려주세요");
+		
+		//현재 로그인한 회원의 회원번호 가져오기
+		List<RecipeVO> recipeList =  RecipeController.recommendRecipeByRefrigerator(3);
+		
+		System.out.println("냉장고에 있는 재료들로 만들 수 있는 레시피는 아래와 같습니다");
+		for (RecipeVO recipe : recipeList) {
+			System.out.println("▶▶ "+recipe.getName() + "\s");
+			for (RecipeIngredientVO ri : recipe.getRecipeIngredientList()) {
+				//이 목록들 중에서 내가 무엇을 가지고 있는지 표시 필요
+				//식재료 일련번호로 검색해서 냉장고 객체 리턴 -> 요청
+				System.out.print("▶ " + ri.getIngredientName() + "\s");
+			}
+			System.out.println();
+			System.out.println();
+		}
+		System.out.println("아무 입력으로 뒤로 갑니다");
+		sc.next();
+		레시피상세보기뷰();
+		
+	}
+	
+	public static void 사용기반으로추천받기() {
+		System.out.println("회원의 사용기반으로 추천 받기 메뉴에 들어오셨습니다");
+		System.out.println("통계를 확인 중 입니다... 잠시만 기다려주세요");
+		
+		//3대신 현재 회원 받기
+		List<RecipeVO> recipeList = RecipeController.recommendRecipeByMemberUsed(3);
+		
+//		System.out.println(recipeList);
+		
+//		System.out.println("가장 많이 사용한 재료로 만들 수 있는 레시피는 아래와 같습니다");
+//		for(int i=0; i<3; i++) {
+//			System.out.print(i + " 위 : ");
+//			System.out.println("(식재료명)");
+//			System.out.println("▶▶ "+"레시피");
+//			System.out.println();
+//		}
+		
+	}
 	
 	
 	/* 

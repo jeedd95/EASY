@@ -4,13 +4,14 @@ import java.util.List;
 
 import exception.InputFormatException;
 import model.vo.RecipeVO;
+import model.vo.StatsVO;
 
 public interface RecipeService {
 	
 	/**
 	 * 사용 기반 레시피 추천받기
 	 */
-	List<RecipeVO> recommendRecipeByMemberUsed(int memberNo) throws InputFormatException;
+	List<StatsVO> recommendRecipeByMemberUsed(int memberNo) throws InputFormatException;
 	
 	/**
 	 * 냉장고 기반 레시피 추천받기
@@ -26,4 +27,8 @@ public interface RecipeService {
 	 * 레시피 바로 만들기
 	 */
 	int makeRecipe(RecipeVO recipeVo);
+	
+	/**
+	 *
+	 */
 }
