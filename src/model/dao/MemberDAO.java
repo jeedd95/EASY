@@ -22,8 +22,9 @@ public interface MemberDAO {
 	/**
 	 * 회원탈퇴
 	 */
-	int removeMember(String pw);
 
 	boolean checkNickNameDuplicate(String nickName);
+
+	int removeMember(MemberVO member);
 	
 }
