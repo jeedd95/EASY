@@ -10,6 +10,7 @@ import model.vo.CommentVO;
 import model.vo.MemberVO;
 import model.vo.RecipeBoardVO;
 import model.vo.RecipeCommentVO;
+import model.vo.ReviewCommentVO;
 import model.vo.WishListVO;
 
 public class MenuView {
@@ -336,8 +337,8 @@ public class MenuView {
 				BoardController.searchMyPost(1);
 				System.out.println("1.삭제하기");
 				System.out.println("2.이전으로");
-				int selectNum = sc.nextInt();
-				if(selectNum==1) {
+				int selectPost = sc.nextInt();
+				if(selectPost==1) {
 					System.out.println("삭제할 게시물 번호 고르세요");
 					int boardNo = sc.nextInt();
 					System.out.println("비번을 입력하세요");
@@ -354,9 +355,30 @@ public class MenuView {
 				}
 				else
 					myPage(member);
-				
+				break;
 			case 2:
+				//BoardController.searchMyComment(member.getMNickeName());
 				BoardController.searchMyComment("제육");
+				System.out.println("1.삭제하기");
+				System.out.println("2.이전으로");
+				int selectComment = sc.nextInt();
+				if(selectComment==1) {
+					System.out.println("삭제할 댓글 번호 고르세요");
+					int commentNo = sc.nextInt();
+					System.out.println("비번을 입력하세요");
+					String pw = sc.next();
+					String a ="1234";
+					if(a.equals(pw)) {//member.getPw.equals(pw)
+						//CommentVO comment = new ReviewCommentVO(member.getMNickeName());
+						BoardController.deleteMyComment(commentNo,"제육");
+					}
+					else
+						System.out.println("비번이 틀립니다");
+				}
+				else
+					myPage(member);
+				
+				
 			case 3:
 		
 			default:

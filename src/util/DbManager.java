@@ -35,13 +35,22 @@ public class DbManager {
 		 * */
 		 public static void dbClose(Connection con, Statement st) {
 			 try {
-				 if(st != null) st.close();
 				 if(con!=null) con.close();
+				 dbClose(st);
 			 }catch (SQLException e) {
 				 e.printStackTrace();
 			 }
 		 }
 		
+		 public static void dbClose(Statement st) {
+			 try {
+				 if(st != null) st.close();
+			 }catch (SQLException e) {
+				 e.printStackTrace();
+			 }
+		 }
+		
+		 
 		/**
 		 * 닫기(select인 경우 ) 
 		 * */
@@ -52,6 +61,14 @@ public class DbManager {
 	    	 }catch (SQLException e) {
 				e.printStackTrace();
 			}
+		 }
+	     public static void dbClose(Statement st , ResultSet rs) {
+	    	 try {
+				 if(rs!=null)rs.close();
+		    	 	dbClose(st);
+		    	 }catch (SQLException e) {
+					e.printStackTrace();
+				}
 		 }
 
 	}
