@@ -4,11 +4,13 @@ import java.lang.reflect.Constructor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import exception.SqlBoardException;
 import model.vo.BoardVO;
 import model.vo.CommentVO;
 import model.vo.RecipeBoardVO;
@@ -33,7 +35,7 @@ public class BoardDAOImpl implements  BoardDAO {
 	 * 유저는 내 레시피 게시판 밖에 못함
 	 */
 	@Override
-	public int postBoard(BoardVO board) {
+	public int postBoard(BoardVO board) throws SQLException{
 		int result=0;
 		Connection con = null;
 		PreparedStatement ps =null;
@@ -59,9 +61,9 @@ public class BoardDAOImpl implements  BoardDAO {
 			}
 			*/
 			result = ps.executeUpdate();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+		}
+		finally {
+			DbManager.dbClose(con,ps);
 		}
 		
 		return result;

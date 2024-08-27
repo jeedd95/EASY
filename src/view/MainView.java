@@ -45,8 +45,7 @@ public class MainView {
 					
 					break;
 					
-			case 2: MenuView.register();
-			
+			case 2: 
 					while(true) {
 						System.out.println("아이디 입력하세요");
 						id = sc.next();

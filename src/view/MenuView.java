@@ -61,8 +61,8 @@ public class MenuView {
 				break;
 			case 7: MenuView.stats(member);
 				break;
-//			case 8: MenuView.login();
-//				break;
+			case 8: MenuView.logOut();
+				break;
 			case 9:
 					System.exit(0);
 					break;
@@ -82,9 +82,8 @@ public class MenuView {
 	/*
 	 * 회원가입 화면
 	 */
-	public static void register() {
-		System.out.println("z");
-
+	public static void logOut() {
+		MainView.LoginMenu();
 	}
 	
 	/*

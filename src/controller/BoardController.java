@@ -7,15 +7,19 @@ import model.service.BoardService;
 import model.service.BoardServiceImpl;
 import model.vo.BoardVO;
 import model.vo.CommentVO;
+import view.FailView;
 import view.SuccessView;
 
 public class BoardController {
 	private static BoardService boardService = BoardServiceImpl.getInstance();
 	
 	public static void selectBoard(String name) {
-		List<BoardVO> boardList = boardService.searchPostByName(name);
-		SuccessView.printPostByName(boardList);
-		
+		try {
+			List<BoardVO> boardList = boardService.searchPostByName(name);
+			SuccessView.printPostByName(boardList);
+		}catch(Exception e){
+			FailView.printMessage(e.toString());
+		}
 	}
 	public static void postBoard(BoardVO board) {
 		boardService.postBoard(board);
