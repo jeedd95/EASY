@@ -14,11 +14,16 @@ public class MemberVO {
     
     public MemberVO() {}
 
-    
-    public MemberVO(int mNo, String mId, String mPw, String mName, String mNickname, String mGender, Date joinDate) {
-        this.mNo = mNo;
+
+    public MemberVO(String mId, String mPw) {
         this.mId = mId;
         this.mPw = mPw;
+ 
+    }
+    
+    public MemberVO(int mNo, String mId, String mPw, String mName, String mNickname, String mGender, Date joinDate) {
+        this(mId,mPw);
+    	this.mNo = mNo;
         this.mName = mName;
         this.mNickname = mNickname;
         this.mGender = mGender;

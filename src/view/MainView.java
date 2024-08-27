@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+import controller.MemberController;
 import model.vo.MemberVO;
 
 /**
@@ -27,11 +28,17 @@ public class MainView {
 		while(true) {
 			System.out.println("1. 로그인 ");
 			System.out.println("2. 회원가입 ");
-			MemberVO member = new MemberVO();
 			int menu = sc.nextInt();
 			
 			switch(menu){
-			case 1: MenuView.login(member);
+			case 1: 
+					System.out.println("ID를 입력하세요.");
+					String id = sc.next();
+					System.out.println("PW를 입력하세요");
+					String pw = sc.next();
+					MemberVO member = new MemberVO(id,pw);
+					MemberController.login(member);
+					MenuView.login(member);
 					break;
 					
 			case 2: MenuView.register();

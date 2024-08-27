@@ -5,6 +5,7 @@ import java.util.Map;
 
 import model.vo.BoardVO;
 import model.vo.CommentVO;
+import model.vo.MemberVO;
 import model.vo.StatsVO;
 import model.vo.WishListVO;
 
@@ -74,6 +75,9 @@ public class SuccessView {
 		}
 		
 		
+	}
+	public static void printMember(MemberVO member) {
+		System.out.println(member.getMNickname()+"님 환영합니다");
 	}
 	
 }

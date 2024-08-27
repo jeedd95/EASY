@@ -1,5 +1,7 @@
 package view;
 
+import model.vo.MemberVO;
+
 public class RefrigeratorView {
 	private StringBuffer map[] = new StringBuffer[25];	
 	private static RefrigeratorView refri = new RefrigeratorView();
@@ -8,8 +10,8 @@ public class RefrigeratorView {
 		return refri;
 	}
 	
-	public void DrawMap(String id) {
-		map[0]=new StringBuffer("            E.A.S.Y 고객님 아이디 :" +id);
+	public void DrawMap(MemberVO member) {
+		map[0]=new StringBuffer("            E.A.S.Y :" +member.getMNickname());
 		map[1]=new StringBuffer("  ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐");
 		for(int i = 2; i < 22; i++) {
 			if(i%2 != 0)
