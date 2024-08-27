@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Scanner;
 
 import exception.InputFormatException;
 import exception.ListNotFoundException;
@@ -17,14 +18,14 @@ public class WishListController {
 	public static void addWishList(WishListVO wishList) {
 		try {
 			wls.addWishList(wishList);
-			SuccessView.printmessage( wishList.getIngredientNo() + "번 찜목록에 추가 성공");
+			SuccessView.printmessage(wishList.getIngredientNo() + "번 찜목록에 추가 성공");
 
-		} catch (InputFormatException e) {
+		} catch (ListNotFoundException | InputFormatException e) {
 			// e.printStackTrace();
 			FailView.printMessage(e.getMessage());
-			
+
 		}
-		
+
 	}
 
 	// 제거
@@ -32,8 +33,8 @@ public class WishListController {
 		try {
 			wls.removeWishList(wishList);
 			SuccessView.printmessage(wishList.getIngredientNo() + "번 찜목록에서 삭제 성공");
-			
-		} catch (InputFormatException e) {
+
+		} catch (ListNotFoundException | InputFormatException e) {
 			FailView.printMessage(e.getMessage());
 			// e.printStackTrace();
 		}
@@ -45,10 +46,10 @@ public class WishListController {
 			List<WishListVO> list = wls.searchWishList(memberNo);
 			List<String> ingredientNamelist = wls.searchByIngredientNo(list);
 			SuccessView.printWishList(list, ingredientNamelist);
-			
+
 		} catch (ListNotFoundException | InputFormatException e) {
 			FailView.printMessage(e.getMessage());
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 	}

@@ -202,16 +202,14 @@ public class MenuView {
 	 */
 	public static void wishList(MemberVO member) { //조회, 추가, 제거
 		System.out.println();
-		System.out.println("=========<찜 목록>=========");
-		System.out.println(member);
-		System.out.println("멤버번호" + member.getMNo());
+		System.out.println("====<'" + member.getMName() + "'님의 찜 목록>====");
 		WishListController.searchWishList(member.getMNo()); //조회
-		System.out.println();
+		System.out.println("\n");
 		
-		System.out.println("------------------------------");
+		System.out.println("---------------------------");
 		System.out.println(" 1.추가 |  2.제거 |  3.뒤로가기 ");
-		System.out.println("------------------------------");
-		System.out.println("선택 > ");
+		System.out.println("---------------------------");
+		System.out.print("선택 > ");
 		
 		int botton = Integer.parseInt(sc.next());
 		
@@ -239,15 +237,16 @@ public class MenuView {
 		System.out.println("보관 유지 수량 입력 > ");
 		int amount = Integer.parseInt(sc.next());
 		//★★ 추후 수정 필요(시퀀스, 식재료 번호 연동)
-		WishListVO wl = new WishListVO(1, memberNo, 27, amount);
+		WishListVO wl = new WishListVO(10, memberNo, 27, amount);
 		WishListController.addWishList(wl);
+		
 		
 	}
 	
 	public static void removeWishList(int memberNo) {
 		//ingredientVO 만들어서 가져오는 메소드 호출 (일단 27로 셋팅)
 		//★★ 추후 수정 필요(시퀀스, 식재료 번호 연동)
-		WishListVO wl = new WishListVO(0, memberNo, 27);
+		WishListVO wl = new WishListVO(memberNo, 27);
 		WishListController.removeWishList(wl);
 	}
 	
@@ -386,7 +385,7 @@ public class MenuView {
 				MenuView.login(member); //뒤로가기
 				break;
 			default: {
-				System.out.println("1, 2, 3번만 입력해주세요.");
+				System.out.println("1, 2, 3, 4, 5번만 입력해주세요.");
 				MenuView.stats(member);
 			}
 			

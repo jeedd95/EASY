@@ -18,8 +18,7 @@ public class WishListDAOImpl implements WishListDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = "insert into wishlist values (1, ? , ? , ?)";
-		System.out.println(wishList);
+		String sql = "insert into wishlist values (11, ? , ? , ?)";
 		
 		try {
 			con = DbManager.getConnection();
@@ -45,13 +44,14 @@ public class WishListDAOImpl implements WishListDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = "delete from wishlist where ingredient_no = ?";
+		String sql = "delete from wishlist where M_no = ? and ingredient_no = ?";
 
 		try {
 
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, wishList.getIngredientNo());
+			ps.setInt(1, wishList.getMemberNo());
+			ps.setInt(2, wishList.getIngredientNo());
 			result = ps.executeUpdate();
 
 		} catch (SQLException e) {
@@ -71,16 +71,16 @@ public class WishListDAOImpl implements WishListDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<WishListVO> list = new ArrayList<WishListVO>();
-		String sql = "select* from wishlist where M_NO = ?";
+		String sql = "select ingredient_no, sum(amount) from wishlist where M_No=? "
+				+ "group by ingredient_no order by sum(amount) desc";
 
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, memberNo);
-			System.out.println("멤버번호" + memberNo);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				WishListVO wishlist = new WishListVO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));
+				WishListVO wishlist = new WishListVO(memberNo, rs.getInt(1), rs.getInt(2));
 				list.add(wishlist);
 			}
 

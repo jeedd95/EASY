@@ -19,7 +19,7 @@ public class StatsDAOImpl implements StatsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<StatsVO> list = new ArrayList<StatsVO>();
-		String sql = "select * from stats where M_NO = ? order by  amount desc, usedate";
+		String sql = "select * from stats where M_NO = ? order by  amount desc";
 		
 		try {
 			con = DbManager.getConnection();
@@ -49,7 +49,7 @@ public class StatsDAOImpl implements StatsDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<StatsVO> list = new ArrayList<StatsVO>();
-		String Sql = "select * from stats where M_NO in (select m_no from member where M_GENDER=?)";
+		String Sql = "select * from stats where M_NO in (select m_no from member where M_GENDER=?) order by  amount desc";
 		
 		try {
 			

@@ -21,11 +21,10 @@ public class StatsServiceImpl implements StatsService {
 	}
 
 	@Override
-	public List<StatsVO> searchIngredientStatsByGender(String gender)
-			throws InputFormatException, ListNotFoundException {
+	public List<StatsVO> searchIngredientStatsByGender(String gender) throws InputFormatException, ListNotFoundException {
 		List<StatsVO> list = stsdao.searchIngredientStatsByGender(gender);
 		if (list.isEmpty())
-			throw new ListNotFoundException("성별(\" + gender + \") 현황 조회 실패 : 사용 내역이 없습니다");
+			throw new ListNotFoundException("성별(" + gender + ") 현황 조회 실패 : 사용 내역이 없습니다");
 		return list;
 	}
 

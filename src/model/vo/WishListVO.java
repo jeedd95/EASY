@@ -12,15 +12,19 @@ public class WishListVO {
 	
 	public WishListVO() {} //기본 생성자
 
-	public WishListVO (int wishListNo, int memberNo, int ingredientNo) { //삭제 시 필요한 생성자
-		this.wishListNo = wishListNo;
+	public WishListVO (int memberNo, int ingredientNo) { //삭제 시 필요한 생성자
 		this.memberNo = memberNo;
 		this.ingredientNo = ingredientNo;
 	}
 	
-	public WishListVO(int wishListNo, int memberNo, int ingredientNo, int amount) { //추가 시 필요한 생성자
-		this(wishListNo, memberNo, ingredientNo);
+	public WishListVO(int memberNo, int ingredientNo, int amount) { //조회 시 필요한 생성자
+		this(memberNo, ingredientNo);
 		this.amount = amount;
+	}
+	
+	public WishListVO(int wishListNo, int memberNo, int ingredientNo, int amount) { //추가 시 필요한 생성자
+		this(memberNo, ingredientNo, amount);
+		this.wishListNo = wishListNo;
 	}
 	
 	public int getWishListNo() {
