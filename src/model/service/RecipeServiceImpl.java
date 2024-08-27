@@ -22,35 +22,48 @@ public class RecipeServiceImpl implements RecipeService {
 	RecipeDAO dao = new RecipeDAOImpl();
 
 	@Override
-	public List<RecipeVO> recommendRecipeByMemberUsed(int memberNo) throws InputFormatException {
-		StatsVO first;
-		StatsVO second;
-		StatsVO third;
-
+	public List<StatsVO> recommendRecipeByMemberUsed(int memberNo) throws InputFormatException {
 		StatsDAO statsDao = new StatsDAOImpl();
-		List<RecipeVO> recipeList = new ArrayList<RecipeVO>();
+		List<StatsVO> statsList = new ArrayList<StatsVO>();
 
 		// 회원번호로 통계 테이블에서 가진 통계 리스트들 가져오기
-		List<StatsVO> statsList = statsDao.searchIngredientStatsByMine(memberNo);
+		statsList = statsDao.searchIngredientStatsByMine(memberNo);
 		
-		Map<Integer,Integer> ingredientAmount = new HashMap<Integer, Integer>();
+		Map<Integer,Integer> ingredientAmount = new HashMap<Integer, Integer>(); //재료번호당 재료사용갯수
 		for (StatsVO s : statsList) {
 			System.out.println(s.getIngredientNo()+ " / " +s.getAmount());
-			ingredientAmount.put(s.getIngredientNo(), s.getAmount());
+			if(ingredientAmount.get(s.getIngredientNo())==null) { //기존 재료 번호가 없다면
+				ingredientAmount.put(s.getIngredientNo(), s.getAmount());
+			}
+			else {
+				ingredientAmount.put(s.getIngredientNo(), ingredientAmount.get(s.getIngredientNo())+s.getAmount());
+			}
 		}
-		
+		System.out.println();
 		List<Integer> keyList = new ArrayList<Integer>(ingredientAmount.keySet());
-		Collections.sort(keyList, (v1, v2) -> (ingredientAmount.get(v2).compareTo(ingredientAmount.get(v1))));
-		
+		Collections.sort(keyList, (v1, v2) -> (ingredientAmount.get(v2).compareTo(ingredientAmount.get(v1)))); //내림차순으로 정렬
 		for (Integer i : keyList) {
 			System.out.println(i + " : " + ingredientAmount.get(i));
 		}
+			
+//			StatsVO stats =  new StatsVO();
+//			stats.setIngredientNo(i);
+//			stats.setAmount(ingredientAmount.get(i));
+//			
+//			statsList.add(stats);
 		
-//		List<Integer> valueList = ingredientAmount.values().stream().toList();
-//		System.out.println(keyList);
-//		System.out.println(valueList);
 		
-
+		
+		//얻은 것 : 식재료번호 + 수량
+		//수량은 그냥 출력해주면 되고
+		//식재료 번호로 식재료명 가져오기
+		//
+//		StatsVO 
+		
+//		dao.searchIngredientName(memberNo);
+		
+		
+//		List<RecipeVO> recipeList = new ArrayList<RecipeVO>();
 //		for (StatsVO s : statsList) {
 //			int ingredientNo = s.getIngredientNo(); //식재료 번호
 //			
@@ -67,10 +80,13 @@ public class RecipeServiceImpl implements RecipeService {
 //				recipeList.add(recipe);
 //			}
 //		}
+//
+//		recipeList = recipeList.stream().distinct().toList(); // 중복 제거
+//		for (RecipeVO r : recipeList) {
+//			System.out.println("중복제거된 내가 가진 식재료로 한개로 연관된 모든 레시피 : "+r.getName());
+//		}
 
-		recipeList = recipeList.stream().distinct().toList(); // 중복 제거
-
-		return recipeList;
+		return statsList;
 	}
 
 	@Override

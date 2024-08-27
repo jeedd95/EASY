@@ -7,11 +7,12 @@ import model.service.RecipeService;
 import model.service.RecipeServiceImpl;
 import model.vo.RecipeVO;
 import model.vo.RefrigeratorVO;
+import model.vo.StatsVO;
 
 public class RecipeController {
-	RecipeService service = new RecipeServiceImpl();
+	static RecipeService service = new RecipeServiceImpl();
 	
-	public RecipeVO  searchRecipeByName(String recipeName) {
+	public static RecipeVO  searchRecipeByName(String recipeName) {
 		RecipeVO recipe=null;
 		
 		recipe = service.searchRecipeByName(recipeName);
@@ -19,7 +20,7 @@ public class RecipeController {
 		return recipe;
 	}
 	
-	public List<RecipeVO> recommendRecipeByRefrigerator(int memberNo){
+	public static List<RecipeVO> recommendRecipeByRefrigerator(int memberNo){
 		List<RecipeVO> list = null;
 		
 		list = service.recommendRecipeByRefrigerator(memberNo); //레시피에서 내가 재료를 하나라도 가지고 있는 리스트
@@ -28,11 +29,16 @@ public class RecipeController {
 	}
 	
 	
-	public List<RecipeVO> recommendRecipeByMemberUsed(int memberNo){
+	public static List<RecipeVO> recommendRecipeByMemberUsed(int memberNo){
 		List<RecipeVO> list = null;
 		
 		try {
-			list = service.recommendRecipeByMemberUsed(memberNo);
+			List<StatsVO> statsList = service.recommendRecipeByMemberUsed(memberNo);
+			for (StatsVO statsVO : statsList) {
+				System.out.println("재료 번호" + statsVO.getIngredientNo());
+				System.out.println("양 "+statsVO.getAmount());
+			}
+			//받은 
 		} catch (InputFormatException e) {
 			e.printStackTrace();
 		}
@@ -40,7 +46,7 @@ public class RecipeController {
 		return list;
 	}
 	
-	public int makeRecipe(RecipeVO recipeVo) {
+	public static int makeRecipe(RecipeVO recipeVo) {
 		int result=0;
 		
 		result = service.makeRecipe(recipeVo);
