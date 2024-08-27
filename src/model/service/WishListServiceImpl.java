@@ -32,7 +32,19 @@ public class WishListServiceImpl implements WishListService {
 		List<WishListVO> list = wldao.searchWishList(memberNo);
 		if (list.isEmpty())
 			throw new ListNotFoundException("찜목록 조회 실패 : 생성된 찜목록이 없습니다.");
+
 		return list;
 	}
+	
+	@Override
+	public List<String> searchByIngredientNo(List<WishListVO> list) throws InputFormatException, ListNotFoundException {
+		List<String> ingredientName = wldao.searchByIngredientNo(list);
+		if(ingredientName.isEmpty())
+			throw new ListNotFoundException("찜목록-식재료명 조회 실패 : 생성된 찜목록이 없습니다.");
+		return ingredientName;
+	}
 
+	
+	
+	
 }

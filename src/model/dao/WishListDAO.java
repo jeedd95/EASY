@@ -1,6 +1,5 @@
 package model.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import exception.InputFormatException;
@@ -23,5 +22,9 @@ public interface WishListDAO {
 	 */
 	List<WishListVO> searchWishList(int memberNo) throws InputFormatException;
 	
+	/**
+	 * 조회된 찜목록의 식재료 번호로 식재료 이름 조회
+	 */
+	List<String> searchByIngredientNo(List<WishListVO> list) throws InputFormatException;
 	
 }

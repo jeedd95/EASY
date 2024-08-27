@@ -1,6 +1,7 @@
 package model.vo;
 
 import java.util.List;
+import java.util.Map;
 
 public class WishListVO {
 	private int wishListNo; //PK
@@ -66,12 +67,28 @@ public class WishListVO {
 		builder.append(", 식자재 번호: ");
 		builder.append(ingredientNo);
 		builder.append(" | ");
-		builder.append(", 수량: ");
+		builder.append(", 관리 수량: ");
 		builder.append(amount);
 		builder.append("]");
 		return builder.toString();
 	}
-
+	
+	public String toString(String ingredientName) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("[찜번호: ");
+		builder.append(wishListNo);
+		builder.append(" | ");
+		builder.append(", 회원번호: ");
+		builder.append(memberNo);
+		builder.append(" | ");
+		builder.append(", 식자재 이름: ");
+		builder.append(ingredientName + "\t");
+		builder.append(" | ");
+		builder.append(", 관리 수량: ");
+		builder.append(amount);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 	
 }

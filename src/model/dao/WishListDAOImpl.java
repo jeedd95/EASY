@@ -14,12 +14,12 @@ import util.DbManager;
 public class WishListDAOImpl implements WishListDAO {
 
 	@Override
-	public int addWishList(WishListVO wishList) throws InputFormatException{
+	public int addWishList(WishListVO wishList) throws InputFormatException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
 		String sql = "insert into wishlist values (8, ? , ? , ?)";
-		
+
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
@@ -27,15 +27,15 @@ public class WishListDAOImpl implements WishListDAO {
 			ps.setInt(2, wishList.getIngredientNo());
 			ps.setInt(3, wishList.getAmount());
 			result = ps.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			throw new InputFormatException("찜목록 추가 중 DB에러 발생하였습니다. 다시 시도해주세요");
-			//e.printStackTrace();
-			
+			// e.printStackTrace();
+
 		} finally {
 			DbManager.dbClose(con, ps);
 		}
-		
+
 		return result;
 	}
 
@@ -45,52 +45,107 @@ public class WishListDAOImpl implements WishListDAO {
 		PreparedStatement ps = null;
 		int result = 0;
 		String sql = "delete from wishlist where ingredient_no = ?";
-			
+
 		try {
-			
+
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, wishList.getIngredientNo());
 			result = ps.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			throw new InputFormatException("찜목록 삭제 중 DB에러 발생하였습니다. 다시 시도해주세요");
-			//e.printStackTrace();
-		
+			// e.printStackTrace();
+
 		} finally {
 			DbManager.dbClose(con, ps);
 		}
-				
+
 		return result;
 	}
 
 	@Override
-	public List<WishListVO> searchWishList(int memberNo) throws InputFormatException{
+	public List<WishListVO> searchWishList(int memberNo) throws InputFormatException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<WishListVO> list = new ArrayList<WishListVO>();
 		String sql = "select* from wishlist where M_NO = ?";
-		
+
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, memberNo);
 			rs = ps.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				WishListVO wishlist = new WishListVO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));
 				list.add(wishlist);
 			}
-			
+
 		} catch (SQLException e) {
 			throw new InputFormatException("찜목록 조회 중 DB에러 발생하였습니다. 다시 시도해주세요");
 		}
-		
+
 		finally {
 			DbManager.dbClose(con, ps, rs);
 		}
-		
+
 		return list;
+	}
+
+	@Override
+	public List<String> searchByIngredientNo(List<WishListVO> list) throws InputFormatException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<String> ingredientName = new ArrayList<String>();
+		String sql = "select Ingredient_name from ingredient where ingredient_no = ?";
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			
+			for( WishListVO wishlist : list) {
+				ps.setInt(1, wishlist.getIngredientNo());
+				rs = ps.executeQuery();
+				
+					while(rs.next()) {
+						ingredientName.add(rs.getString(1));
+					}
+			}
+			
+			
+			
+			
+			
+			
+			
+//			for (int i = 0; i <= list.size(); i++) {
+//
+//				WishListVO wishlist = list.get(3);
+//				ps.setInt(1, wishlist.getIngredientNo());
+//				//System.out.println(wishlist.getIngredientNo());
+//
+//				rs = ps.executeQuery();
+//
+//				while (rs.next()) {
+//					//System.out.println(rs.getString(1));
+//					ingredientName.add(rs.getString(1));
+//				}
+//
+//				ps.clearParameters();
+//
+//			} // forEnd
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new InputFormatException("찜목록-식재료명 조회 중 DB에러 발생하였습니다. 다시 시도해주세요");
+
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+
+		return ingredientName;
 	}
 
 }

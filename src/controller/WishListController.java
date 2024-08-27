@@ -40,11 +40,10 @@ public class WishListController {
 
 	// 조회
 	public static void searchWishList(int memberNo) {
-		List<WishListVO> list = null;
-
 		try {
-			list = wls.searchWishList(memberNo);
-			SuccessView.printWishList(list);
+			List<WishListVO> list = wls.searchWishList(memberNo);
+			List<String> ingredientNamelist = wls.searchByIngredientNo(list);
+			SuccessView.printWishList(list, ingredientNamelist);
 			
 		} catch (ListNotFoundException | InputFormatException e) {
 			FailView.printMessage(e.getMessage());

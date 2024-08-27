@@ -23,5 +23,9 @@ public interface WishListService {
 	 */
 	List<WishListVO> searchWishList(int memberNo) throws InputFormatException, ListNotFoundException;
 	
+	/**
+	 * 조회된 찜목록의 식재료 번호로 식재료 이름 조회
+	 */
+	List<String> searchByIngredientNo(List<WishListVO> list) throws InputFormatException, ListNotFoundException;
 	
 }
