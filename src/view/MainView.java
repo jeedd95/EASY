@@ -15,7 +15,7 @@ public class MainView {
 	 * 시작 화면
 	 */
 	public static void LoginMenu() {
-		System.out.println("====================================================");
+		System.out.print("====================================================");
 		System.out.println("\r\n"
 				+ " _____   ___   _____ __   __\r\n"
 				+ "|  ___| / _ \\ /  ___|\\ \\ / /\r\n"
