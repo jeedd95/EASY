@@ -28,41 +28,39 @@ public class RecipeServiceImpl implements RecipeService {
 
 		// 회원번호로 통계 테이블에서 가진 통계 리스트들 가져오기
 		statsList = statsDao.searchIngredientStatsByMine(memberNo);
-		
-		Map<Integer,Integer> ingredientAmount = new HashMap<Integer, Integer>(); //재료번호당 재료사용갯수
+
+		Map<Integer, Integer> ingredientAmount = new HashMap<Integer, Integer>(); // 재료번호당 재료사용갯수
 		for (StatsVO s : statsList) {
-			System.out.println(s.getIngredientNo()+ " / " +s.getAmount());
-			if(ingredientAmount.get(s.getIngredientNo())==null) { //기존 재료 번호가 없다면
+//			System.out.println(s.getIngredientNo()+ " / " +s.getAmount());
+			if (ingredientAmount.get(s.getIngredientNo()) == null) { // 기존 재료 번호가 없다면
 				ingredientAmount.put(s.getIngredientNo(), s.getAmount());
-			}
-			else {
-				ingredientAmount.put(s.getIngredientNo(), ingredientAmount.get(s.getIngredientNo())+s.getAmount());
+			} else {
+				ingredientAmount.put(s.getIngredientNo(), ingredientAmount.get(s.getIngredientNo()) + s.getAmount());
 			}
 		}
-		System.out.println();
+//		System.out.println("!!! " + ingredientAmount);
+
+		// 중복을 없애준 것을 기반으로 리턴할 StatsVO리스트
+		List<StatsVO> resultStats = new ArrayList<StatsVO>();
 		List<Integer> keyList = new ArrayList<Integer>(ingredientAmount.keySet());
-		Collections.sort(keyList, (v1, v2) -> (ingredientAmount.get(v2).compareTo(ingredientAmount.get(v1)))); //내림차순으로 정렬
+		Collections.sort(keyList, (v1, v2) -> (ingredientAmount.get(v2).compareTo(ingredientAmount.get(v1)))); // 내림차순으로
+																												// 정렬
 		for (Integer i : keyList) {
-			System.out.println(i + " : " + ingredientAmount.get(i));
+//			System.out.println(i + " : " + ingredientAmount.get(i));
+			StatsVO stats = new StatsVO();
+			stats.setIngredientNo(i);
+			stats.setAmount(ingredientAmount.get(i));
+			resultStats.add(stats);
 		}
-			
-//			StatsVO stats =  new StatsVO();
-//			stats.setIngredientNo(i);
-//			stats.setAmount(ingredientAmount.get(i));
-//			
-//			statsList.add(stats);
-		
-		
-		
-		//얻은 것 : 식재료번호 + 수량
-		//수량은 그냥 출력해주면 되고
-		//식재료 번호로 식재료명 가져오기
+
+		// 얻은 것 : 식재료번호 + 수량
+		// 수량은 그냥 출력해주면 되고
+		// 식재료 번호로 식재료명 가져오기
 		//
 //		StatsVO 
-		
+
 //		dao.searchIngredientName(memberNo);
-		
-		
+
 //		List<RecipeVO> recipeList = new ArrayList<RecipeVO>();
 //		for (StatsVO s : statsList) {
 //			int ingredientNo = s.getIngredientNo(); //식재료 번호
@@ -86,7 +84,7 @@ public class RecipeServiceImpl implements RecipeService {
 //			System.out.println("중복제거된 내가 가진 식재료로 한개로 연관된 모든 레시피 : "+r.getName());
 //		}
 
-		return statsList;
+		return resultStats;
 	}
 
 	@Override
@@ -95,13 +93,13 @@ public class RecipeServiceImpl implements RecipeService {
 		List<RecipeVO> recipeList = new ArrayList<RecipeVO>();
 
 		// 회원번호로 냉장고현황 테이블에서 가진 식재료 리스트들 가져오기
-		List<RefrigeratorVO> refrigeratorList = refrigeratorDao.searchIngredientByMemberNo(memberNo);//7,8,9,10,7
-		//	레시피에서 일련번호와 일치하는 레시피 가져오기(중복제거)
+		List<RefrigeratorVO> refrigeratorList = refrigeratorDao.searchIngredientByMemberNo(memberNo);// 7,8,9,10,7
+		// 레시피에서 일련번호와 일치하는 레시피 가져오기(중복제거)
 		for (RefrigeratorVO r : refrigeratorList) {
 			// 식재료번호로 레시피재료테이블에서 레시피가져오기
 			List<RecipeIngredientVO> recipeIngredientList = dao
 					.searchRecipeIngredientListByIngredientNumber(r.getIngredientNo());
-			//레시피번호로 레시피에서 레시피 가져오기
+			// 레시피번호로 레시피에서 레시피 가져오기
 			for (RecipeIngredientVO ri : recipeIngredientList) {
 				RecipeVO recipe = dao.searchRecipeBySerialNumber(ri.getRecipe_No());
 //				recipe = searchRecipeByName(recipe.getName()); // 레시피 이름으로 레시피 찾기
@@ -112,12 +110,13 @@ public class RecipeServiceImpl implements RecipeService {
 
 		return recipeList;
 	}
-	
+
 	/**
 	 * 레시피가 보유한 레시피 재료들과 레시피 재료들과 일정수량 일치하는지 여부
+	 * 
 	 * @param recipe
 	 * @param ingredient
-	 * @param count 일치하는 수량
+	 * @param count      일치하는 수량
 	 * @return
 	 */
 	private boolean findRecipeBymatchingCount(RecipeVO recipe, List<RecipeIngredientVO> ingredient, int count) {
@@ -125,9 +124,10 @@ public class RecipeServiceImpl implements RecipeService {
 		int matchCount = 0;
 		for (RecipeIngredientVO ri_1 : ingredient) {
 			for (RecipeIngredientVO ri_2 : recipe.getRecipeIngredientList()) {
-				if(ri_1.equals(ri_2)) matchCount++;
+				if (ri_1.equals(ri_2))
+					matchCount++;
 			}
-			
+
 		}
 		System.out.println(matchCount);
 
@@ -189,13 +189,32 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public RecipeVO recipeDetail(int recipeSerialNumber) {
-		RecipeVO result=null;
-		
-		result =dao.recipeDetail(recipeSerialNumber);
+		RecipeVO result = null;
+
+		result = dao.recipeDetail(recipeSerialNumber);
 		result = setIngredientToRecipe(result);
-		
+
 		return result;
 	}
-	
+
+	@Override
+	public String searchIngredientName(int ingredientNo) {
+		return dao.searchIngredientName(ingredientNo);
+	}
+
+	@Override
+	public List<RecipeVO> recipeDetailByIngredientNumber(int ingredientNumber) {
+		List<RecipeVO> result = new ArrayList<RecipeVO>();
+
+		List<RecipeIngredientVO> riList = dao.searchRecipeByIngredientNumber(ingredientNumber);
+		for (RecipeIngredientVO ri : riList) {
+			// 레시피번호로 레시피에서 레시피 가져오기
+			RecipeVO recipe = dao.searchRecipeBySerialNumber(ri.getRecipe_No());
+//							recipe = searchRecipeByName(recipe.getName()); // 레시피 이름으로 레시피 찾기
+			result.add(recipe);
+		}
+
+		return result;
+	}
 
 }

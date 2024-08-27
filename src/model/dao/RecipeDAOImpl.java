@@ -237,4 +237,34 @@ public class RecipeDAOImpl implements RecipeDAO {
 
 		return recipe;
 	}
+
+	@Override
+	public List<RecipeIngredientVO> searchRecipeByIngredientNumber(int ingredientNumber) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from RECIPE_INGREDIENT where INGREDIENT_NO = ?";
+		
+		List<RecipeIngredientVO> riList = new ArrayList<RecipeIngredientVO>();
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, ingredientNumber);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int serialNumber =rs.getInt("RECIPE_INGREDIENT_NO"); 
+				int recipeNumber = rs.getInt("RECIPE_NO");
+				
+				riList.add(new RecipeIngredientVO(serialNumber,recipeNumber,ingredientNumber));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+
+		
+		return riList;
+	}
 }
