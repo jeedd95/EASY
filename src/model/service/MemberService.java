@@ -5,8 +5,9 @@ import model.vo.MemberVO;
 public interface MemberService {
 	/**
 	 * 회원 가입 기능
+	 * @throws Exception 
 	 */
-    void joinMember(MemberVO member);
+    void joinMember(MemberVO member) throws Exception;
     /**
      * 아이디 중복 체크 기능
      */
@@ -20,7 +21,12 @@ public interface MemberService {
     MemberVO login(MemberVO member);
     /**
      * 회원탈퇴 기능
+     * @throws Exception 
      */
     
-    int removeMember(String pw); 
+    void removeMember(MemberVO member) throws Exception;
+    
+	boolean checkNickNameDuplicate(String nickName);
+	
+	boolean checkPw(String pw); 
 }

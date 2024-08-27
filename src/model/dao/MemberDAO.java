@@ -5,8 +5,9 @@ import model.vo.MemberVO;
 public interface MemberDAO {
 	/**
 	 * 회원가입
+	 * @return 
 	 */
-	void joinMember(MemberVO member);
+	int joinMember(MemberVO member);
 	
 	/**
 	 * 아이디 중복체크
@@ -21,6 +22,9 @@ public interface MemberDAO {
 	/**
 	 * 회원탈퇴
 	 */
-	int removeMember(String pw);
+
+	boolean checkNickNameDuplicate(String nickName);
+
+	int removeMember(MemberVO member);
 	
 }

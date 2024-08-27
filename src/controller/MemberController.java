@@ -13,12 +13,10 @@ public class MemberController {
     public static void joinMember(MemberVO member) {
         try {
             memberService.joinMember(member);  // 비즈니스 로직은 서비스에서 처리
-            System.out.println("회원 가입이 완료되었습니다.");
-        } catch (DuplicationIdOrNickNameException e) {  // 중복 ID 또는 닉네임 예외 처리
-            System.out.println("이미 존재하는 ID 또는 닉네임입니다. 다른 ID를 선택해 주세요.");
-        } catch (IllegalArgumentException e) {  // 기타 예외 처리
-            System.out.println("회원 가입 실패: " + e.getMessage());
-           
+            SuccessView.printmessage("회원 가입 되었습니다");        
+        } catch (Exception e) {  // 중복 ID 또는 닉네임 예외 처리
+        	FailView.printMessage(e.toString());
+        
         }
         
     }
@@ -36,17 +34,47 @@ public class MemberController {
       
     }
     
-    public static void removeMember(String pw) {
-        int result = memberService.removeMember(pw);  // 비즈니스 로직은 서비스에서 처리
-        if (result > 0) {
-            System.out.println("회원 탈퇴가 완료되었습니다.");
-        } else {
-            System.out.println("회원 탈퇴 실패. 비밀번호를 확인하세요.");
+    public static void removeMember(MemberVO member) {
+        try {
+        	memberService.removeMember(member);  // 비즈니스 로직은 서비스에서 처리
+        	SuccessView.printmessage("삭제되었습니다");
+        }catch(Exception e){
+        	FailView.printMessage(e.toString());
         }
     }
 
     public static boolean checkIdDuplicate(String id) {
-        return memberService.checkIdDuplicate(id);  // 비즈니스 로직은 서비스에서 처리
+    	boolean idDuplicate = true;
+    	try { 
+        	idDuplicate = memberService.checkIdDuplicate(id);  // 비즈니스 로직은 서비스에서 처리
+        	return idDuplicate;
+        }catch(Exception e){
+        	FailView.printMessage(e.getMessage());
+        }
+    	return idDuplicate;
     }
+    public static boolean checkNickNameDuplicate(String nickName) {
+        boolean idDuplicate = true;
+    	try { 
+        	idDuplicate = memberService.checkNickNameDuplicate(nickName);  // 비즈니스 로직은 서비스에서 처리
+        	return idDuplicate;
+        }catch(Exception e){
+        	FailView.printMessage(e.getMessage());
+        }
+    	return idDuplicate;
+    }
+    
+    public static boolean checkPw(String pw) {
+        boolean idDuplicate = true;
+    	try { 
+        	idDuplicate = memberService.checkPw(pw);  // 비즈니스 로직은 서비스에서 처리
+        	return idDuplicate;
+        }catch(Exception e){
+        	FailView.printMessage(e.getMessage());
+        }
+    	return idDuplicate;
+    }
+    
+
 }
     
