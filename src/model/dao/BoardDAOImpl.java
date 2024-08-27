@@ -38,17 +38,16 @@ public class BoardDAOImpl implements  BoardDAO {
 		Connection con = null;
 		PreparedStatement ps =null;
 		
-		String sql = "insert into my_recipe_board values(1,?,?,?,sysdate)";
+		String sql = "insert into my_recipe_board values(board_seq.nextval,?,?,?,sysdate)";
 		System.out.println(sql);
 		try {
 			con=DbManager.getConnection();
 			ps=con.prepareStatement(sql);
 			
 			if(board instanceof RecipeBoardVO recipeBoard) {
-				ps.setInt(1, 5);
-				ps.setInt(2, recipeBoard.getMemberNo());
-				ps.setString(3, recipeBoard.getTitle());
-				ps.setString(4, recipeBoard.getContent());
+				ps.setString(1, recipeBoard.getMNickname());
+				ps.setString(2, recipeBoard.getTitle());
+				ps.setString(3, recipeBoard.getContent());
 			}
 			
 			/* 관리자 모드 할꺼면 
@@ -86,7 +85,7 @@ public class BoardDAOImpl implements  BoardDAO {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				BoardVO board = new RecipeBoardVO(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5));		
+				BoardVO board = new RecipeBoardVO(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));		
 				boardList.add(board);
 			}
 		} catch (Exception e) {
@@ -183,6 +182,8 @@ public class BoardDAOImpl implements  BoardDAO {
 		return comment;
 		
 	}
+	
+	//게시물삭제
 	@Override
 	public int deleteBoard(BoardVO board) {
 		int result=0;
@@ -194,7 +195,7 @@ public class BoardDAOImpl implements  BoardDAO {
 			con=DbManager.getConnection();
 			ps=con.prepareStatement(sql);
 			ps.setInt(1, board.getNo());
-			ps.setInt(2, board.getColmun());
+			ps.setString(2, board.getColmun());
 			
 			result = ps.executeUpdate();
 			
@@ -298,18 +299,19 @@ public class BoardDAOImpl implements  BoardDAO {
 		return result;
 	}
 	
-	
+	/*
+	 * 댓글 작성 시작
+	 */
 	@Override
 	public int writeComment(CommentVO comment,String commentName) {
 		int result=0;
 		Connection con = null;
 		PreparedStatement ps =null;
 		
-		String sql = "insert into "+commentName+" values(comment_seq,?,?,?,?)";
+		String sql = "insert into "+commentName+" values(comment_seq.nextval,?,?,?,?)";
 		try {
 			con=DbManager.getConnection();
 			ps=con.prepareStatement(sql);
-
 			if(comment instanceof RecipeCommentVO recipeComment) {
 				ps.setInt(1,recipeComment.getBoardNo()); 
 				ps.setString(2,recipeComment.getContent());
@@ -318,7 +320,7 @@ public class BoardDAOImpl implements  BoardDAO {
 			}
 			
 			if(comment instanceof ReviewCommentVO reviewComment) {
-				ps.setInt(1,reviewComment.getrecipeNo()); 
+				ps.setInt(1,reviewComment.getRecipeBoardNo()); 
 				ps.setString(2,reviewComment.getContent());
 				ps.setInt(3, reviewComment.getRating());
 				ps.setString(4, reviewComment.getMemberNickName());
@@ -343,7 +345,7 @@ public class BoardDAOImpl implements  BoardDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from "+name;
+		String sql = "select * from "+name+"_Board";
 		//테이블 이름 갖고 온걸로 그 테이블 정보 검색
 		
 		
@@ -388,14 +390,16 @@ public class BoardDAOImpl implements  BoardDAO {
 		
 	}
 	
-	
+	/*
+	 * 게시물 상세보기
+	 */
 	@Override
 	public BoardVO boardSelectByNo(int boardNO,String boardName) {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from "+boardName +" where "+boardName+"_NO = ?";
+		String sql = "select * from "+boardName +"_Board where BOARD_NO = ?";
 		List<CommentVO> comment;
 		BoardVO board = null;
 		try {
@@ -405,17 +409,25 @@ public class BoardDAOImpl implements  BoardDAO {
 			rs = ps.executeQuery();
            
             if(rs.next()) {
-            	int boardNo = rs.getInt(1);
-            	int tableNo = rs.getInt(2);
-            	String title  = rs.getString(3);
-            	String content = rs.getString(4);
-            	String date = rs.getString(5);
+            	int boardNo =0;
+            	if(boardName.equals("My_Recipe")) {
+                	boardNo = rs.getInt(1);
+                	String nickName = rs.getString(2);
+                	String title  = rs.getString(3);
+                	String content = rs.getString(4);
+                	String date = rs.getString(5);
+            		board = new RecipeBoardVO(boardNo,nickName, title, content, date);
             	
-            	if(boardName.equals("My_Recipe_Board"))
-            		board = new RecipeBoardVO(boardNo,tableNo, title, content, date);
-            	if(boardName.equals("Recipe_Review_Board"))
-            		board = new ReviewBoardVO(boardNo,tableNo, title, content, date);
-	        
+            	}	
+            	if(boardName.equals("Recipe_Review")) {
+            		boardNo = rs.getInt(1);
+                	int recipeNo = rs.getInt(2);
+                	String title  = rs.getString(3);
+                	String content = rs.getString(4);
+                	String date = rs.getString(5);
+            		board = new ReviewBoardVO(boardNo,recipeNo, title, content, date);
+            		
+            	}
             	comment = replyBoardByNo(con,boardNo,boardName);
             	board.setComment(comment);
             }
@@ -434,9 +446,8 @@ public class BoardDAOImpl implements  BoardDAO {
 		
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String[] name = commentName.split("_");
-		String tableName = name[0]+"_"+name[1]+"_Comment";
-		String sql = "select * from "+tableName+" where "+commentName+"_NO = ?";
+		System.out.println(commentName);
+		String sql = "select * from "+commentName+"_Comment where "+commentName+"_Board_NO = ?";
 		
 		List<CommentVO> comment = new ArrayList<CommentVO>();
 		try {
@@ -455,9 +466,9 @@ public class BoardDAOImpl implements  BoardDAO {
 	        
 	        CommentVO commentVO=null;
 	        
-	        if(commentName.equals("My_Recipe_Board"))
+	        if(commentName.equals("My_Recipe"))
 		        commentVO= new RecipeCommentVO(relpyNo,cotent,rating,M_nickName,tableNo);
-	        if(commentName.equals("Recipe_Review_Board1"))
+	        if(commentName.equals("Recipe_Review"))
 		        commentVO= new ReviewCommentVO(relpyNo,cotent,rating,M_nickName,tableNo);
 
 	        comment.add(commentVO);

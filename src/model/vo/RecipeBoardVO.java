@@ -2,42 +2,42 @@ package model.vo;
 
 public class RecipeBoardVO extends BoardVO{
 	
-	int memberNo;
+	String mNickname;
 	
-	public RecipeBoardVO (int no,int memberNo,String title, String content, String postdate) {
+	public RecipeBoardVO (int no,String mNickname,String title, String content, String postdate) {
 		super(no,title,content,postdate);
-		this.memberNo = memberNo;
+		this.mNickname = mNickname;
 	
 	}
-	public RecipeBoardVO (int no,int memberNo) {
+	public RecipeBoardVO (int no,String mNickname) {
 		super(no);
-		this.memberNo = memberNo;
+		this.mNickname = mNickname;
 	
 	}
-	public RecipeBoardVO (int memberNo, String title, String content) {
+	public RecipeBoardVO (String mNickname, String title, String content) {
 		super(title,content);
-		this.memberNo = memberNo;
+		this.mNickname = mNickname;
 	
 	}
 
 	
-	public int getMemberNo() {
-		return memberNo;
+	public String getMNickname() {
+		return mNickname;
 	}
 
-	public void setMemberNo(int memberNo) {
-		this.memberNo = memberNo;
+	public void setMNickname(String mNickname) {
+		this.mNickname = mNickname;
 	}
 	
-	public int getColmun() {
-		return memberNo;
+	public String getColmun() {
+		return mNickname;
 		
 	}
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("나만의 레시피 게시판 ");
 		builder.append(": 회원 닉네임: ");
-		builder.append(memberNo);
+		builder.append(mNickname);
 		builder.append(super.toString());
 		builder.append("]");
 		return builder.toString();
