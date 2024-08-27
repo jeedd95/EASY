@@ -37,16 +37,15 @@ public class MainView {
 					System.out.println("PW를 입력하세요");
 					String pw = sc.next();
 					MemberVO member = new MemberVO(id,pw);
-					int success = MemberController.login(member);
-					if(success==1)
-						MenuView.login(member);
+					MemberVO loginMember = MemberController.login(member);
+					if(loginMember!=null)
+						MenuView.login(loginMember);
 					else
 						LoginMenu();
 					
 					break;
 					
-			case 2: MenuView.register();
-			
+			case 2: 
 					while(true) {
 						System.out.println("아이디 입력하세요");
 						id = sc.next();

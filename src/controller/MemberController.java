@@ -22,15 +22,15 @@ public class MemberController {
     }
 
 
-    public static int login(MemberVO member) {
+    public static MemberVO login(MemberVO member) {
     	try {
     		MemberVO storedMember = memberService.login(member);  // 비즈니스 로직은 서비스에서 처리
     		SuccessView.printMember(storedMember);
-    		return 1;
+    		return storedMember;
     	}catch(Exception e){
     		FailView.printMessage(e.getMessage());
     	}
-		return 0;
+		return null;
       
     }
     
