@@ -64,7 +64,7 @@ public class WishListVO {
 		builder.append(", 회원번호: ");
 		builder.append(memberNo);
 		builder.append(" | ");
-		builder.append(", 식자재 번호: ");
+		builder.append(", 식재료 번호: ");
 		builder.append(ingredientNo);
 		builder.append(" | ");
 		builder.append(", 관리 수량: ");
@@ -81,7 +81,7 @@ public class WishListVO {
 		builder.append(", 회원번호: ");
 		builder.append(memberNo);
 		builder.append(" | ");
-		builder.append(", 식자재 이름: ");
+		builder.append(", 식재료 이름: ");
 		builder.append(ingredientName + "\t");
 		builder.append(" | ");
 		builder.append(", 관리 수량: ");
