@@ -7,6 +7,7 @@ import exception.ListNotFoundException;
 import model.dao.StatsDAO;
 import model.dao.StatsDAOImpl;
 import model.vo.StatsVO;
+import model.vo.WishListVO;
 
 public class StatsServiceImpl implements StatsService {
 	StatsDAO stsdao = new StatsDAOImpl();
@@ -34,6 +35,14 @@ public class StatsServiceImpl implements StatsService {
 		if (list.isEmpty())
 			throw new ListNotFoundException("전체 현황 조회 실패 : 사용 내역이 없습니다.");
 		return list;
+	}
+
+	@Override
+	public List<String> searchByIngredientNo(List<StatsVO> list) throws InputFormatException, ListNotFoundException {
+		List<String> ingredientName = stsdao.searchByIngredientNo(list);
+		if(ingredientName.isEmpty())
+			throw new ListNotFoundException("현황-식재료명 조회 실패 : 사용 내역이 없습니다.");
+		return ingredientName;
 	}
 
 }

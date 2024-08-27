@@ -199,6 +199,7 @@ public class MenuView {
 	 *  로그인 성공 화면으로 출력
 	 */
 	public static void wishList(MemberVO member) { //조회, 추가, 제거
+		System.out.println();
 		System.out.println("=========<찜 목록>=========");
 		WishListController.searchWishList(2); //조회
 		System.out.println();
@@ -211,11 +212,16 @@ public class MenuView {
 		int botton = Integer.parseInt(sc.next());
 		
 		switch (botton) {
-			case 1: MenuView.addWishList(member.getMNo());  //추가
+			case 1: 
+				MenuView.addWishList(member.getMNo());  //추가
+				MenuView.wishList(member);
 				break;
-			case 2: MenuView.removeWishList(member.getMNo());  //제거
+			case 2: 
+				MenuView.removeWishList(member.getMNo());  //제거
+				MenuView.wishList(member);
 				break;
-			case 3: MenuView.login(member); //뒤로가기
+			case 3: 
+				MenuView.login(member); //뒤로가기
 				break;
 			default: {
 				System.out.println("1, 2, 3번만 입력해주세요.");

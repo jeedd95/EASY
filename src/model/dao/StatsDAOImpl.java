@@ -101,4 +101,36 @@ public class StatsDAOImpl implements StatsDAO {
 		return list;
 	}
 
+	@Override
+	public List<String> searchByIngredientNo(List<StatsVO> list) throws InputFormatException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<String> ingredientNameList = new ArrayList<String>();
+		String sql = "select ingredient_name from ingredient where ingredient_no = ?";
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			
+			for( StatsVO stats : list) {
+				ps.setInt(1, stats.getIngredientNo());
+				rs = ps.executeQuery();
+				
+				while(rs.next()) {
+					ingredientNameList.add(rs.getString(1));
+				}
+			}//for End
+
+		} catch (SQLException e) {
+			throw new InputFormatException("현황-식재료이름 조회 중 DB 오류 발생. 다시 시도해주세요.");
+			//e.printStackTrace();
+			
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+
+		return ingredientNameList;
+	}
+
 }

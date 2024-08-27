@@ -20,8 +20,9 @@ public class WishListController {
 			SuccessView.printmessage( wishList.getIngredientNo() + "번 찜목록에서 추가 성공");
 
 		} catch (InputFormatException e) {
-			FailView.printMessage(e.getMessage());
 			// e.printStackTrace();
+			FailView.printMessage(e.getMessage());
+			
 		}
 		
 	}
@@ -30,7 +31,7 @@ public class WishListController {
 	public static void removeWishList(WishListVO wishList) {
 		try {
 			wls.removeWishList(wishList);
-			SuccessView.printmessage( wishList.getIngredientNo() + "번 찜목록에서 삭제 성공");
+			SuccessView.printmessage(wishList.getIngredientNo() + "번 찜목록에서 삭제 성공");
 			
 		} catch (InputFormatException e) {
 			FailView.printMessage(e.getMessage());
@@ -47,7 +48,7 @@ public class WishListController {
 			
 		} catch (ListNotFoundException | InputFormatException e) {
 			FailView.printMessage(e.getMessage());
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
