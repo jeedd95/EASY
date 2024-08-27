@@ -372,7 +372,7 @@ public class MenuView {
 		
 		switch (botton) {
 			case 1: 
-				StatsController.searchIngredientStatsByMine(2);
+				StatsController.searchIngredientStatsByMine(member.getMNo());
 				MenuView.stats(member);
 			case 2: 
 				StatsController.searchIngredientStatsByGender("남");

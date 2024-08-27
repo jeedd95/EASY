@@ -91,6 +91,28 @@ public class MemberVO {
         this.joinDate = joinDate;
     }
 
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("MemberVO [mNo=");
+		builder.append(mNo);
+		builder.append(", mId=");
+		builder.append(mId);
+		builder.append(", mPw=");
+		builder.append(mPw);
+		builder.append(", mName=");
+		builder.append(mName);
+		builder.append(", mNickname=");
+		builder.append(mNickname);
+		builder.append(", mGender=");
+		builder.append(mGender);
+		builder.append(", joinDate=");
+		builder.append(joinDate);
+		builder.append("]");
+		return builder.toString();
+	}
+
     
     
 }
