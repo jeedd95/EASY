@@ -51,14 +51,15 @@ public class SuccessView {
 		System.out.println("==================");
 	
 		List<CommentVO> commentList = board.getComment();
-		if(commentList == null)
-			System.out.println("댓글이 없습니다");
-		else {
-			for(CommentVO comment : commentList) {
+		for(CommentVO comment : commentList) {
+				if(comment==null) {
+					System.out.println("댓글이 없습니다");
+					break;
+				}		
 				System.out.println(comment.toString());
 			}
 		}
-	}
+	
 	
 	public static void printMessage(String message) {
 		System.out.println(message);

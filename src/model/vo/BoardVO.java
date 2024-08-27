@@ -63,8 +63,8 @@ public class BoardVO {
 		
 	}
 	
-	public int getColmun() {
-		return 0;		
+	public String getColmun() {
+		return "";		
 	}
 	
 	

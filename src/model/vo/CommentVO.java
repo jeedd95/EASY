@@ -50,11 +50,11 @@ public class CommentVO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("댓글번호: "+ commentNo +"닉네임 :");
+		builder.append("댓글번호- "+ commentNo +" 닉네임 \"");
 		builder.append(memberNickName);
-		builder.append(": ");
+		builder.append("\" 댓글내용[");
 		builder.append(content);
-		builder.append(" 별점 =");
+		builder.append("] 평점 =");
 		builder.append(rating);
 		return builder.toString();
 	}
