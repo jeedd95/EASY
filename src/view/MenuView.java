@@ -139,6 +139,8 @@ public class MenuView {
 	public static void wishList(MemberVO member) { //조회, 추가, 제거
 		System.out.println();
 		System.out.println("=========<찜 목록>=========");
+		System.out.println(member);
+		System.out.println("멤버번호" + member.getMNo());
 		WishListController.searchWishList(member.getMNo()); //조회
 		System.out.println();
 		
@@ -173,7 +175,7 @@ public class MenuView {
 		System.out.println("보관 유지 수량 입력 > ");
 		int amount = Integer.parseInt(sc.next());
 		//★★ 추후 수정 필요(시퀀스, 식재료 번호 연동)
-		WishListVO wl = new WishListVO(0, memberNo, 27, amount);
+		WishListVO wl = new WishListVO(1, memberNo, 27, amount);
 		WishListController.addWishList(wl);
 		
 	}

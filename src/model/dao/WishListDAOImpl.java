@@ -18,8 +18,9 @@ public class WishListDAOImpl implements WishListDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = "insert into wishlist values (8, ? , ? , ?)";
-
+		String sql = "insert into wishlist values (1, ? , ? , ?)";
+		System.out.println(wishList);
+		
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
@@ -76,6 +77,7 @@ public class WishListDAOImpl implements WishListDAO {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, memberNo);
+			System.out.println("멤버번호" + memberNo);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				WishListVO wishlist = new WishListVO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));

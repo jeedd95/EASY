@@ -17,7 +17,7 @@ public class WishListController {
 	public static void addWishList(WishListVO wishList) {
 		try {
 			wls.addWishList(wishList);
-			SuccessView.printmessage( wishList.getIngredientNo() + "번 찜목록에서 추가 성공");
+			SuccessView.printmessage( wishList.getIngredientNo() + "번 찜목록에 추가 성공");
 
 		} catch (InputFormatException e) {
 			// e.printStackTrace();
