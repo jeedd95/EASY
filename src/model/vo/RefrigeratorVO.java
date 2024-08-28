@@ -1,7 +1,5 @@
 package model.vo;
 
-import java.util.Date;
-
 public class RefrigeratorVO {
     private int serialNumber;            
     private int memberNumber;           
@@ -10,9 +8,18 @@ public class RefrigeratorVO {
     private String registDate;    
     private String expirationDate; 
 
-  
+	private IngredientVO ingredient = new IngredientVO();
+
+	
+
     public RefrigeratorVO() {}
     
+    
+    public RefrigeratorVO(int amount, String expirationDate) {
+    	this.expirationDate = expirationDate;
+        this.amount = amount;
+  
+    }
   
     public RefrigeratorVO(int serialNumber, int memberNumber, int ingredientNo, int amount, String registDate, String expirationDate) {
     	this.ingredientNo = ingredientNo;
@@ -72,7 +79,15 @@ public class RefrigeratorVO {
     public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
+    
+	public IngredientVO getIngredient() {
+		return ingredient;
+	}
 
+	public void setIngredient(IngredientVO ingredient) {
+		this.ingredient = ingredient;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
