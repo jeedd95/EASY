@@ -58,13 +58,32 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
 	}
 
 	@Override
-	public List<IngredientVO> selectIngredient(int ingredientNumber) {
-		return dao.selectIngredient(ingredientNumber);
+	public List<IngredientVO> selectIngredient(int category) {
+		return dao.selectIngredient(category);
 	}
 	
 	
 	public List<RefrigeratorVO> alarmExpirationDate(int memberNo) throws SQLException {
 		List<RefrigeratorVO> refriList = dao.alarmExpirationDate(memberNo);
 		return refriList;
+	}
+
+
+	@Override
+	public List<RefrigeratorVO> removeIngredient(int memberNumber) {
+		List<RefrigeratorVO> result = dao.selectIngredientByMemberNumber(memberNumber);
+		//IngredientVO로 이름까지 넣어주는 작업 필요 (식재료 번호로 이름찾기)
+		for (RefrigeratorVO r : result) {
+			r.setIngredient(getNameByIngredientNumber(r.getIngredientNo()));
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 식재료 번호로 이름 찾아서 넣어주기
+	 */
+	public IngredientVO getNameByIngredientNumber(int ingredientNumber) {
+		return dao.getNameByIngredientNumber(ingredientNumber);
 	}
 }

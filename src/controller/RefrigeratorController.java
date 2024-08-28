@@ -7,6 +7,7 @@ import model.service.RefrigeratorServiceImpl;
 import model.vo.IngredientVO;
 import model.vo.MemberVO;
 import model.vo.RefrigeratorVO;
+import util.Session;
 import view.FailView;
 import view.SuccessView;
 
@@ -48,10 +49,10 @@ public class RefrigeratorController {
   
 
 
-	public static List<IngredientVO> selectIngredient(int ingredientNumber) {
+	public static List<IngredientVO> selectIngredient(int category) {
 		List<IngredientVO> result = null;
 
-		result = service.selectIngredient(ingredientNumber);
+		result = service.selectIngredient(category);
 		
 		return result;
 	}
@@ -64,4 +65,15 @@ public class RefrigeratorController {
         	FailView.printMessage(e.getMessage());
         }
     }
+    
+    /**
+     * 식재료 빼기
+     */
+	public static List<RefrigeratorVO> removeIngredient() {
+		 List<RefrigeratorVO> result = null;
+		 
+		 result = service.removeIngredient(Session.getCurrentMember().getMNo());
+		 
+		 return result;
+	}
 }

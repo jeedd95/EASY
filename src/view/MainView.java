@@ -50,8 +50,7 @@ public class MainView {
 					MemberVO loginMember = MemberController.login(member);
 					if(loginMember!=null) {
 						Session.setCurrentMember(loginMember);
-						MenuView.login(Session.getCurrentMember());
-
+						MenuView.login(loginMember);
 					}
 					else
 						LoginMenu();
