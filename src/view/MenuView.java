@@ -267,9 +267,13 @@ public class MenuView {
 		System.out.println("---------------------------");
 		System.out.print("선택 > ");
 		
-		int botton = Integer.parseInt(sc.next());
+		String inputButton = sc.next();
+		if(MenuController.checkNum(inputButton)) {
+			int button = Integer.parseInt(inputButton);
+		}
 		
-		switch (botton) {
+		
+		switch (button) {
 			case 1: 
 				MenuView.addWishList(member.getMNo());  //추가
 				MenuView.wishList(member);
@@ -423,9 +427,9 @@ public class MenuView {
 		System.out.println("--------------------------------------------------------");
 		System.out.println("선택 > ");
 		
-		int botton = Integer.parseInt(sc.next());
+		int button = Integer.parseInt(sc.next());
 		
-		switch (botton) {
+		switch (button) {
 			case 1: 
 				StatsController.searchIngredientStatsByMine(member.getMNo());
 				MenuView.stats(member);
