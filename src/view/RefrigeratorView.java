@@ -30,15 +30,17 @@ public class RefrigeratorView {
 //		}
 
 		map[0] = new StringBuffer("            E.A.S.Y :" + member.getMNickname());
-		map[1] = new StringBuffer("  ┌─────────────────────┬──────────────────────┐");
-		for (int i = 2; i < 22; i++) {
+		map[1] = new StringBuffer("  ┌───────────────────────────────────────────┐");
+		map[2] = new StringBuffer("  │ 식료품 || 수량                               │");
+		map[3] = new StringBuffer("  ├───────────────────────────────────────────┤");
+		for (int i = 4; i < 22; i++) {
 			if (i % 2 != 0)
-				map[i] = new StringBuffer("  │                      │────────────────────┤");
+				map[i] = new StringBuffer("  |                                           |");
 			else {
 				if (i / 2 < 10)
-					map[i] = new StringBuffer((i / 2) + "                                             ");
+					map[i] = new StringBuffer((i / 2) + " │                                           "); //번호 있는 줄
 				else
-					map[i] = new StringBuffer((i / 2) + "│   │   │   │   │   │   │   │   │   │   │   │");
+					map[i] = new StringBuffer((i / 2) + "│                                           │"); //번호 없는 줄
 			}
 			map[22] = new StringBuffer("11│   │   │   │   │   │   │   │   │   │   │   │");
 			map[23] = new StringBuffer("  └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘");
@@ -47,7 +49,7 @@ public class RefrigeratorView {
 		map[2].setCharAt(4, '식');
 		map[2].setCharAt(5, '료');
 		map[2].setCharAt(6, '품');
-
+		map[2].setCharAt(8, '|');
 		map[2].setCharAt(10, '수');
 		map[2].setCharAt(11, '량');
 
