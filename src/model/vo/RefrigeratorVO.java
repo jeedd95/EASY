@@ -29,9 +29,9 @@ public class RefrigeratorVO {
     public RefrigeratorVO(int serialNumber, int memberNumber, int ingredientNo, int amount, String registDate, String expirationDate) {
     	this(amount,expirationDate);
     	this.ingredientNo = ingredientNo;
+    	this.expirationDate = expirationDate;
     	this.serialNumber = serialNumber;
         this.memberNumber = memberNumber;
-    	this.expirationDate = expirationDate;
         this.registDate = registDate;
         this.amount = amount;
   
@@ -99,8 +99,7 @@ public class RefrigeratorVO {
 		builder.append(ingredientName);
 		builder.append(amount);
 		return builder.toString();
-	}
-    
+    }
 
 	
 //	@Override
@@ -123,6 +122,6 @@ public class RefrigeratorVO {
 				+ ingredientNo + ", amount=" + amount + ", registDate=" + registDate + ", expirationDate="
 				+ expirationDate + ", ingredient=" + ingredient + "]";
 	}
-    
+
     
 }
