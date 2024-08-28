@@ -1,5 +1,6 @@
 package view;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import model.vo.RefrigeratorVO;
 import model.vo.ReviewCommentVO;
 import model.vo.StatsVO;
 import model.vo.WishListVO;
+import util.Session;
 
 public class MenuView {
 	public static Scanner sc = new Scanner(System.in);
@@ -134,14 +136,38 @@ public class MenuView {
 		
 		int choice = sc.nextInt();
 		if(choice ==0) return;
-		수량뷰(serialNumberMap.get(choice));
+		
+		System.out.println();
+		RefrigeratorVO refrigerator =수량뷰(serialNumberMap.get(choice));
+		날짜뷰(refrigerator);
 	}
 	
 	private static RefrigeratorVO 수량뷰(int ingredientNumber) {
+		System.out.println("재료의 수량을 1 이상 정수로 입력해주세요"); //0이하일때 안되게
+		
+		int amount=sc.nextInt();
+		while (amount <=0) {
+			System.out.println("1 이상의 정수만 입력해주세요");
+			amount =sc.nextInt();
+		}
+		
 		RefrigeratorVO refrigerator = new RefrigeratorVO();
-//		refi
-//		refrigerator.setAmount();
-		return null;
+		refrigerator.setAmount(amount);
+		refrigerator.setIngredientNo(ingredientNumber);
+		refrigerator.setMemberNumber(Session.getCurrentMember().getMNo());
+		
+		return refrigerator;
+	}
+	
+	private static RefrigeratorVO 날짜뷰(RefrigeratorVO refrigerator) {
+		System.out.println("오늘부터 남은 유통기한의 일수를 입력해주세요");
+		int days = sc.nextInt();
+		refrigerator.getRegistDate();
+//		refrigerator.setExpirationDate();
+		
+//		RefrigeratorController.SetExpirationdate(refrigerator);
+		
+		return refrigerator;
 	}
 	
 	/*
