@@ -30,15 +30,17 @@ import util.Session;
 public class MenuView {
 	public static Scanner sc = new Scanner(System.in);
 	
-	/*
-	 * 로그인 성공 했을 때 화면 
+	/**
+	 * 로그인 성공했을 때 화면
 	 */
+
 	public static void login(MemberVO member) {
 
 		RefrigeratorView refri =RefrigeratorView.getInstance();
 		while(true) {
 			System.out.println();
 			refri.DrawMap(member);
+			alarmExpirationDate(member);
 			System.out.println("<메뉴를 선택해주세요>");
 			System.out.println("[1] 식재료 넣기");
 			System.out.println("[2] 식재료 빼기");
@@ -92,6 +94,13 @@ public class MenuView {
 		
 		
 		
+		
+	}
+	/*
+	 * 알람
+	 */
+	public static void alarmExpirationDate(MemberVO member) {
+		RefrigeratorController.alarmExpirationDate(member.getMNo());
 		
 	}
 	/*

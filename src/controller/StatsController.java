@@ -18,6 +18,7 @@ public class StatsController {
 		try {
 			List<StatsVO> list = sts.searchIngredientStatsByMine(memberNo);
 			List<String> ingredient = sts.searchByIngredientNo(list);
+			System.out.println();
 			System.out.println("========<나의 통계>========");
 			SuccessView.printStats(list, ingredient);
 		} catch (ListNotFoundException | InputFormatException e) {

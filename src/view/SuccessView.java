@@ -7,6 +7,7 @@ import java.util.Map;
 import model.vo.BoardVO;
 import model.vo.CommentVO;
 import model.vo.MemberVO;
+import model.vo.RefrigeratorVO;
 import model.vo.StatsVO;
 import model.vo.WishListVO;
 
@@ -79,8 +80,8 @@ public class SuccessView {
 	}
 	
 	public static void printStats(List<StatsVO> list, List<String> ingredientNameList) {
-		System.out.println("식재료 이름 | 사용 수량(많은순) ");
-		System.out.println("------------------------");
+		System.out.println("식재료 이름 | 사용 수량(많은순) | 사용 일자");
+		System.out.println("---------------------------------");
 		for (int i = 0; i<list.size() ; i++) {
 			StatsVO stats = list.get(i);
 			String ingredient = ingredientNameList.get(i);
@@ -91,6 +92,13 @@ public class SuccessView {
 	}
 	public static void printMember(MemberVO member) {
 		System.out.println(member.getMNickname()+"님 환영합니다");
+	}
+
+	public static void printAlarmRrfrigetator(List<RefrigeratorVO> ingredients) {
+		for(RefrigeratorVO refri : ingredients) {
+			System.out.println(refri.toString());
+		}
+		
 	}
 	
 }
