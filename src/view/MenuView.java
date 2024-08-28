@@ -43,6 +43,7 @@ public class MenuView {
 			alarmExpirationDate(member);
 			System.out.println("<메뉴를 선택해주세요>");
 			System.out.println("[1] 식재료 넣기");
+<<<<<<< HEAD
 			System.out.println("[2] 식재료 빼기");
 			System.out.println("[3] 식재료 상세보기");
 			System.out.println("[4] 레시피 추천받기");
@@ -52,6 +53,17 @@ public class MenuView {
 			System.out.println("[8] 마이 페이지");
 			System.out.println("[9]  로그아웃");
 			System.out.println("[10] 시스템 종료");
+=======
+//			System.out.println("[2] 식재료 빼기");
+			System.out.println("[2] 식재료 상세보기");
+			System.out.println("[3] 레시피 추천받기");
+			System.out.println("[4] 찜 목록");
+			System.out.println("[5] 게시판 보기");
+			System.out.println("[6] 통계");
+			System.out.println("[7] 로그아웃");
+			System.out.println("[8] 시스템 종료");
+			System.out.println("[9] 마이 페이지");
+>>>>>>> 6fb2dfd01d78861248732ac516bb893db4a34bb8
 			System.out.println("선택 > ");
 			
 			String selectNo = sc.next();
@@ -77,6 +89,7 @@ public class MenuView {
 			case 6: MenuView.stats(member);
 				break;
 <<<<<<< HEAD
+<<<<<<< HEAD
 			case 8: myPage(member);
 				break;
 			case 9:
@@ -92,6 +105,14 @@ public class MenuView {
 					break;
 			case 9: myPage(member);
 >>>>>>> 6fb2dfd (feat(냉장고) : 식재료 상세보기)
+=======
+			case 7: MenuView.logOut();
+				break;
+			case 8:
+					System.exit(0);
+					break;
+			case 9: myPage(member);
+>>>>>>> 6fb2dfd01d78861248732ac516bb893db4a34bb8
 			default:
 				System.out.println("해당하는 숫자를 눌러주세요");
 				   
