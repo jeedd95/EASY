@@ -35,5 +35,15 @@ public interface RefrigeratorDAO {
 	
 	
 	List<RefrigeratorVO> alarmExpirationDate(int memberNo) throws SQLException;
+
+	/**
+	 * 회원번호로 식재료찾기
+	 */
+	List<RefrigeratorVO> selectIngredientByMemberNumber(int memberNumber);
+
+	/**
+	 * 식재료 번호로 이름 찾아서 넣어주기
+	 */
+	IngredientVO getNameByIngredientNumber(int ingredientNumber);
 	
 }

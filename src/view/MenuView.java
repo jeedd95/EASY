@@ -1,6 +1,5 @@
 package view;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,21 +128,22 @@ public class MenuView {
 			System.out.println((i+1)+". " + categoryList.get(i).getName());
 		}
 		
-		int choice = sc.nextInt();
-		if(choice ==0) return;
+		int category = sc.nextInt();
+		if(category ==0) return;
 		System.out.println();
-		식재료뷰(choice);
+		식재료뷰(category);
     }
 	
-	private static void 식재료뷰(int ingredientNumber) {
+	private static void 식재료뷰(int category) {
 		System.out.println("세부 식재료를 선택하거나 0번으로 뒤로 돌아갑니다");
-		List<IngredientVO> ingredientList = RefrigeratorController.selectIngredient(ingredientNumber);
+		List<IngredientVO> ingredientList = RefrigeratorController.selectIngredient(category);
 		
 		Map<Integer, Integer> serialNumberMap = new HashMap<>();
 		for(int i=0; i<ingredientList.size(); i++) {
 			System.out.println((i+1)+". " + ingredientList.get(i).getName());
 			serialNumberMap.put(i+1, ingredientList.get(i).getSerialNumber());
 		}
+//		System.out.println(serialNumberMap);
 		
 		int choice = sc.nextInt();
 		if(choice ==0) return;
@@ -151,6 +151,7 @@ public class MenuView {
 		System.out.println();
 		RefrigeratorVO refrigerator =수량뷰(serialNumberMap.get(choice));
 		날짜뷰(refrigerator);
+		
 	}
 	
 	private static RefrigeratorVO 수량뷰(int ingredientNumber) {
@@ -174,9 +175,11 @@ public class MenuView {
 		System.out.println("오늘부터 남은 유통기한의 일수를 입력해주세요");
 		int days = sc.nextInt();
 		
-		LocalDate today = LocalDate.now();
-		refrigerator.setRegistDate(LocalDate.now().toString());
-		refrigerator.setExpirationDate(LocalDate.now().plusDays(days).toString());
+//		LocalDate today = LocalDate.now();
+//		refrigerator.setRegistDate(LocalDate.now().toString()); //DB에서 해줌
+		refrigerator.setExpirationDate(Integer.toString(days)); //DB에서 해줌 더해줄 일수임
+		
+//		System.out.println(refrigerator);
 		
 		List<RefrigeratorVO> refrigeratorList= new ArrayList<RefrigeratorVO>();
 		refrigeratorList.add(refrigerator);
@@ -191,18 +194,37 @@ public class MenuView {
 	 * (기능2)음식명을 입력해서 유통기한 짧게 남은거 삭제후
 	 *  냉장고 상태 보여주기 
 	 */
-	  private static void removeIngredient() {
-		  //회원번호로 냉장고 조회해서 식재료 목록 출력 
+	private static void removeIngredient() {
+		// 회원번호로 냉장고 조회해서 식재료 목록 출력
 //		  RefrigeratorController
-		  //→ 번호 입력 → 수량 → 
-		  //유통기한 얼마안남은거부터 자동으로 빼기 → 통계 테이블에 넣기
-      }
+		// → 번호 입력 → 수량 →
+		// 유통기한 얼마안남은거부터 자동으로 빼기 → 통계 테이블에 넣기
 
-	/*
-	 * 식재료 상세보기
-	 * 
-	 */
+		System.out.println("식재료 상세보기 메뉴에 들어오셨습니다=============");
+		System.out.println("사용할 식재료 번호를 누르거나 0번으로 뒤로 돌아갑니다");
+		List<RefrigeratorVO> refrigeratorList = RefrigeratorController.removeIngredient();
+		
+		Map<Integer, Integer> serialNumberMap = new HashMap<>();
+		for(int i =0; i< refrigeratorList.size(); i++) {
+			RefrigeratorVO r = refrigeratorList.get(i);
+			System.out.println((i+1) + ". ▶ " + r.getIngredient().getName()+"\t" + r.getAmount()+"\t" + r.getRegistDate() + "\t" + r.getExpirationDate());
+			serialNumberMap.put(i+1, r.getSerialNumber());
+		}
+		
+		int removeRecipeIngredientNumber = sc.nextInt();
+//		System.out.println(serialNumberMap.get(removeRecipeIngredientNumber));
+		삭제수량뷰(serialNumberMap.get(removeRecipeIngredientNumber));
+		
+		
+	}
 	
+	private static void 삭제수량뷰(int removeRecipeIngredientNumber) {
+		System.out.println("사용할 재료의 수량을 입력해주세요");
+		int amount = sc.nextInt();
+		
+		RecipeController.removeRecipeIngredient(removeRecipeIngredientNumber, amount);
+	}
+
 	
 	/*
 	 * 레시피 추천받기

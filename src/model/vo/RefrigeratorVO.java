@@ -24,9 +24,9 @@ public class RefrigeratorVO {
     public RefrigeratorVO(int serialNumber, int memberNumber, int ingredientNo, int amount, String registDate, String expirationDate) {
     	this.ingredientNo = ingredientNo;
     	this.expirationDate = expirationDate;
-    	this.ingredientNo=ingredientNo;
     	this.serialNumber = serialNumber;
         this.memberNumber = memberNumber;
+        this.registDate = registDate;
         this.amount = amount;
   
     }
@@ -87,18 +87,29 @@ public class RefrigeratorVO {
 	public void setIngredient(IngredientVO ingredient) {
 		this.ingredient = ingredient;
 	}
+
+
 	
+//	@Override
+//	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("식재료 이름: ");
+//		builder.append(false)
+//		builder.append(", ingredientNo=");
+//		builder.append(ingredientNo);
+//		builder.append(", amount=");
+//		builder.append("]");
+//		return builder.toString();
+//	}
+	
+	
+    
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("식재료 이름: ?");
-		builder.append(", ingredientNo=");
-		builder.append(ingredientNo);
-		builder.append(", amount=");
-		builder.append("]");
-		return builder.toString();
+		return "RefrigeratorVO [serialNumber=" + serialNumber + ", memberNumber=" + memberNumber + ", ingredientNo="
+				+ ingredientNo + ", amount=" + amount + ", registDate=" + registDate + ", expirationDate="
+				+ expirationDate + ", ingredient=" + ingredient + "]";
 	}
-    
     
     
 }

@@ -45,4 +45,9 @@ public interface RecipeService {
 	 * 사용기반통계로레시피상세보기
 	 */
 	List<RecipeVO> recipeDetailByIngredientNumber(int ingredientNumber);
+
+	/**
+	 * 재료번호로 삭제하기
+	 */
+	int removeRecipeIngredient(int ingredientNumber, int amount);
 }

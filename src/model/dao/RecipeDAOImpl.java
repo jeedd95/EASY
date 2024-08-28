@@ -267,4 +267,27 @@ public class RecipeDAOImpl implements RecipeDAO {
 		
 		return riList;
 	}
+
+	@Override
+	public int removeRecipeIngredient(int ingredientNumber, int amount) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		String sql = "UPDATE REFRIGERATOR_STATUS Set Amount = Amount - ? WHERE R_NO = ?";
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, amount);
+			ps.setInt(2, ingredientNumber);
+			result = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbManager.dbClose(con, ps);
+		}
+
+		return result;
+	}
 }
