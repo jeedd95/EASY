@@ -222,4 +222,9 @@ public class RecipeServiceImpl implements RecipeService {
 		return dao.removeRecipeIngredient(removeRecipeIngredientNumber,amount);
 	}
 
+	@Override
+	public void addReicpeStats(int addRecipeIngredientNumber, RefrigeratorVO recipe,int amount) {
+		dao.addReicpeStats(addRecipeIngredientNumber,recipe,amount);
+	}
+
 }
