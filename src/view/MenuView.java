@@ -284,16 +284,20 @@ public class MenuView {
 	 * list 출력 후 클릭 하면 해당 식재료 뺴고 냉장고 상태 보여주기
 	 */
 	public static void 레시피추천받기() {
-		System.out.println("=========레시피 추천받기===================");
-		System.out.println("1. 냉장고 기반으로 추천받기");
-		System.out.println("2. 사용 기반으로 추천받기");
-		System.out.println("0. 뒤로가기");
-		System.out.println("=======================================");
+		String choice;
+		while(true) {
+			System.out.println("=========레시피 추천받기===================");
+			System.out.println("1. 냉장고 기반으로 추천받기");
+			System.out.println("2. 사용 기반으로 추천받기");
+			System.out.println("0. 뒤로가기");
+			System.out.println("=======================================");
 
-		String choice = sc.next();
-		if(!MenuController.IsCheckNum(choice))
-			레시피추천받기();
-
+			choice = sc.next();
+			if(!MenuController.IsCheckNum(choice))
+				continue;
+			break;
+		}
+		
 		switch (Integer.valueOf(choice)) {
 		case 1:
 			냉장고기반으로추천받기();
@@ -320,11 +324,14 @@ public class MenuView {
 			System.out.println((i+1)+" ▶ "+recipeList.get(i).getName() + "\s");
 			serialNumberMap.put(i+1, recipeList.get(i).getSerialNumber());
 		}
-		
-		System.out.println("레시피를 자세히 보시려면 번호를, 뒤로가시려면 0번을 입력해주세요");
-		String choice = sc.next();
-		if(!MenuController.IsCheckNum(choice))
-			냉장고기반으로추천받기();
+		String choice;
+		while(true) {
+			System.out.println("레시피를 자세히 보시려면 번호를, 뒤로가시려면 0번을 입력해주세요");
+			choice = sc.next();
+			if(!MenuController.IsCheckNum(choice))
+				continue;
+			break;
+		}
 		//없는 번호를 입력했을때 오류처리 필요
 		if(Integer.valueOf(choice) ==0) return;
 		레시피상세보기(serialNumberMap.get(Integer.valueOf(choice)));
@@ -360,9 +367,17 @@ public class MenuView {
 		System.out.println();
 		
 		System.out.println("재료의 레시피를 보시려면 순위를, 뒤로가시려면 0번을 입력해주세요");
-		int choice = sc.nextInt();
-		if(choice ==0) return;
-		사용기반통계로레시피상세보기(serialNumberMap.get(choice));
+		String choice;
+		while(true) {
+			System.out.println("재료의 레시피를 보시려면 순위를, 뒤로가시려면 0번을 입력해주세요");
+			choice = sc.next();
+			if(!MenuController.IsCheckNum(choice))
+				continue;
+			break;
+		}
+		//없는 번호를 입력했을때 오류처리 필요
+		if(Integer.valueOf(choice) ==0) return;
+		사용기반통계로레시피상세보기(serialNumberMap.get(Integer.valueOf(choice)));
 		
 		System.out.println();
 		System.out.println("아무 입력으로 뒤로 갑니다");
@@ -550,9 +565,11 @@ public class MenuView {
 				break;
 			case 2:
 				System.out.print("게시판 번호 입력 :");
-				int no = sc.nextInt();
+				String no = sc.next();
+				if(!MenuController.IsCheckNum(no))
+					recipeBoard(num,member,name,choice);
 				while(true) {
-					if(!BoardController.postBoardByNo(no,name))
+					if(!BoardController.postBoardByNo(Integer.valueOf(no),name))
 						board(member);
 				
 					System.out.println("1.댓글 작성");
@@ -571,9 +588,9 @@ public class MenuView {
 						int rating = sc.nextInt();
 						CommentVO comment =null;
 						if(name.equals("MY_RECIPE"))
-							comment = new RecipeCommentVO(commentContent, rating,member.getMNickname(),no);
+							comment = new RecipeCommentVO(commentContent, rating,member.getMNickname(),Integer.valueOf(no));
 						if(name.equals("RECIPE_REVIEW"))
-							comment = new ReviewCommentVO(commentContent, rating,member.getMNickname(),no);
+							comment = new ReviewCommentVO(commentContent, rating,member.getMNickname(),Integer.valueOf(no));
 						BoardController.writeComment(comment,name+"_Comment");
 						continue;
 				
