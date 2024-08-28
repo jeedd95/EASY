@@ -190,7 +190,8 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		String sql = "select * from REFRIGERATOR_STATUS where sysdate+5>EXPIRATIONDATE and M_NO = ? 	";
+		String sql = "select i.INGREDIENT_NAME , r.AMOUNT, r.EXPIRATIONDATE from REFRIGERATOR_STATUS r\r\n"
+				+ "join  INGREDIENT i on r.INGREDIENT_NO = i.INGREDIENT_NO AND r.M_NO = ? ";
 		try {
 			con =DbManager.getConnection();
 			ps=con.prepareStatement(sql);
@@ -200,13 +201,11 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 			
 			while(rs.next()) {
 				RefrigeratorVO refri = new RefrigeratorVO(
-						rs.getInt(1),
 						rs.getInt(2),
-						rs.getInt(3),
-						rs.getInt(4),
-						rs.getString(5),
-						rs.getString(6)
+						rs.getString(3)
 				);
+				refri.getIngredient().setName(rs.getString(1));
+
 				refriList.add(refri);
 			}
 			

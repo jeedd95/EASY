@@ -22,7 +22,6 @@ public class MenuController {
 	 * 공백이 들어가면 true 나옴
 	 */
 	public static boolean IsCheckSpace(String memberInfo) {
-		System.out.println(Pattern.matches(checkSpace, memberInfo));
 		if(Pattern.matches(checkSpace, memberInfo)) {
 			return true;
 		}

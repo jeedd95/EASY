@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.service.RefrigeratorService;
 import model.service.RefrigeratorServiceImpl;
+import model.vo.IngredientVO;
 import model.vo.RefrigeratorVO;
 import view.FailView;
 import view.SuccessView;
