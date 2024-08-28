@@ -35,70 +35,61 @@ public class MenuView {
 	 * 로그인 성공했을 때 화면
 	 */
 
-	public static void login(MemberVO member) {
+	 public static void login(MemberVO member) {
 
 		RefrigeratorView refri =RefrigeratorView.getInstance();
 		while(true) {
-            refri.DrawMap(member);
-			alarmExpirationDate(member);
-			System.out.println("<메뉴를 선택해주세요>");
-			System.out.println("[1] 식재료 넣기");
-			System.out.println("[2] 식재료 빼기");
-			System.out.println("[3] 식재료 상세보기");
-			System.out.println("[4] 레시피 추천받기");
-			System.out.println("[5] 찜 목록");
-			System.out.println("[6] 게시판 보기");
-			System.out.println("[7] 통계");
-			System.out.println("[8] 마이 페이지");
-			System.out.println("[9]  로그아웃");
-			System.out.println("[10] 시스템 종료");
-			System.out.println("선택 > ");
-			
-			String selectNo = sc.next();
+					refri.DrawMap(member);
+			 alarmExpirationDate(member);
+			 System.out.println("<메뉴를 선택해주세요>");
+			 System.out.println("[1] 식재료 넣기");
+			 System.out.println("[2] 식재료 빼기");
+			 System.out.println("[3] 식재료 상세보기");
+			 System.out.println("[4] 레시피 추천받기");
+			 System.out.println("[5] 찜 목록");
+			 System.out.println("[6] 게시판 보기");
+			 System.out.println("[7] 통계");
+			 System.out.println("[8] 마이 페이지");
+			 System.out.println("[9]  로그아웃");
+			 System.out.println("[10] 시스템 종료");
+			 System.out.println("선택 > ");
+			 
+			 String selectNo = sc.next();
 
 
-			if(!MenuController.IsCheckNum(selectNo)) {
-				login(member);
-			}
-			switch(Integer.valueOf(selectNo)){
-			
-			case 1: MenuView.insertIngredient();
+			 if(!MenuController.IsCheckNum(selectNo)) {
+					login(member);
+			 }
+			 switch(Integer.valueOf(selectNo)){
+			 
+			 case 1: MenuView.insertIngredient();
+						 break;
+			 case 2: MenuView.removeIngredient();
+						 break;
+//         case 3: MenuView.login();
+//               break;
+			 case 4: 레시피추천받기();
+						 break;
+			 case 5: MenuView.wishList(member);
 					break;
-			case 2: MenuView.refrigeratorDetailView();
+			 case 6: board(member);
 					break;
-//			case 3: MenuView.login();
-//					break;
-			case 3: 레시피추천받기();
+			 case 7: MenuView.stats(member);
 					break;
-			case 4: MenuView.wishList(member);
-				break;
-			case 5: board(member);
-				break;
-			case 6: MenuView.stats(member);
-				break;
-<<<<<<< HEAD
-			case 8: myPage(member);
-				break;
-			case 9:
-					MenuView.logOut();
-					System.exit(0);
+			 case 8: myPage(member);
 					break;
-			case 10: System.exit(0);
-=======
-			case 7: MenuView.logOut();
-				break;
-			case 8:
-					System.exit(0);
-					break;
-			case 9: myPage(member);
->>>>>>> 6fb2dfd (feat(냉장고) : 식재료 상세보기)
-			default:
-				System.out.println("해당하는 숫자를 눌러주세요");
-				   
-				
-			}
-			
-			
+			 case 9:
+						 MenuView.logOut();
+						 System.exit(0);
+						 break;
+			 case 10: System.exit(0);
+			 default:
+					System.out.println("해당하는 숫자를 눌러주세요");
+						 
+					
+			 }
+			 
+			 
 		}
 		
 		
