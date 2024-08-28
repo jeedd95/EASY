@@ -66,6 +66,16 @@ public class RefrigeratorController {
         }
     }
     
+    public static List<RefrigeratorVO> findAlarmExpirationDate(int memberNo) {
+        try {
+            List<RefrigeratorVO> ingredients = service.alarmExpirationDate(memberNo);
+            return ingredients;
+        } catch (Exception e) {
+        	FailView.printMessage(e.getMessage());
+        }
+        return null;
+    }
+    
     /**
      * 식재료 빼기
      */
