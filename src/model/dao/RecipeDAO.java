@@ -65,4 +65,9 @@ public interface RecipeDAO {
 	 */
 	List<RecipeIngredientVO> searchRecipeByIngredientNumber(int ingredientNumber);
 
+	/**
+	 * 식재료 삭제
+	 */
+	int removeRecipeIngredient(int ingredientNumber, int amount);
+
 }
