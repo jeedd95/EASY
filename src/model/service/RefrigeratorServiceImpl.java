@@ -1,15 +1,30 @@
 package model.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import model.dao.RefrigeratorDAO;
 import model.dao.RefrigeratorDAOImpl;
+
 import model.vo.IngredientVO;
+
 import model.vo.RefrigeratorVO;
 
 public class RefrigeratorServiceImpl implements RefrigeratorService {
 
-    private static RefrigeratorDAO dao =new RefrigeratorDAOImpl();
+
+    private static RefrigeratorService service;
+    RefrigeratorDAO dao = RefrigeratorDAOImpl.getInstance();
+
+    
+    
+    public static RefrigeratorService getInstance() {
+		if(service == null)
+			service = new RefrigeratorServiceImpl();
+	
+		return service;
+	}
+
 
     @Override
     public int insertIngredient(List<RefrigeratorVO> ingredients) {
@@ -56,5 +71,11 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
 	@Override
 	public List<IngredientVO> selectIngredient(int ingredientNumber) {
 		return dao.selectIngredient(ingredientNumber);
+	}
+	
+	
+	public List<RefrigeratorVO> alarmExpirationDate(int memberNo) throws SQLException {
+		List<RefrigeratorVO> refriList = dao.alarmExpirationDate(memberNo);
+		return refriList;
 	}
 }

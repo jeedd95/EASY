@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import model.vo.IngredientVO;
@@ -31,5 +32,8 @@ public interface RefrigeratorDAO {
 	 * 식재료 번호로 식재료보기
 	 */
 	List<IngredientVO> selectIngredient(int ingredientNumber);
+	
+	
+	List<RefrigeratorVO> alarmExpirationDate(int memberNo) throws SQLException;
 	
 }

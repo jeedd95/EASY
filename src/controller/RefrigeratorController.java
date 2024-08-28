@@ -4,12 +4,13 @@ import java.util.List;
 
 import model.service.RefrigeratorService;
 import model.service.RefrigeratorServiceImpl;
-import model.vo.IngredientVO;
 import model.vo.RefrigeratorVO;
+import view.FailView;
+import view.SuccessView;
 
 public class RefrigeratorController {
 
-    public static RefrigeratorService service = new RefrigeratorServiceImpl();
+    private static RefrigeratorService service = RefrigeratorServiceImpl.getInstance();
 
     public static List<IngredientVO> selectCategory() {
     	List<IngredientVO> result =null;
@@ -18,8 +19,16 @@ public class RefrigeratorController {
     	
     	return result;
     }
+    public static void insertIngredient(List<RefrigeratorVO> ingredients) {
+        try {
+            int result = service.insertIngredient(ingredients);
+            System.out.println("추가된 재료의 수: " + result);
+        } catch (IllegalArgumentException e) {
+            System.out.println("재료 추가 실패: " + e.getMessage());
+        }
+    }
 
-    public void subtractIngredient(List<RefrigeratorVO> ingredients) {
+    public static void subtractIngredient(List<RefrigeratorVO> ingredients) {
         try {
             int result = service.subtractIngredient(ingredients);
             System.out.println("제거된 재료의 수: " + result);
@@ -44,4 +53,13 @@ public class RefrigeratorController {
 		
 		return result;
 	}
+    
+    public static void alarmExpirationDate(int memberNo) {
+        try {
+            List<RefrigeratorVO> ingredients = service.alarmExpirationDate(memberNo);
+            SuccessView.printAlarmRrfrigetator(ingredients);
+        } catch (Exception e) {
+        	FailView.printMessage(e.getMessage());
+        }
+    }
 }
