@@ -1,5 +1,6 @@
 package view;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +28,12 @@ public class SuccessView {
 	}
 	
 	public static void printPostByName(List<BoardVO> boardList) {
+		DecimalFormat df = new DecimalFormat("0.0");
+		System.out.println("============================"+boardList.get(0).getName()+"=============================");
 		for(BoardVO board : boardList)
-			System.out.println(board.toString()+"평균 평점: "+board.getRating());
-		
+			System.out.println(board.toString()+"평균 평점: "+df.format((board.getRating())));
+		System.out.println("====================================================================");
+
 	}
 	
 	
@@ -52,9 +56,10 @@ public class SuccessView {
 	}
 	
 	public static void printCommentByBoard(BoardVO board) {
+		System.out.println("============================"+board.getName()+"=============================");
 		System.out.println(board.toStringDetail());
-		System.out.println("==================");
-	
+		System.out.println("====================================================================");
+
 		List<CommentVO> commentList = board.getComment();
 		for(CommentVO comment : commentList) {
 				if(comment==null) {
@@ -63,7 +68,10 @@ public class SuccessView {
 				}		
 				System.out.println(comment.toString());
 			}
+		System.out.println("====================================================================");
+
 		}
+	
 	
 	
 	public static void printMessage(String message) {

@@ -44,6 +44,8 @@ public class MainView {
 						LoginMenu();
 					System.out.println("PW를 입력하세요");
 					String pw = sc.nextLine();
+					if(!checkSpace(pw))
+						LoginMenu();
 					MemberVO member = new MemberVO(id,pw);
 					MemberVO loginMember = MemberController.login(member);
 					if(loginMember!=null) {

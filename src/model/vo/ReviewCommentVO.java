@@ -18,19 +18,21 @@ public class ReviewCommentVO extends CommentVO{
 		this.recipeBoardNo = recipeBoardNo;
 	}
 
-	public int getRecipeBoardNo() {
+	public int getBoardNo() {
 		return recipeBoardNo;
 	}
 
 
-	public void setRecipeBoardNo(int recipeBoardNo) {
+	public void getBoardNo(int recipeBoardNo) {
 		this.recipeBoardNo = recipeBoardNo;
 	}
-
+	
+	public String getName() {
+		return "후기 게시판";
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("후기 게시판 댓글: ");
 		builder.append(super.toString());
 
 		return builder.toString();

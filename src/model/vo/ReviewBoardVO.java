@@ -25,14 +25,15 @@ public class ReviewBoardVO extends BoardVO{
 	public int colmun() {
 		return RecipeNo;		
 	}
+	public String getName() {
+		return "레시피 후기 게시판";
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("레시피 후기 게시판 : ");
-		builder.append("레시피 번호=");
-		builder.append(RecipeNo+" : ");
+		builder.append("게시판 번호 : ");
+		builder.append(super.getNo());
 		builder.append(super.toString());
-		builder.append("]");
 		return builder.toString();
 	}
 
