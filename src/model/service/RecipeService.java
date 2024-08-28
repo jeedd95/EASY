@@ -5,6 +5,7 @@ import java.util.List;
 import exception.InputFormatException;
 import model.vo.RecipeIngredientVO;
 import model.vo.RecipeVO;
+import model.vo.RefrigeratorVO;
 import model.vo.StatsVO;
 
 public interface RecipeService {
@@ -50,4 +51,9 @@ public interface RecipeService {
 	 * 재료번호로 삭제하기
 	 */
 	int removeRecipeIngredient(int ingredientNumber, int amount);
+
+	/**
+	 * 삭제한 재료 통계에 넣기
+	 */
+	void addReicpeStats(int addRecipeIngredientNumber, RefrigeratorVO recipe, int amount);
 }

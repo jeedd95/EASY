@@ -64,18 +64,19 @@ public class MenuView {
 			
 			case 1: MenuView.insertIngredient();
 					break;
-			case 2: MenuView.removeIngredient();
+			case 2: MenuView.refrigeratorDetailView();
 					break;
 //			case 3: MenuView.login();
 //					break;
-			case 4: 레시피추천받기();
+			case 3: 레시피추천받기();
 					break;
-			case 5: MenuView.wishList(member);
+			case 4: MenuView.wishList(member);
 				break;
-			case 6: board(member);
+			case 5: board(member);
 				break;
-			case 7: MenuView.stats(member);
+			case 6: MenuView.stats(member);
 				break;
+<<<<<<< HEAD
 			case 8: myPage(member);
 				break;
 			case 9:
@@ -83,6 +84,14 @@ public class MenuView {
 					System.exit(0);
 					break;
 			case 10: System.exit(0);
+=======
+			case 7: MenuView.logOut();
+				break;
+			case 8:
+					System.exit(0);
+					break;
+			case 9: myPage(member);
+>>>>>>> 6fb2dfd (feat(냉장고) : 식재료 상세보기)
 			default:
 				System.out.println("해당하는 숫자를 눌러주세요");
 				   
@@ -194,35 +203,46 @@ public class MenuView {
 	 * (기능2)음식명을 입력해서 유통기한 짧게 남은거 삭제후
 	 *  냉장고 상태 보여주기 
 	 */
-	private static void removeIngredient() {
+	private static void refrigeratorDetailView() {
 		// 회원번호로 냉장고 조회해서 식재료 목록 출력
 //		  RefrigeratorController
 		// → 번호 입력 → 수량 →
 		// 유통기한 얼마안남은거부터 자동으로 빼기 → 통계 테이블에 넣기
 
 		System.out.println("식재료 상세보기 메뉴에 들어오셨습니다=============");
-		System.out.println("사용할 식재료 번호를 누르거나 0번으로 뒤로 돌아갑니다");
 		List<RefrigeratorVO> refrigeratorList = RefrigeratorController.removeIngredient();
+		System.out.printf("%-10s %-10s %-5s %-10s %-10s %n","식재료 번호","식재료 이름","수량","넣은 날짜","유통기한");
 		
+		Map<Integer,RefrigeratorVO> refrigeratorMap= new HashMap<Integer, RefrigeratorVO>();
 		Map<Integer, Integer> serialNumberMap = new HashMap<>();
 		for(int i =0; i< refrigeratorList.size(); i++) {
 			RefrigeratorVO r = refrigeratorList.get(i);
-			System.out.println((i+1) + ". ▶ " + r.getIngredient().getName()+"\t" + r.getAmount()+"\t" + r.getRegistDate() + "\t" + r.getExpirationDate());
+			System.out.printf("%-8s %-10s %-5s %-10s %-10s %n",(i+1)+".\t",r.getIngredient().getName(),r.getAmount(),r.getRegistDate(),r.getExpirationDate());
+//			System.out.printf((i+1)+".");
+//			System.out.printf("%8s","▶" + r.getIngredient().getName());
+//			System.out.printf("%-4d",r.getAmount());
+//			System.out.printf("%-4s",r.getRegistDate());
+//			System.out.printf("%-4s",r.getExpirationDate()+"\n");
+//			System.out.println((i+1) +".\t ▶" + r.getIngredient().getName() + r.getAmount()+"\s\t" + r.getRegistDate() + "\s\t" + r.getExpirationDate());
 			serialNumberMap.put(i+1, r.getSerialNumber());
+			refrigeratorMap.put(i+1,r);
 		}
 		
+		System.out.println("사용할 식재료 번호를 누르거나 0번으로 뒤로 돌아갑니다");
 		int removeRecipeIngredientNumber = sc.nextInt();
+		if(removeRecipeIngredientNumber ==0) return;
 //		System.out.println(serialNumberMap.get(removeRecipeIngredientNumber));
-		삭제수량뷰(serialNumberMap.get(removeRecipeIngredientNumber));
+		삭제수량뷰(serialNumberMap.get(removeRecipeIngredientNumber),refrigeratorMap.get(removeRecipeIngredientNumber));
 		
 		
 	}
 	
-	private static void 삭제수량뷰(int removeRecipeIngredientNumber) {
+	private static void 삭제수량뷰(int removeRecipeIngredientNumber,RefrigeratorVO recipe) {
 		System.out.println("사용할 재료의 수량을 입력해주세요");
 		int amount = sc.nextInt();
 		
 		RecipeController.removeRecipeIngredient(removeRecipeIngredientNumber, amount);
+		RecipeController.addReicpeStats(removeRecipeIngredientNumber,recipe,amount);
 	}
 
 	
