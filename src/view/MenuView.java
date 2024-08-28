@@ -1,6 +1,8 @@
 package view;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -171,10 +173,14 @@ public class MenuView {
 	private static RefrigeratorVO 날짜뷰(RefrigeratorVO refrigerator) {
 		System.out.println("오늘부터 남은 유통기한의 일수를 입력해주세요");
 		int days = sc.nextInt();
-		refrigerator.getRegistDate();
-//		refrigerator.setExpirationDate();
 		
-//		RefrigeratorController.SetExpirationdate(refrigerator);
+		LocalDate today = LocalDate.now();
+		refrigerator.setRegistDate(LocalDate.now().toString());
+		refrigerator.setExpirationDate(LocalDate.now().plusDays(days).toString());
+		
+		List<RefrigeratorVO> refrigeratorList= new ArrayList<RefrigeratorVO>();
+		refrigeratorList.add(refrigerator);
+		RefrigeratorController.insertIngredient(refrigeratorList);
 		
 		return refrigerator;
 	}

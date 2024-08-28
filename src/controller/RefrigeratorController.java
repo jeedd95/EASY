@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.service.RefrigeratorService;
 import model.service.RefrigeratorServiceImpl;
+import model.vo.IngredientVO;
 import model.vo.RefrigeratorVO;
 import view.FailView;
 import view.SuccessView;
@@ -19,13 +20,10 @@ public class RefrigeratorController {
     	
     	return result;
     }
-    public static void insertIngredient(List<RefrigeratorVO> ingredients) {
-        try {
-            int result = service.insertIngredient(ingredients);
-            System.out.println("추가된 재료의 수: " + result);
-        } catch (IllegalArgumentException e) {
-            System.out.println("재료 추가 실패: " + e.getMessage());
-        }
+    public static int insertIngredient(List<RefrigeratorVO> ingredients) {
+         int result = service.insertIngredient(ingredients);
+         
+         return result;
     }
 
     public static void subtractIngredient(List<RefrigeratorVO> ingredients) {

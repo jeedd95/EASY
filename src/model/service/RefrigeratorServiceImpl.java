@@ -5,9 +5,7 @@ import java.util.List;
 
 import model.dao.RefrigeratorDAO;
 import model.dao.RefrigeratorDAOImpl;
-
 import model.vo.IngredientVO;
-
 import model.vo.RefrigeratorVO;
 
 public class RefrigeratorServiceImpl implements RefrigeratorService {
@@ -28,14 +26,6 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
 
     @Override
     public int insertIngredient(List<RefrigeratorVO> ingredients) {
-        // 입력된 재료 리스트가 null인지 확인
-        if (ingredients == null) {
-            throw new IllegalArgumentException("추가할 재료 목록이 비어 있습니다.");
-        }
-        // 입력된 재료 리스트가 비어있는지 확인
-        if (ingredients.isEmpty()) {
-            throw new IllegalArgumentException("추가할 재료 목록이 비어 있습니다.");
-        }
         return dao.insertIngredient(ingredients);
     }
 
