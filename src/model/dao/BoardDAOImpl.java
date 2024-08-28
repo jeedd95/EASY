@@ -169,6 +169,7 @@ public class BoardDAOImpl implements  BoardDAO {
             Constructor<?> constructor = clazz.getConstructor(paramTypes);
 	        
             Object obj = constructor.newInstance(constructorArgs);
+            
             map.put(String.valueOf(no),obj);
             comment.put(name,map);
             
@@ -221,7 +222,6 @@ public class BoardDAOImpl implements  BoardDAO {
 		//뷰 에서 테이블 이름과 해당 댓글번호 출력
 		String sql = "select COMMENT_TYPE from  ALL_COMMENTS where COMMENT_NO = ?";
 		
-		Map<String, Map<String,Object>> commentList = new HashMap<String, Map<String,Object>>();
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
@@ -238,12 +238,12 @@ public class BoardDAOImpl implements  BoardDAO {
 			
 						
 		} catch (Exception e) {
-			e.getMessage();
+			e.printStackTrace();
 		}finally {
 			DbManager.dbClose(con, ps, rs);
 		}
 		
-		return 0;
+		return result;
 	}
 	/*
 	 * 삭제완료
@@ -255,9 +255,8 @@ public class BoardDAOImpl implements  BoardDAO {
 		
 		//삭제 쿼리
 		String sql = "delete from "+tableName+" where COMMENT_NO = ? and M_NICKNAME = ?";
-		
+		System.out.println(sql);
 		try {
-			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1,comment.getCommentNo());
 			ps.setString(2, comment.getMemberNickName());
@@ -287,7 +286,6 @@ public class BoardDAOImpl implements  BoardDAO {
 				+ "FROM RECIPE_REVIEW_COMMENT;\r\n"
 				+ "";
 		try {
-			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			result = ps.executeUpdate();
 			

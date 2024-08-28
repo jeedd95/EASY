@@ -39,7 +39,6 @@ public class MenuView {
 
 		RefrigeratorView refri =RefrigeratorView.getInstance();
 		while(true) {
-			refri.DrawMap(member);
 			alarmExpirationDate(member);
 			System.out.println("<메뉴를 선택해주세요>");
 			System.out.println("[1] 식재료 넣기");

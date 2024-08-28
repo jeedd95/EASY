@@ -195,7 +195,7 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 		ResultSet rs = null;
 		
 		String sql = "select i.INGREDIENT_NAME , r.AMOUNT, r.EXPIRATIONDATE from REFRIGERATOR_STATUS r\r\n"
-				+ "join  INGREDIENT i on r.INGREDIENT_NO = i.INGREDIENT_NO AND r.M_NO = ? ";
+				+ "join  INGREDIENT i on r.INGREDIENT_NO = i.INGREDIENT_NO AND r.M_NO = ?  AND sysdate+5 > EXPIRATIONDATE";
 		try {
 			con =DbManager.getConnection();
 			ps=con.prepareStatement(sql);
