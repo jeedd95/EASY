@@ -395,46 +395,76 @@ public class MenuView {
 		WishListController.removeWishList(wl);
 	}
 	
+	
 	public static void board(MemberVO member) {
-		System.out.println("1.나만의 레시피 게시판 ");
-		System.out.println("2.레시피 후기 게시판");
-		System.out.println("3.메인 메뉴로 가기");
+		while(true) {
+			System.out.println("------------------------------------------------------");
+			System.out.println(" 1.나만의 레시피 게시판 |  2.레시피 후기 게시판 |  3.뒤로가기 ");
+			System.out.println("------------------------------------------------------");
+	
 
-		int choice = sc.nextInt();
+			String choice = sc.next();
+			if(!MenuController.IsCheckNum(choice)) {
+					board(member);
+					continue;
+			}
+			boardSelect(member,Integer.valueOf(choice));
+
+		}
+		
+	}
+	
+	public static void boardSelect(MemberVO member,int choice) {
+		
 		
 		switch(choice) {
 		
 		case 1:
 				BoardController.searchPostByName("MY_RECIPE");
-				System.out.println("1. 글 작성하기");
-				System.out.println("2. 나만의 레시피 글 상세보기 ");
-				System.out.println("3. 돌아가기");
-				int num = sc.nextInt();
+				displayMyRecipe();
 				
-				recipeBoard(num,member,"MY_RECIPE");
-				continues();
-
+				String num = sc.next();
+				if(!MenuController.IsCheckNum(num))
+					board(member);
+				recipeBoard(Integer.valueOf(num),member,"MY_RECIPE",choice);
+				
 				break;
 		case 2:
 				BoardController.searchPostByName("RECIPE_REVIEW");
-				System.out.println("1. 레시피 후기 글 상세보기 ");
-				System.out.println("2. 돌아가기");
-				num = sc.nextInt();
-				num+=1;
-				recipeBoard(num,member,"RECIPE_REVIEW");
-				continues();
+				displayRecipeReview();
+
+				num = sc.next();
+				
+				if(!MenuController.IsCheckNum(num))
+					board(member);
+				
+				recipeBoard(Integer.valueOf(num)+1,member,"RECIPE_REVIEW",choice);
+				
 				break;
 		case 3:
-				//login(1);
+				login(member);
 				break;
 		default:
-				
+				System.out.println("해당 되는 번호를 입력하세요");
 				break;
 				
 		}
 		
 	}
-	static void recipeBoard(int num, MemberVO member,String name) {
+	
+	static void displayMyRecipe() {
+		System.out.println("1. 글 작성하기");
+		System.out.println("2. 나만의 레시피 글 상세보기 ");
+		System.out.println("3. 돌아가기");
+	}
+	
+	static void displayRecipeReview() {
+		System.out.println("1. 레시피 후기 글 상세보기 ");
+		System.out.println("2. 돌아가기");
+	}
+	
+	
+	static void recipeBoard(int num, MemberVO member,String name,int choice) {
 		switch(num) {
 			case 1:
 				sc.nextLine();
@@ -444,32 +474,56 @@ public class MenuView {
 				String content = sc.nextLine();
 				BoardVO board = new RecipeBoardVO(member.getMNickname(),title, content);
 				BoardController.postBoard(board);
+				boardSelect(member, choice);
 				break;
 			case 2:
-				System.out.println("게시판 번호 입력 :");
+				System.out.print("게시판 번호 입력 :");
 				int no = sc.nextInt();
-				if(!BoardController.postBoardByNo(no,name))
-					board(member);
-				System.out.println("1.댓글 작성");
-				System.out.println("2.뒤로 가기");
-				int menu = sc.nextInt();
-				if(menu==1) {
-					System.out.println("댓글 내용");
-					sc.nextLine();
-					String commentContent = sc.nextLine();
-					System.out.println("평점 : (1~5)점");
-					int rating = sc.nextInt();
-					CommentVO comment =null;
-					if(name.equals("MY_RECIPE"))
-						comment = new RecipeCommentVO(commentContent, rating,member.getMNickname(),no);
-					if(name.equals("RECIOE_REVIEW"))
-						comment = new ReviewCommentVO(commentContent, rating,member.getMNickname(),no);
-					BoardController.writeComment(comment,name+"_Comment");
-					board(member);
-				}else {
-					board(member);
+				while(true) {
+					if(!BoardController.postBoardByNo(no,name))
+						board(member);
+				
+					System.out.println("1.댓글 작성");
+					System.out.println("2.뒤로 가기");
+					String menu = sc.next();
+					
+					if(!MenuController.IsCheckNum(menu)) {
+						continue;
+					}
+				
+					if(Integer.valueOf(menu)==1) {
+						System.out.println("댓글 내용");
+						sc.nextLine();
+						String commentContent = sc.nextLine();
+						System.out.println("평점 : (1~5)점");
+						int rating = sc.nextInt();
+						CommentVO comment =null;
+						if(name.equals("MY_RECIPE"))
+							comment = new RecipeCommentVO(commentContent, rating,member.getMNickname(),no);
+						if(name.equals("RECIPE_REVIEW"))
+							comment = new ReviewCommentVO(commentContent, rating,member.getMNickname(),no);
+						BoardController.writeComment(comment,name+"_Comment");
+						continue;
+				
+					}else if(Integer.valueOf(menu)==2){
+						boardSelect(member, choice);
+					}else {
+						System.out.println("해당하는 번호를 입력해주세요");
+						continue;
+					}
+					break;
+
 				}
 				break;
+
+			case 3:
+				board(member);
+				break;
+			default:
+				System.out.println("해당 되는 번호를 입력해주세요");
+				boardSelect(member, choice);
+
+				
 				
 		}
 		

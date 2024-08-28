@@ -23,10 +23,13 @@ public class RecipeCommentVO extends CommentVO{
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
+	
+	public String getName() {
+		return "레시피 게시판";
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("레시피 게시판의 댓글 :");
 		builder.append(super.toString());
 
 

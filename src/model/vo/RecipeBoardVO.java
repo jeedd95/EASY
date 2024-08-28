@@ -33,13 +33,17 @@ public class RecipeBoardVO extends BoardVO{
 		return mNickname;
 		
 	}
+	
+	public String getName() {
+		return "나만의 레시피 게시판";
+	}
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("나만의 레시피 게시판 ");
-		builder.append(": 회원 닉네임: ");
+		builder.append("게시판 번호 : ");
+		builder.append(super.getNo());
+		builder.append(" | 회원 닉네임: ");
 		builder.append(mNickname);
 		builder.append(super.toString());
-		builder.append("]");
 		return builder.toString();
 	}
 	

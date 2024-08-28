@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,7 +112,6 @@ public class BoardDAOImpl implements  BoardDAO {
 		String sql ="SELECT initcap(TABLE_NAME) FROM USER_TABLES where TABLE_NAME like '%COMMENT%'";
 		
 		Map<String, Map<String,Object>> commentList = new HashMap<String, Map<String,Object>>();
-		System.out.println(sql);
 		
 		try {
 			con = DbManager.getConnection();
@@ -259,7 +257,6 @@ public class BoardDAOImpl implements  BoardDAO {
 			ps = con.prepareStatement(sql);
 			ps.setInt(1,comment.getCommentNo());
 			ps.setString(2, comment.getMemberNickName());
-			System.out.println(sql);
 			result = ps.executeUpdate();
 			
 						
@@ -322,7 +319,7 @@ public class BoardDAOImpl implements  BoardDAO {
 			}
 			
 			if(comment instanceof ReviewCommentVO reviewComment) {
-				ps.setInt(1,reviewComment.getRecipeBoardNo()); 
+				ps.setInt(1,reviewComment.getBoardNo()); 
 				ps.setString(2,reviewComment.getContent());
 				ps.setInt(3, reviewComment.getRating());
 				ps.setString(4, reviewComment.getMemberNickName());
@@ -331,7 +328,8 @@ public class BoardDAOImpl implements  BoardDAO {
 			result = ps.executeUpdate();
 			
 		} catch (SQLException e) {
-			throw new SQLException("평점은 1~5사이를 입력하세요");
+//			throw new SQLException("평점은 1~5사이를 입력하세요");
+			e.printStackTrace();
 		}finally {
 			DbManager.dbClose(con, ps);
 		}
@@ -501,7 +499,6 @@ public class BoardDAOImpl implements  BoardDAO {
             		board = new ReviewBoardVO(boardNo,recipeNo, title, content, date);
             		
             	}
-            	System.out.println(boardName);
             	comment = replyBoardByNo(con,boardNo,boardName);
             	if(comment ==null)
             		throw new Exception("댓글이 없습니다");
@@ -526,7 +523,6 @@ public class BoardDAOImpl implements  BoardDAO {
 		String[] name = commentName.split("_");
 		commentName = name[0]+"_"+name[1];
 		String sql = "select * from "+commentName+"_Comment where BOARD_NO = ?";
-		System.out.println(commentName);
 		List<CommentVO> comment = new ArrayList<CommentVO>();
 		try {
 			ps=con.prepareStatement(sql);
