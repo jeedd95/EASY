@@ -106,46 +106,46 @@ public class MenuView {
 	 * 그후 ex) 돼지고기,소고기 번호 클릭해서 원하는 칸(입력받아서)or 자동 넣기
 	 */
 	private static void insertIngredient(MemberVO member) {
-        Scanner sc = new Scanner(System.in);
-        
-        // DAO에서 대분류 리스트를 받아옴
-        List<RefrigeratorDAO> categoryList = IngredientDAO.getCategoryList();
-        
-        System.out.println("----식재료 추가----");
-        System.out.println("선택해주세요.");
-        for (int idx = 0; idx < categoryList.size(); idx++) {
-            System.out.println((idx + 1) + "." + categoryList.get(idx) + " |");
-        }
-        
-        int choice = sc.nextInt();
-        
-        // 선택한 대분류에 해당하는 소분류 리스트를 받아옴
-        String selectedCategory = categoryList.get(choice - 1);
-        List<String> subCategoryList = IngredientDAO.getSubCategoryList(selectedCategory);
-        
-        System.out.println("----선택해주세요----");
-        for (int idx = 0; idx < subCategoryList.size(); idx++) {
-            System.out.println((idx + 1) + "." + subCategoryList.get(idx) + " |");
-        }
-        
-        int subChoice = sc.nextInt();
-        String selectedSubCategory = subCategoryList.get(subChoice - 1);
-        
-        // 선택한 식재료를 DTO에 저장
-        IngredientDTO ingredient = new IngredientDTO();
-        ingredient.setCategory(selectedCategory);
-        ingredient.setSubCategory(selectedSubCategory);
-        
-        // DTO를 리스트에 추가
-        List<IngredientDTO> ingredientList = IngredientService.addIngredient(member, ingredient);
-        
-        System.out.println(selectedSubCategory + "가 추가 되었습니다.");
-        
-        // 리스트 출력 (필요시 SuccessView에서 사용)
-        System.out.println("현재 식재료 목록:");
-        for (IngredientDTO ingr : ingredientList) {
-            System.out.println(ingr.getSubCategory());
-        }
+//        Scanner sc = new Scanner(System.in);
+//        
+//        // DAO에서 대분류 리스트를 받아옴
+//        List<RefrigeratorDAO> categoryList = IngredientDAO.getCategoryList();
+//        
+//        System.out.println("----식재료 추가----");
+//        System.out.println("선택해주세요.");
+//        for (int idx = 0; idx < categoryList.size(); idx++) {
+//            System.out.println((idx + 1) + "." + categoryList.get(idx) + " |");
+//        }
+//        
+//        int choice = sc.nextInt();
+//        
+//        // 선택한 대분류에 해당하는 소분류 리스트를 받아옴
+//        String selectedCategory = categoryList.get(choice - 1);
+//        List<String> subCategoryList = IngredientDAO.getSubCategoryList(selectedCategory);
+//        
+//        System.out.println("----선택해주세요----");
+//        for (int idx = 0; idx < subCategoryList.size(); idx++) {
+//            System.out.println((idx + 1) + "." + subCategoryList.get(idx) + " |");
+//        }
+//        
+//        int subChoice = sc.nextInt();
+//        String selectedSubCategory = subCategoryList.get(subChoice - 1);
+//        
+//        // 선택한 식재료를 DTO에 저장
+//        IngredientDTO ingredient = new IngredientDTO();
+//        ingredient.setCategory(selectedCategory);
+//        ingredient.setSubCategory(selectedSubCategory);
+//        
+//        // DTO를 리스트에 추가
+//        List<IngredientDTO> ingredientList = IngredientService.addIngredient(member, ingredient);
+//        
+//        System.out.println(selectedSubCategory + "가 추가 되었습니다.");
+//        
+//        // 리스트 출력 (필요시 SuccessView에서 사용)
+//        System.out.println("현재 식재료 목록:");
+//        for (IngredientDTO ingr : ingredientList) {
+//            System.out.println(ingr.getSubCategory());
+//        }
     }
 	/*
 	 * 식재료 빼기
@@ -154,51 +154,51 @@ public class MenuView {
 	 *  냉장고 상태 보여주기 
 	 */
 	  private static void removeIngredient(MemberVO member) {
-          Scanner sc = new Scanner(System.in);
-          
-          // 1. 냉장고 현황 보여주기
-          List<IngredientDTO> ingredientList = RefrigeratorDAO.getIngredientList(member);
-          
-          System.out.println("----냉장고 현황----");
-          for (int idx = 0; idx < ingredientList.size(); idx++) {
-              IngredientDTO ingredient = ingredientList.get(idx);
-              System.out.println((idx + 1) + ". " + ingredient.getSubCategory() + " | 유통기한: " + ingredient.getExpirationDate());
-          }
-          
-          // 2. 기능 선택
-          System.out.println("식재료 빼기 기능을 선택해주세요.");
-          System.out.println("1. 해당 칸(번호)으로 제거");
-          System.out.println("2. 음식명으로 유통기한 짧은 것 제거");
-          
-          int choice = sc.nextInt();
-          
-          if (choice == 1) {
-              // 기능 1: 해당 칸(번호)으로 제거
-              System.out.println("제거할 식재료의 번호를 입력해주세요 (예: 1, 3):");
-              int index = sc.nextInt();
-              IngredientDTO ingredientToRemove = ingredientList.get(index - 1);
-              RefrigeratorDAO.removeIngredientByIndex(member, index - 1);
-              System.out.println(ingredientToRemove.getSubCategory() + "가 제거되었습니다.");
-              
-          } else if (choice == 2) {
-              // 기능 2: 음식명으로 유통기한 짧은 것 제거
-              sc.nextLine(); // 버퍼 비우기
-              System.out.println("제거할 음식명을 입력해주세요:");
-              String foodName = sc.nextLine();
-              IngredientDTO ingredientToRemove = RefrigeratorDAO.removeIngredientByName(member, foodName);
-              if (ingredientToRemove != null) {
-                  System.out.println(ingredientToRemove.getSubCategory() + " 중 유통기한이 가장 짧은 항목이 제거되었습니다.");
-              } else {
-                  System.out.println("해당 음식명이 냉장고에 없습니다.");
-              }
-          }
-          
-          // 3. 냉장고 상태 다시 보여주기
-          ingredientList = RefrigeratorDAO.getIngredientList(member);
-          System.out.println("----현재 냉장고 현황----");
-          for (IngredientDTO ingredient : ingredientList) {
-              System.out.println(ingredient.getSubCategory() + " | 유통기한: " + ingredient.getExpirationDate());
-          }
+//          Scanner sc = new Scanner(System.in);
+//          
+//          // 1. 냉장고 현황 보여주기
+//          List<IngredientDTO> ingredientList = RefrigeratorDAO.getIngredientList(member);
+//          
+//          System.out.println("----냉장고 현황----");
+//          for (int idx = 0; idx < ingredientList.size(); idx++) {
+//              IngredientDTO ingredient = ingredientList.get(idx);
+//              System.out.println((idx + 1) + ". " + ingredient.getSubCategory() + " | 유통기한: " + ingredient.getExpirationDate());
+//          }
+//          
+//          // 2. 기능 선택
+//          System.out.println("식재료 빼기 기능을 선택해주세요.");
+//          System.out.println("1. 해당 칸(번호)으로 제거");
+//          System.out.println("2. 음식명으로 유통기한 짧은 것 제거");
+//          
+//          int choice = sc.nextInt();
+//          
+//          if (choice == 1) {
+//              // 기능 1: 해당 칸(번호)으로 제거
+//              System.out.println("제거할 식재료의 번호를 입력해주세요 (예: 1, 3):");
+//              int index = sc.nextInt();
+//              IngredientDTO ingredientToRemove = ingredientList.get(index - 1);
+//              RefrigeratorDAO.removeIngredientByIndex(member, index - 1);
+//              System.out.println(ingredientToRemove.getSubCategory() + "가 제거되었습니다.");
+//              
+//          } else if (choice == 2) {
+//              // 기능 2: 음식명으로 유통기한 짧은 것 제거
+//              sc.nextLine(); // 버퍼 비우기
+//              System.out.println("제거할 음식명을 입력해주세요:");
+//              String foodName = sc.nextLine();
+//              IngredientDTO ingredientToRemove = RefrigeratorDAO.removeIngredientByName(member, foodName);
+//              if (ingredientToRemove != null) {
+//                  System.out.println(ingredientToRemove.getSubCategory() + " 중 유통기한이 가장 짧은 항목이 제거되었습니다.");
+//              } else {
+//                  System.out.println("해당 음식명이 냉장고에 없습니다.");
+//              }
+//          }
+//          
+//          // 3. 냉장고 상태 다시 보여주기
+//          ingredientList = RefrigeratorDAO.getIngredientList(member);
+//          System.out.println("----현재 냉장고 현황----");
+//          for (IngredientDTO ingredient : ingredientList) {
+//              System.out.println(ingredient.getSubCategory() + " | 유통기한: " + ingredient.getExpirationDate());
+//          }
       }
 
 	/*

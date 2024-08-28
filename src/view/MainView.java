@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import controller.MemberController;
 import model.vo.MemberVO;
+import util.Session;
 
 /**
  * 메인 메뉴를 출력한다 (1. 로그인 |  2.회원가입 | 3. 시스템 종료)
@@ -38,8 +39,10 @@ public class MainView {
 					String pw = sc.next();
 					MemberVO member = new MemberVO(id,pw);
 					MemberVO loginMember = MemberController.login(member);
-					if(loginMember!=null)
+					if(loginMember!=null) {
 						MenuView.login(loginMember);
+						Session.setCurrentMember(member);
+					}
 					else
 						LoginMenu();
 					
