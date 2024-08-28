@@ -1,13 +1,13 @@
 package view;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import controller.BoardController;
 import controller.MemberController;
+import controller.MenuController;
 import controller.RecipeController;
 import controller.StatsController;
 import controller.WishListController;
@@ -24,6 +24,7 @@ import model.vo.WishListVO;
 
 public class MenuView {
 	public static Scanner sc = new Scanner(System.in);
+	
 	/*
 	 * 로그인 성공 했을 때 화면 
 	 */
@@ -46,9 +47,13 @@ public class MenuView {
 			System.out.println("[10] 마이 페이지");
 			System.out.println("선택 > ");
 			
-			int menu = sc.nextInt();
-			
-			switch(menu){
+			String selectNo = sc.next();
+
+			if(!MenuController.checkNum(selectNo)) {
+				FailView.printMessage("숫자만 입력하세요");	
+				login(member);
+			}
+			switch(Integer.valueOf(selectNo)){
 			
 //			case 1: MenuView.login();
 			
@@ -71,6 +76,8 @@ public class MenuView {
 					System.exit(0);
 					break;
 			case 10: myPage(member);
+			default:
+				System.out.println("해당하는 숫자를 눌러주세요");
 				   
 				
 			}
