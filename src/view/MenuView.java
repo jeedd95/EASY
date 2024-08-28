@@ -443,9 +443,14 @@ public class MenuView {
 		System.out.println("---------------------------");
 		System.out.print("선택 > ");
 		
-		int button = Integer.parseInt(sc.next());
-		
-		switch (button) {
+		String button;
+		while(true) {
+			button= sc.next();
+			if(!MenuController.IsCheckNum(button))
+				continue;
+			break;
+		}
+		switch (Integer.valueOf(button)) {
 			case 1: 
 				MenuView.addWishList(member.getMNo());  //추가
 				MenuView.wishList(member);
@@ -466,11 +471,17 @@ public class MenuView {
 	
 	public static void addWishList (int memberNo) {
 		//ingredientVO 만들어서 가져오는 메소드 호출 (일단 27로 셋팅)
-		System.out.println("보관 유지 수량 입력 > ");
-		int amount = Integer.parseInt(sc.next());
-		//★★ 추후 수정 필요(시퀀스, 식재료 번호 연동)
-		WishListVO wl = new WishListVO(10, memberNo, 27, amount);
-		WishListController.addWishList(wl);
+		while(true) {
+			System.out.println("보관 유지 수량 입력 > ");
+			String amount = sc.next();
+			if(!MenuController.IsCheckNum(amount))
+				continue;
+			//★★ 추후 수정 필요(시퀀스, 식재료 번호 연동)
+			WishListVO wl = new WishListVO(10, memberNo, 27, Integer.valueOf(amount));
+			WishListController.addWishList(wl);
+			break;
+		}
+
 		
 		
 	}
@@ -654,10 +665,15 @@ public class MenuView {
 		System.out.println("1.나의 현황 | 2. 성별(남) | 3. 성별(여) | 4. 식재료별 | 5. 뒤로가기 ");
 		System.out.println("--------------------------------------------------------");
 		System.out.println("선택 > ");
+		String button;
+		while(true) {
+			button = sc.next();
+			if(!MenuController.IsCheckNum(button))
+				continue;
+			break;
+		}
 		
-		int button = Integer.parseInt(sc.next());
-		
-		switch (button) {
+		switch (Integer.valueOf(button)) {
 			case 1: 
 				StatsController.searchIngredientStatsByMine(member.getMNo());
 				MenuView.stats(member);
@@ -695,9 +711,14 @@ public class MenuView {
 		System.out.println("1.내가 쓴 글 보기");
 		System.out.println("2.내가 쓴 댓글 보기");
 		System.out.println("3.회원 탈퇴");
-		int myPageNum = sc.nextInt();
-		
-		switch(myPageNum) {
+		String myPageNum;
+		while(true) {
+			myPageNum = sc.next();
+			if(!MenuController.IsCheckNum(myPageNum))
+				continue;
+			break;
+		}
+		switch(Integer.valueOf(myPageNum)) {
 			case 1:
 				//BoardController.searchMyPost(member.getMNo());
 				BoardController.searchMyPost(member.getMNickname());
@@ -734,8 +755,15 @@ public class MenuView {
 				BoardController.searchMyComment(member.getMNickname());
 				System.out.println("1.삭제하기");
 				System.out.println("2.이전으로");
-				int selectComment = sc.nextInt();
-				if(selectComment==1) {
+				String selectComment;
+				while(true) {
+					selectComment= sc.next();
+				
+					if(!MenuController.IsCheckNum(selectComment))
+						continue;
+					break;
+				}	
+				if(Integer.valueOf(selectComment)==1) {
 					System.out.println("삭제할 댓글 번호 고르세요");
 					int commentNo = sc.nextInt();
 					System.out.println("비번을 입력하세요");
