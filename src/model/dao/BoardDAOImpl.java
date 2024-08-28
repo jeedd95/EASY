@@ -126,6 +126,8 @@ public class BoardDAOImpl implements  BoardDAO {
 						
 		} catch (SQLException e) {
 			throw new SQLException("댓글이 없습니다");
+		}finally{
+			DbManager.dbClose(con,ps,rs);
 		}
 		return commentList;
 	}
@@ -183,22 +185,24 @@ public class BoardDAOImpl implements  BoardDAO {
 	
 	//게시물삭제
 	@Override
-	public int deleteBoard(BoardVO board) {
+	public int deleteBoard(BoardVO board) throws SQLException {
 		int result=0;
 		Connection con = null;
 		PreparedStatement ps =null;
 		
-		String sql = "delete from My_recipe_Board where BOARD_NO = ? AND M_NO = ?";
+		String sql = "delete from My_recipe_Board where BOARD_NO = ? AND M_NICKNAME = ?";
 		try {
 			con=DbManager.getConnection();
 			ps=con.prepareStatement(sql);
-			ps.setInt(1, board.getNo());
-			ps.setString(2, board.getColmun());
+			if(board instanceof RecipeBoardVO recipeBoard) {
+				ps.setInt(1, recipeBoard.getNo());
+				ps.setString(2, recipeBoard.getMNickname());
+			}
 			
 			result = ps.executeUpdate();
 			
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new SQLException("삭제되지 않음");
 		}
 		
 		return result;
@@ -244,7 +248,7 @@ public class BoardDAOImpl implements  BoardDAO {
 	/*
 	 * 삭제완료
 	 */
-	public int deleteCommentTable(Connection con, String tableName,CommentVO comment) {
+	public int deleteCommentTable(Connection con, String tableName,CommentVO comment) throws SQLException {
 		PreparedStatement ps = null;
 		
 		int result = 0;
@@ -260,8 +264,8 @@ public class BoardDAOImpl implements  BoardDAO {
 			result = ps.executeUpdate();
 			
 						
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			throw new SQLException("정보가 일치해서 삭제되지 않습니다");
 		}finally {
 			DbManager.dbClose(ps);
 		}

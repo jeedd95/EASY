@@ -89,7 +89,7 @@ public class BoardController {
 			SuccessView.printMessage("삭제 성공");
 
 		} catch (Exception e) {
-			FailView.printMessage(e.toString());
+			FailView.printMessage(e.getMessage());
 		}
 	}
 	

@@ -630,8 +630,12 @@ public class MenuView {
 				BoardController.searchMyPost(member.getMNickname());
 				System.out.println("1.삭제하기");
 				System.out.println("2.이전으로");
-				int selectPost = sc.nextInt();
-				if(selectPost==1) {
+				String selectPost = sc.next();
+				if(!MenuController.IsCheckNum(selectPost))
+					myPage(member);
+				switch(Integer.valueOf(selectPost)) 
+				{
+				case 1:
 					System.out.println("삭제할 게시물 번호 고르세요");
 					int boardNo = sc.nextInt();
 					System.out.println("비번을 입력하세요");
@@ -643,13 +647,18 @@ public class MenuView {
 					}
 					else
 						System.out.println("비번이 틀립니다");
-				}
-				else
+				case 2:
 					myPage(member);
-				break;
+					break;
+				default:
+					System.out.println("해당하는 번호를 입력하세요");
+					myPage(member);
+					break;
+				}
+				
 			case 2:
 				//BoardController.searchMyComment(member.getMNickeName());
-				BoardController.searchMyComment("제육");
+				BoardController.searchMyComment(member.getMNickname());
 				System.out.println("1.삭제하기");
 				System.out.println("2.이전으로");
 				int selectComment = sc.nextInt();
@@ -660,7 +669,7 @@ public class MenuView {
 					String pw = sc.next();
 					if(member.getMPw().equals(pw)) {//member.getPw.equals(pw)
 						//CommentVO comment = new ReviewCommentVO(member.getMNickeName());
-						BoardController.deleteMyComment(commentNo,"제육");
+						BoardController.deleteMyComment(commentNo,member.getMNickname());
 					}
 					else
 						System.out.println("비번이 틀립니다");
