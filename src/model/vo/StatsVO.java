@@ -85,6 +85,8 @@ public class StatsVO {
 		builder.append(ingredientName);
 		builder.append("\t | ");
 		builder.append(amount);
+		builder.append("\t | ");
+		builder.append(usedDate);
 		return builder.toString();
 	}
 	

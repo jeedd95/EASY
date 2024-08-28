@@ -25,8 +25,8 @@ import model.vo.WishListVO;
 public class MenuView {
 	public static Scanner sc = new Scanner(System.in);
 	
-	/*
-	 * 로그인 성공 했을 때 화면 
+	/**
+	 * 로그인 성공했을 때 화면
 	 */
 	public static void login(MemberVO member) {
 

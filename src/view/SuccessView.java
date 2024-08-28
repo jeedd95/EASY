@@ -71,8 +71,8 @@ public class SuccessView {
 	}
 	
 	public static void printStats(List<StatsVO> list, List<String> ingredientNameList) {
-		System.out.println("식재료 이름 | 사용 수량(많은순) ");
-		System.out.println("------------------------");
+		System.out.println("식재료 이름 | 사용 수량(많은순) | 사용 일자");
+		System.out.println("---------------------------------");
 		for (int i = 0; i<list.size() ; i++) {
 			StatsVO stats = list.get(i);
 			String ingredient = ingredientNameList.get(i);
