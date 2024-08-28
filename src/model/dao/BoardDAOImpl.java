@@ -374,7 +374,7 @@ public class BoardDAOImpl implements  BoardDAO {
 	 * 시작 REVICE_REIVE 슛
 	 */
 	@Override
-	public List<BoardVO> searchPostByName(String table) {
+	public List<BoardVO> searchPostByName(String table) throws SQLException {
 
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -404,7 +404,7 @@ public class BoardDAOImpl implements  BoardDAO {
             }
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new SQLException("게시물이 없습니다");
 		}finally {
 			DbManager.dbClose(con, ps);
 		}

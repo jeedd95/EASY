@@ -127,11 +127,12 @@ public class MenuView {
 		for(int i=0; i<categoryList.size(); i++) {
 			System.out.println((i+1)+". " + categoryList.get(i).getName());
 		}
-		
-		int category = sc.nextInt();
-		if(category ==0) return;
+		String category = sc.next();
+		if(!MenuController.IsCheckNum(category))
+			insertIngredient();
+		if(Integer.valueOf(category)==0) return;
 		System.out.println();
-		식재료뷰(category);
+		식재료뷰(Integer.valueOf(category));
     }
 	
 	private static void 식재료뷰(int category) {
@@ -145,26 +146,33 @@ public class MenuView {
 		}
 //		System.out.println(serialNumberMap);
 		
-		int choice = sc.nextInt();
-		if(choice ==0) return;
+		String choice = sc.next();
+		if(!MenuController.IsCheckNum(choice))
+			식재료뷰(category);
+		if(Integer.valueOf(choice) ==0) return;
 		
 		System.out.println();
-		RefrigeratorVO refrigerator =수량뷰(serialNumberMap.get(choice));
+		RefrigeratorVO refrigerator =수량뷰(serialNumberMap.get(Integer.valueOf(choice)));
 		날짜뷰(refrigerator);
 		
 	}
 	
 	private static RefrigeratorVO 수량뷰(int ingredientNumber) {
-		System.out.println("재료의 수량을 1 이상 정수로 입력해주세요"); //0이하일때 안되게
+		String amount;
+		while(true) {
+			System.out.println("재료의 수량을 1 이상 정수로 입력해주세요"); //0이하일때 안되게
+			amount=sc.next();
+			if(!MenuController.IsCheckNum(amount))
+				continue;
 		
-		int amount=sc.nextInt();
-		while (amount <=0) {
-			System.out.println("1 이상의 정수만 입력해주세요");
-			amount =sc.nextInt();
+			if(Integer.valueOf(amount) <=0) {
+				System.out.println("1 이상의 정수만 입력해주세요");
+				continue;
+			}
+			break;
 		}
-		
 		RefrigeratorVO refrigerator = new RefrigeratorVO();
-		refrigerator.setAmount(amount);
+		refrigerator.setAmount(Integer.valueOf(amount));
 		refrigerator.setIngredientNo(ingredientNumber);
 		refrigerator.setMemberNumber(Session.getCurrentMember().getMNo());
 		
@@ -172,12 +180,17 @@ public class MenuView {
 	}
 	
 	private static RefrigeratorVO 날짜뷰(RefrigeratorVO refrigerator) {
-		System.out.println("오늘부터 남은 유통기한의 일수를 입력해주세요");
-		int days = sc.nextInt();
-		
+		String days;
+		while(true) {
+			System.out.println("오늘부터 남은 유통기한의 일수를 입력해주세요");
+			days = sc.next();
+			if(!MenuController.IsCheckNum(days))
+				continue;
+			break;
+		}
 //		LocalDate today = LocalDate.now();
 //		refrigerator.setRegistDate(LocalDate.now().toString()); //DB에서 해줌
-		refrigerator.setExpirationDate(Integer.toString(days)); //DB에서 해줌 더해줄 일수임
+		refrigerator.setExpirationDate(days); //DB에서 해줌 더해줄 일수임
 		
 //		System.out.println(refrigerator);
 		
@@ -199,7 +212,7 @@ public class MenuView {
 //		  RefrigeratorController
 		// → 번호 입력 → 수량 →
 		// 유통기한 얼마안남은거부터 자동으로 빼기 → 통계 테이블에 넣기
-
+		
 		System.out.println("식재료 상세보기 메뉴에 들어오셨습니다=============");
 		List<RefrigeratorVO> refrigeratorList = RefrigeratorController.removeIngredient();
 		System.out.printf("%-10s %-10s %-5s %-10s %-10s %n","식재료 번호","식재료 이름","수량","넣은 날짜","유통기한");
@@ -220,20 +233,51 @@ public class MenuView {
 		}
 		
 		System.out.println("사용할 식재료 번호를 누르거나 0번으로 뒤로 돌아갑니다");
-		int removeRecipeIngredientNumber = sc.nextInt();
-		if(removeRecipeIngredientNumber ==0) return;
+		
 //		System.out.println(serialNumberMap.get(removeRecipeIngredientNumber));
-		삭제수량뷰(serialNumberMap.get(removeRecipeIngredientNumber),refrigeratorMap.get(removeRecipeIngredientNumber));
+		String removeRecipeIngredientNumber;
+		while(true) {
+			 removeRecipeIngredientNumber = sc.next();
+			if(!MenuController.IsCheckNum(removeRecipeIngredientNumber)) {
+					
+				System.out.println("식재료 상세보기 메뉴에 들어오셨습니다=============");
+				System.out.println("사용할 식재료 번호를 누르거나 0번으로 뒤로 돌아갑니다");
+				continue;
+			}
+			if(Integer.valueOf(removeRecipeIngredientNumber)> refrigeratorList.size()) {
+				System.out.println("존재 하는 번호를 입력해주세요");
+				continue;
+			}
+			break;
+		}
+		if(Integer.valueOf(removeRecipeIngredientNumber) ==0) return;
+//		System.out.println(serialNumberMap.get(removeRecipeIngredientNumber));
+		삭제수량뷰(serialNumberMap.get(Integer.valueOf(removeRecipeIngredientNumber)));
 		
 		
 	}
 	
 	private static void 삭제수량뷰(int removeRecipeIngredientNumber,RefrigeratorVO recipe) {
-		System.out.println("사용할 재료의 수량을 입력해주세요");
-		int amount = sc.nextInt();
-		
-		RecipeController.removeRecipeIngredient(removeRecipeIngredientNumber, amount);
-		RecipeController.addReicpeStats(removeRecipeIngredientNumber,recipe,amount);
+		while(true) {
+			System.out.println("사용할 재료의 수량을 입력해주세요");
+			String amount = sc.next();
+			if(!MenuController.IsCheckNum(amount))
+				continue;
+			RecipeController.removeRecipeIngredient(removeRecipeIngredientNumber, Integer.valueOf(amount));
+			//RecipeController.addReicpeStats(removeRecipeIngredientNumber,recipe,amount);
+
+			break;
+		}
+	}
+	private static void 삭제수량뷰(int removeRecipeIngredientNumber) {
+		while(true) {
+			System.out.println("사용할 재료의 수량을 입력해주세요");
+			String amount = sc.next();
+			if(!MenuController.IsCheckNum(amount))
+				continue;
+			RecipeController.removeRecipeIngredient(removeRecipeIngredientNumber, Integer.valueOf(amount));
+			break;
+		}
 	}
 
 	
@@ -250,9 +294,11 @@ public class MenuView {
 		System.out.println("0. 뒤로가기");
 		System.out.println("=======================================");
 
-		int choice = sc.nextInt();
+		String choice = sc.next();
+		if(!MenuController.IsCheckNum(choice))
+			레시피추천받기();
 
-		switch (choice) {
+		switch (Integer.valueOf(choice)) {
 		case 1:
 			냉장고기반으로추천받기();
 			break;
@@ -280,10 +326,12 @@ public class MenuView {
 		}
 		
 		System.out.println("레시피를 자세히 보시려면 번호를, 뒤로가시려면 0번을 입력해주세요");
-		int choice = sc.nextInt();
+		String choice = sc.next();
+		if(!MenuController.IsCheckNum(choice))
+			냉장고기반으로추천받기();
 		//없는 번호를 입력했을때 오류처리 필요
-		if(choice ==0) return;
-		레시피상세보기(serialNumberMap.get(choice));
+		if(Integer.valueOf(choice) ==0) return;
+		레시피상세보기(serialNumberMap.get(Integer.valueOf(choice)));
 
 		System.out.println();
 		System.out.println("아무 입력으로 뒤로 갑니다");
@@ -557,8 +605,8 @@ public class MenuView {
 		
 	}
 	static void continues() {
-		System.out.println("메인 메뉴로 가겠습니까?(아무키나 누르십쇼)");
-		String a = sc.next();
+		System.out.println("아무 입력으로 뒤로 갑니다");
+		sc.next();
 		
 	}
 	
