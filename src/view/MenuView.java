@@ -41,6 +41,7 @@ public class MenuView {
 		while(true) {
             refri.DrawMap(member);
 			alarmExpirationDate(member);
+			System.out.println();
 			System.out.println("<메뉴를 선택해주세요>");
 			System.out.println("[1] 식재료 넣기");
 			System.out.println("[2] 식재료 빼기");

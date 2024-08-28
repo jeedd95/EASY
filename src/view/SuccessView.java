@@ -96,6 +96,7 @@ public class SuccessView {
 	}
 
 	public static void printAlarmRrfrigetator(List<RefrigeratorVO> ingredients) {
+		System.out.println("★★유통기한 관리 재고 알림★★");
 		for(RefrigeratorVO refri : ingredients) {
 			System.out.println(refri.getIngredient().getName()+"의 남은 유통기한이 5일 이내 입니다. 남은 수량: "+refri.getAmount());
 		}
