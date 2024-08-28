@@ -7,7 +7,7 @@ import view.FailView;
 public class MenuController {
 	public static String checkNum = "^[\\d]*$";
 	
-	public static String checkSpace  ="^[\\w]*$";
+	public static String checkSpace ="^[가-힣a-zA-Z0-9]*$";
 	
 	public static boolean IsCheckNum(String selectNo) {
 		if(Pattern.matches(checkNum, selectNo)) {

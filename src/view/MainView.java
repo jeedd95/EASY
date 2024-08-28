@@ -73,8 +73,16 @@ public class MainView {
 							break;
 						}
 					}
-					System.out.println("이름을 입력하세요");	
-					String name = sc.nextLine();
+					String name;
+					while(true) {
+						System.out.println("이름을 입력하세요");
+						name = sc.nextLine();
+						if(!MemberController.checkNickNameDuplicate(name) && checkSpace(name)) {
+							break;
+						}
+
+					}
+					
 					String nickName;
 					
 					while(true) {
