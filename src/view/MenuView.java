@@ -39,6 +39,7 @@ public class MenuView {
 
 		RefrigeratorView refri =RefrigeratorView.getInstance();
 		while(true) {
+            refri.DrawMap(member);
 			alarmExpirationDate(member);
 			System.out.println("<메뉴를 선택해주세요>");
 			System.out.println("[1] 식재료 넣기");
@@ -48,9 +49,9 @@ public class MenuView {
 			System.out.println("[5] 찜 목록");
 			System.out.println("[6] 게시판 보기");
 			System.out.println("[7] 통계");
-			System.out.println("[8] 로그아웃");
-			System.out.println("[9] 시스템 종료");
-			System.out.println("[10] 마이 페이지");
+			System.out.println("[8] 마이 페이지");
+			System.out.println("[9]  로그아웃");
+			System.out.println("[10] 시스템 종료");
 			System.out.println("선택 > ");
 			
 			String selectNo = sc.next();
@@ -75,12 +76,13 @@ public class MenuView {
 				break;
 			case 7: MenuView.stats(member);
 				break;
-			case 8: MenuView.logOut();
+			case 8: myPage(member);
 				break;
 			case 9:
+					MenuView.logOut();
 					System.exit(0);
 					break;
-			case 10: myPage(member);
+			case 10: System.exit(0);
 			default:
 				System.out.println("해당하는 숫자를 눌러주세요");
 				   
