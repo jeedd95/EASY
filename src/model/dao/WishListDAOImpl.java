@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exception.InputFormatException;
+import model.vo.RefrigeratorVO;
 import model.vo.WishListVO;
 import util.DbManager;
 
@@ -18,7 +19,7 @@ public class WishListDAOImpl implements WishListDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = "insert into wishlist values (11, ? , ? , ?)";
+		String sql = "insert into wishlist values (W_NO_SEQ.nextval, ? , ? , ?)";
 		
 		try {
 			con = DbManager.getConnection();

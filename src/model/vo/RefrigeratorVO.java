@@ -71,4 +71,34 @@ public class RefrigeratorVO {
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
+
+
+//	@Override
+//	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("RefrigeratorVO [serialNumber=");
+//		builder.append(serialNumber);
+//		builder.append(", memberNumber=");
+//		builder.append(memberNumber);
+//		builder.append(", ingredientNo=");
+//		builder.append(ingredientNo);
+//		builder.append(", amount=");
+//		builder.append(amount);
+//		builder.append(", registDate=");
+//		builder.append(registDate);
+//		builder.append(", expirationDate=");
+//		builder.append(expirationDate);
+//		builder.append("]");
+//		return builder.toString();
+//	}
+    
+	
+	public String toString(String ingredientName) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(ingredientName);
+		builder.append(amount);
+		return builder.toString();
+	}
+    
+    
 }
