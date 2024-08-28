@@ -218,14 +218,8 @@ public class MenuView {
 		for(int i =0; i< refrigeratorList.size(); i++) {
 			RefrigeratorVO r = refrigeratorList.get(i);
 			System.out.printf("%-8s %-10s %-5s %-10s %-10s %n",(i+1)+".\t",r.getIngredient().getName(),r.getAmount(),r.getRegistDate(),r.getExpirationDate());
-//			System.out.printf((i+1)+".");
-//			System.out.printf("%8s","▶" + r.getIngredient().getName());
-//			System.out.printf("%-4d",r.getAmount());
-//			System.out.printf("%-4s",r.getRegistDate());
-//			System.out.printf("%-4s",r.getExpirationDate()+"\n");
-//			System.out.println((i+1) +".\t ▶" + r.getIngredient().getName() + r.getAmount()+"\s\t" + r.getRegistDate() + "\s\t" + r.getExpirationDate());
-			serialNumberMap.put(i+1, r.getSerialNumber());
-			refrigeratorMap.put(i+1,r);
+			serialNumberMap.put(i+1, r.getIngredientNo()); //유저가 누르는번호-식재료일련번호
+			refrigeratorMap.put(i+1,r); //유저가누르는번호-식재료
 		}
 		
 		System.out.println("사용할 식재료 번호를 누르거나 0번으로 뒤로 돌아갑니다");
@@ -247,12 +241,23 @@ public class MenuView {
 			break;
 		}
 		if(Integer.valueOf(removeRecipeIngredientNumber) ==0) return;
-//		System.out.println(serialNumberMap.get(removeRecipeIngredientNumber));
-		삭제수량뷰(serialNumberMap.get(Integer.valueOf(removeRecipeIngredientNumber)));
+		삭제수량뷰(serialNumberMap.get(Integer.valueOf(removeRecipeIngredientNumber)),refrigeratorMap.get(Integer.valueOf(removeRecipeIngredientNumber)));
 		
 		
 	}
 	
+//	private static void 삭제수량뷰(int removeRecipeIngredientNumber,RefrigeratorVO recipe) {
+//		while(true) {
+//			System.out.println("사용할 재료의 수량을 입력해주세요");
+//			String amount = sc.next();
+//			if(!MenuController.IsCheckNum(amount))
+//				continue;
+//			RecipeController.removeRecipeIngredient(removeRecipeIngredientNumber, Integer.valueOf(amount));
+//			RecipeController.addReicpeStats(removeRecipeIngredientNumber, recipe, removeRecipeIngredientNumber);
+//
+//			break;
+//		}
+//	}
 	private static void 삭제수량뷰(int removeRecipeIngredientNumber,RefrigeratorVO recipe) {
 		while(true) {
 			System.out.println("사용할 재료의 수량을 입력해주세요");
@@ -260,18 +265,10 @@ public class MenuView {
 			if(!MenuController.IsCheckNum(amount))
 				continue;
 			RecipeController.removeRecipeIngredient(removeRecipeIngredientNumber, Integer.valueOf(amount));
-			//RecipeController.addReicpeStats(removeRecipeIngredientNumber,recipe,amount);
-
-			break;
-		}
-	}
-	private static void 삭제수량뷰(int removeRecipeIngredientNumber) {
-		while(true) {
-			System.out.println("사용할 재료의 수량을 입력해주세요");
-			String amount = sc.next();
-			if(!MenuController.IsCheckNum(amount))
-				continue;
-			RecipeController.removeRecipeIngredient(removeRecipeIngredientNumber, Integer.valueOf(amount));
+//			System.out.println("removeRecipeIngredientNumber : " + removeRecipeIngredientNumber);
+//			System.out.println("recipe : " + recipe);
+			//내가 삭제한 재료일련번호, 레시피,수량
+			RecipeController.addReicpeStats(removeRecipeIngredientNumber, recipe, Integer.valueOf(amount));
 			break;
 		}
 	}
