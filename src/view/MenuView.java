@@ -43,15 +43,14 @@ public class MenuView {
 	         alarmExpirationDate(member);
 	         System.out.println("<메뉴를 선택해주세요>");
 	         System.out.println("[1] 식재료 넣기");
-	         System.out.println("[2] 식재료 빼기");
-	         System.out.println("[3] 식재료 상세보기");
-	         System.out.println("[4] 레시피 추천받기");
-	         System.out.println("[5] 찜 목록");
-	         System.out.println("[6] 게시판 보기");
-	         System.out.println("[7] 통계");
-	         System.out.println("[8] 마이 페이지");
-	         System.out.println("[9]  로그아웃");
-	         System.out.println("[10] 시스템 종료");
+	         System.out.println("[2] 식재료 상세보기");
+	         System.out.println("[3] 레시피 추천받기");
+	         System.out.println("[4] 찜 목록");
+	         System.out.println("[5] 게시판 보기");
+	         System.out.println("[6] 통계");
+	         System.out.println("[7] 마이 페이지");
+	         System.out.println("[8]  로그아웃");
+	         System.out.println("[9] 시스템 종료");
 	         System.out.println("선택 > ");
 	         
 	         String selectNo = sc.next();
@@ -66,23 +65,21 @@ public class MenuView {
 	               break;
 	         case 2: MenuView.refrigeratorDetailView();
 	               break;
-//	         case 3: MenuView.login();
-//	               break;
-	         case 4: 레시피추천받기();
+	         case 3: 레시피추천받기();
 	               break;
-	         case 5: MenuView.wishList(member);
+	         case 4: MenuView.wishList(member);
 	            break;
-	         case 6: board(member);
+	         case 5: board(member);
 	            break;
-	         case 7: MenuView.stats(member);
+	         case 6: MenuView.stats(member);
 	            break;
-	         case 8: myPage(member);
+	         case 7: myPage(member);
 	            break;
-	         case 9:
+	         case 8:
 	               MenuView.logOut();
 	               System.exit(0);
 	               break;
-	         case 10: System.exit(0);
+	         case 9: System.exit(0);
 	         default:
 	            System.out.println("해당하는 숫자를 눌러주세요");
 	               
