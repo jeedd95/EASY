@@ -3,8 +3,8 @@ package model.vo;
 import java.util.Date;
 
 public class RefrigeratorVO {
-    private int rNo;            
-    private int mNo;           
+    private int serialNumber;            
+    private int memberNumber;           
     private int ingredientNo;   
     private int amount;         
     private Date registDate;    
@@ -15,8 +15,8 @@ public class RefrigeratorVO {
 
     
     public RefrigeratorVO(int rNo, int mNo, int ingredientNo, int amount, Date registDate, Date expirationDate) {
-        this.rNo = rNo;
-        this.mNo = mNo;
+        this.serialNumber = rNo;
+        this.memberNumber = mNo;
         this.ingredientNo = ingredientNo;
         this.amount = amount;
         this.registDate = registDate;
@@ -24,20 +24,20 @@ public class RefrigeratorVO {
     }
 
    
-    public int getrNo() {
-        return rNo;
+    public int getSerialNumber() {
+        return serialNumber;
     }
 
-    public void setrNo(int rNo) {
-        this.rNo = rNo;
+    public void setSerialNumber(int rNo) {
+        this.serialNumber = rNo;
     }
 
-    public int getmNo() {
-        return mNo;
+    public int getMemberNumber() {
+        return memberNumber;
     }
 
-    public void setmNo(int mNo) {
-        this.mNo = mNo;
+    public void setMemberNumber(int mNo) {
+        this.memberNumber = mNo;
     }
 
     public int getIngredientNo() {

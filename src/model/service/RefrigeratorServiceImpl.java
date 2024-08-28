@@ -1,17 +1,15 @@
 package model.service;
 
 import java.util.List;
+
 import model.dao.RefrigeratorDAO;
+import model.dao.RefrigeratorDAOImpl;
+import model.vo.IngredientVO;
 import model.vo.RefrigeratorVO;
 
 public class RefrigeratorServiceImpl implements RefrigeratorService {
 
-    private final RefrigeratorDAO refrigeratorDAO;
-
-    // RefrigeratorDAO 주입을 생성자로 처리
-    public RefrigeratorServiceImpl(RefrigeratorDAO refrigeratorDAO) {
-        this.refrigeratorDAO = refrigeratorDAO;
-    }
+    private static RefrigeratorDAO dao =new RefrigeratorDAOImpl();
 
     @Override
     public int insertIngredient(List<RefrigeratorVO> ingredients) {
@@ -23,7 +21,7 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
         if (ingredients.isEmpty()) {
             throw new IllegalArgumentException("추가할 재료 목록이 비어 있습니다.");
         }
-        return refrigeratorDAO.insertIngredient(ingredients);
+        return dao.insertIngredient(ingredients);
     }
 
     @Override
@@ -36,7 +34,7 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
         if (ingredients.isEmpty()) {
             throw new IllegalArgumentException("제거할 재료 목록이 비어 있습니다.");
         }
-        return refrigeratorDAO.subtractIngredient(ingredients);
+        return dao.subtractIngredient(ingredients);
     }
 
     @Override
@@ -45,6 +43,18 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
         if (memberNo <= 0) {
             throw new IllegalArgumentException("유효하지 않은 회원 번호입니다.");
         }
-        return refrigeratorDAO.searchIngredientByMemberNo(memberNo);
+        return dao.searchIngredientByMemberNo(memberNo);
     }
+
+	@Override
+	public List<IngredientVO> selectCategory() {
+		
+		return dao.selectCategory();
+		
+	}
+
+	@Override
+	public List<IngredientVO> selectIngredient(int ingredientNumber) {
+		return dao.selectIngredient(ingredientNumber);
+	}
 }

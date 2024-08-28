@@ -1,30 +1,27 @@
 package controller;
 
 import java.util.List;
-import model.vo.RefrigeratorVO;
+
 import model.service.RefrigeratorService;
+import model.service.RefrigeratorServiceImpl;
+import model.vo.IngredientVO;
+import model.vo.RefrigeratorVO;
 
 public class RefrigeratorController {
 
-    private final RefrigeratorService refrigeratorService;
+    public static RefrigeratorService service = new RefrigeratorServiceImpl();
 
-    // RefrigeratorService 주입을 생성자로 처리
-    public RefrigeratorController(RefrigeratorService refrigeratorService) {
-        this.refrigeratorService = refrigeratorService;
-    }
-
-    public void insertIngredient(List<RefrigeratorVO> ingredients) {
-        try {
-            int result = refrigeratorService.insertIngredient(ingredients);
-            System.out.println("추가된 재료의 수: " + result);
-        } catch (IllegalArgumentException e) {
-            System.out.println("재료 추가 실패: " + e.getMessage());
-        }
+    public static List<IngredientVO> selectCategory() {
+    	List<IngredientVO> result =null;
+    	
+    	result = service.selectCategory();
+    	
+    	return result;
     }
 
     public void subtractIngredient(List<RefrigeratorVO> ingredients) {
         try {
-            int result = refrigeratorService.subtractIngredient(ingredients);
+            int result = service.subtractIngredient(ingredients);
             System.out.println("제거된 재료의 수: " + result);
         } catch (IllegalArgumentException e) {
             System.out.println("재료 제거 실패: " + e.getMessage());
@@ -33,10 +30,18 @@ public class RefrigeratorController {
 
     public void searchIngredientByMemberNo(int memberNo) {
         try {
-            List<RefrigeratorVO> ingredients = refrigeratorService.searchIngredientByMemberNo(memberNo);
+            List<RefrigeratorVO> ingredients = service.searchIngredientByMemberNo(memberNo);
             ingredients.forEach(System.out::println);
         } catch (IllegalArgumentException e) {
             System.out.println("재료 검색 실패: " + e.getMessage());
         }
     }
+
+	public static List<IngredientVO> selectIngredient(int ingredientNumber) {
+		List<IngredientVO> result = null;
+
+		result = service.selectIngredient(ingredientNumber);
+		
+		return result;
+	}
 }
