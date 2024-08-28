@@ -466,63 +466,60 @@ public class MenuView {
 		}
 	}
 	
-	public static void addWishList (int memberNo) {
-
-		//식재료 번호 선택
-		System.out.println("식재료 넣기 메뉴에 들어오셨습니다=============");
-		System.out.println("넣을 재료의 카테고리를 선택하거나 0번으로 뒤로 돌아갑니다.");
+	public static int searchIngredientNoByInput(int memberNo) {
+		//식재료 분류 선택 (메뉴 2번에서 일부 발췌해서 사용)
+		System.out.println("===(찜 목록)식재료 추가 메뉴에 들어오셨습니다===");
+		System.out.println("└─ 넣을 재료의 카테고리를 선택해주세요. 0번(뒤로 가기)");
 		List<IngredientVO> categoryList= RefrigeratorController.selectCategory();
 		for(int i=0; i<categoryList.size(); i++) {
 			System.out.println((i+1)+". " + categoryList.get(i).getName());
 		}
 		String category = sc.next();
 		if(!MenuController.IsCheckNum(category))
-			insertIngredient();
-		if(Integer.valueOf(category)==0) return;
+			addWishList(memberNo);
+		if(Integer.valueOf(category)==0) addWishList(memberNo);
 		System.out.println();
 		
-		System.out.println("세부 식재료를 선택하거나 0번으로 뒤로 돌아갑니다");
+		//식재료 상세 선택 (메뉴 2번에서 일부 발췌해서 사용)
+		System.out.println("└─세부 식재료를 선택해주세요. 0번(뒤로 가기)");
 		List<IngredientVO> ingredientList = RefrigeratorController.selectIngredient(Integer.valueOf(category));
-		
+				
 		Map<Integer, Integer> serialNumberMap = new HashMap<>();
 		for(int i=0; i<ingredientList.size(); i++) {
 			System.out.println((i+1)+". " + ingredientList.get(i).getName());
 			serialNumberMap.put(i+1, ingredientList.get(i).getSerialNumber());
-		}
+				}
+				
+				String choice = sc.next();
+				if(!MenuController.IsCheckNum(choice))
+					addWishList(memberNo);
+				if(Integer.valueOf(choice) ==0) addWishList(memberNo);
+				//식재료 번호 꺼내옴
+				int i = serialNumberMap.get(Integer.valueOf(choice));
 		
-		String choice = sc.next();
-		//if(!MenuController.IsCheckNum(choice))
-		//	식재료뷰(category);
-		//if(Integer.valueOf(choice) ==0) return;
+		return i;
+	}
+	
+	public static void addWishList (int memberNo) {
+		//추가하고 싶은 식재료 입력값 받아 식재료 번호로 받아오기
+		int ingredientNo = MenuView.searchIngredientNoByInput(memberNo);
 		
-		
-		/////////////////////////////////////////////////////////
-		System.out.println("보관 유지 수량 입력 > ");
-		int amount = Integer.parseInt(sc.next());
-		//★★ 추후 수정 필요(시퀀스, 식재료 번호 연동)
-		WishListVO wl = new WishListVO(10, memberNo, 27, amount);
-		WishListController.addWishList(wl);
-
-		//ingredientVO 만들어서 가져오는 메소드 호출 (일단 27로 셋팅)
 		while(true) {
 			System.out.println("보관 유지 수량 입력 > ");
 			String wishlistAmount = sc.next();
 			if(!MenuController.IsCheckNum(wishlistAmount))
 				continue;
-			//★★ 추후 수정 필요(시퀀스, 식재료 번호 연동)
-			WishListVO wishlist = new WishListVO(10, memberNo, 27, Integer.valueOf(wishlistAmount));
+
+			WishListVO wishlist = new WishListVO(0, memberNo, ingredientNo, Integer.valueOf(wishlistAmount));
 			WishListController.addWishList(wishlist);
 			break;
 		}
-
-		
 		
 	}
 	
 	public static void removeWishList(int memberNo) {
-		//ingredientVO 만들어서 가져오는 메소드 호출 (일단 27로 셋팅)
-		//★★ 추후 수정 필요(시퀀스, 식재료 번호 연동)
-		WishListVO wl = new WishListVO(memberNo, 27);
+		int ingredientNo =MenuView.searchIngredientNoByInput(memberNo);
+		WishListVO wl = new WishListVO(memberNo, ingredientNo);
 		WishListController.removeWishList(wl);
 	}
 	

@@ -286,4 +286,41 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 		
 		return ingredient;
 	}
+	
+	/**
+	 * 냉장고 현황으로 식재료 이름 배열 조회하기
+	 */
+	public List<String> searchByIngredientNo(List<RefrigeratorVO> list) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<String> ingredientName = new ArrayList<String>();
+		String sql = "select Ingredient_name from ingredient where ingredient_no = ?";
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+
+			for (RefrigeratorVO refri : list) {
+				ps.setInt(1, refri.getIngredientNo());
+				rs = ps.executeQuery();
+
+				while (rs.next()) {
+					ingredientName.add(rs.getString(1));
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("냉장고뷰-식재료명 조회 중 DB에러 발생하였습니다. 다시 시도해주세요");
+
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+
+		return ingredientName;
+	}
+
+
+
 }

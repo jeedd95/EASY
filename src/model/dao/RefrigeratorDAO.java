@@ -29,11 +29,13 @@ public interface RefrigeratorDAO {
 	List<IngredientVO> selectCategory();
 
 	/**
-	 * 식재료 번호로 식재료보기
+	 * 식재료 분류 번호로 식재료 상세 리스트 보기
 	 */
 	List<IngredientVO> selectIngredient(int ingredientNumber);
 	
-	
+	/**
+	 * 회원번호로 유효기간 알람 필요 항목 조회
+	 */
 	List<RefrigeratorVO> alarmExpirationDate(int memberNo) throws SQLException;
 
 	/**
@@ -42,7 +44,7 @@ public interface RefrigeratorDAO {
 	List<RefrigeratorVO> selectIngredientByMemberNumber(int memberNumber);
 
 	/**
-	 * 식재료 번호로 이름 찾아서 넣어주기
+	 * 식재료 번호로 식재료 객체 받기(이름 찾아서 넣어주기)
 	 */
 	IngredientVO getNameByIngredientNumber(int ingredientNumber);
 	

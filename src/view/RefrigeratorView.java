@@ -5,7 +5,6 @@ import java.util.List;
 import controller.RefrigeratorController;
 import model.dao.RefrigeratorDAO;
 import model.dao.RefrigeratorDAOImpl;
-import model.dao.TestDAO;
 import model.vo.MemberVO;
 import model.vo.RefrigeratorVO;
 
@@ -21,8 +20,10 @@ public class RefrigeratorView {
 	public void DrawMap(MemberVO member) {
 		RefrigeratorDAO refriDao = new RefrigeratorDAOImpl();
 		List<RefrigeratorVO> refriStatus = refriDao.searchIngredientByMemberNo(member.getMNo());
-		TestDAO test = new TestDAO();
-		List<String> ingredientNameList = test.searchByIngredientNo(refriStatus);
+		List<String> ingredientNameList = null;
+		if(refriDao instanceof RefrigeratorDAOImpl) {
+			ingredientNameList = ((RefrigeratorDAOImpl) refriDao).searchByIngredientNo(refriStatus);
+		}
 		
 		List<RefrigeratorVO> expireList = RefrigeratorController.findAlarmExpirationDate(member.getMNo());
 		
