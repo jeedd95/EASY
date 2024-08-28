@@ -9,15 +9,18 @@ import controller.BoardController;
 import controller.MemberController;
 import controller.MenuController;
 import controller.RecipeController;
+import controller.RefrigeratorController;
 import controller.StatsController;
 import controller.WishListController;
 import model.vo.BoardVO;
 import model.vo.CommentVO;
+import model.vo.IngredientVO;
 import model.vo.MemberVO;
 import model.vo.RecipeBoardVO;
 import model.vo.RecipeCommentVO;
 import model.vo.RecipeIngredientVO;
 import model.vo.RecipeVO;
+import model.vo.RefrigeratorVO;
 import model.vo.ReviewCommentVO;
 import model.vo.StatsVO;
 import model.vo.WishListVO;
@@ -55,11 +58,10 @@ public class MenuView {
 			}
 			switch(Integer.valueOf(selectNo)){
 			
-//			case 1: MenuView.login();
-			
-//					break;
-//			case 2: MenuView.register();
-//					break;
+			case 1: MenuView.insertIngredient();
+					break;
+			case 2: MenuView.removeIngredient();
+					break;
 //			case 3: MenuView.login();
 //					break;
 			case 4: 레시피추천받기();
@@ -106,105 +108,57 @@ public class MenuView {
 	 * list에 담아서 출력
 	 * 그후 ex) 돼지고기,소고기 번호 클릭해서 원하는 칸(입력받아서)or 자동 넣기
 	 */
-	private static void insertIngredient(MemberVO member) {
-//        Scanner sc = new Scanner(System.in);
-//        
-//        // DAO에서 대분류 리스트를 받아옴
-//        List<RefrigeratorDAO> categoryList = IngredientDAO.getCategoryList();
-//        
-//        System.out.println("----식재료 추가----");
-//        System.out.println("선택해주세요.");
-//        for (int idx = 0; idx < categoryList.size(); idx++) {
-//            System.out.println((idx + 1) + "." + categoryList.get(idx) + " |");
-//        }
-//        
-//        int choice = sc.nextInt();
-//        
-//        // 선택한 대분류에 해당하는 소분류 리스트를 받아옴
-//        String selectedCategory = categoryList.get(choice - 1);
-//        List<String> subCategoryList = IngredientDAO.getSubCategoryList(selectedCategory);
-//        
-//        System.out.println("----선택해주세요----");
-//        for (int idx = 0; idx < subCategoryList.size(); idx++) {
-//            System.out.println((idx + 1) + "." + subCategoryList.get(idx) + " |");
-//        }
-//        
-//        int subChoice = sc.nextInt();
-//        String selectedSubCategory = subCategoryList.get(subChoice - 1);
-//        
-//        // 선택한 식재료를 DTO에 저장
-//        IngredientDTO ingredient = new IngredientDTO();
-//        ingredient.setCategory(selectedCategory);
-//        ingredient.setSubCategory(selectedSubCategory);
-//        
-//        // DTO를 리스트에 추가
-//        List<IngredientDTO> ingredientList = IngredientService.addIngredient(member, ingredient);
-//        
-//        System.out.println(selectedSubCategory + "가 추가 되었습니다.");
-//        
-//        // 리스트 출력 (필요시 SuccessView에서 사용)
-//        System.out.println("현재 식재료 목록:");
-//        for (IngredientDTO ingr : ingredientList) {
-//            System.out.println(ingr.getSubCategory());
-//        }
+	private static void insertIngredient() {
+		System.out.println("식재료 넣기 메뉴에 들어오셨습니다=============");
+		System.out.println("넣을 재료의 카테고리를 선택하거나 0번으로 뒤로 돌아갑니다.");
+		List<IngredientVO> categoryList= RefrigeratorController.selectCategory();
+		for(int i=0; i<categoryList.size(); i++) {
+			System.out.println((i+1)+". " + categoryList.get(i).getName());
+		}
+		
+		int choice = sc.nextInt();
+		if(choice ==0) return;
+		System.out.println();
+		식재료뷰(choice);
     }
+	
+	private static void 식재료뷰(int ingredientNumber) {
+		System.out.println("세부 식재료를 선택하거나 0번으로 뒤로 돌아갑니다");
+		List<IngredientVO> ingredientList = RefrigeratorController.selectIngredient(ingredientNumber);
+		
+		Map<Integer, Integer> serialNumberMap = new HashMap<>();
+		for(int i=0; i<ingredientList.size(); i++) {
+			System.out.println((i+1)+". " + ingredientList.get(i).getName());
+			serialNumberMap.put(i+1, ingredientList.get(i).getSerialNumber());
+		}
+		
+		int choice = sc.nextInt();
+		if(choice ==0) return;
+		수량뷰(serialNumberMap.get(choice));
+	}
+	
+	private static RefrigeratorVO 수량뷰(int ingredientNumber) {
+		RefrigeratorVO refrigerator = new RefrigeratorVO();
+//		refi
+//		refrigerator.setAmount();
+		return null;
+	}
+	
 	/*
 	 * 식재료 빼기
 	 * 냉장고 현황을 보여주고 해당 칸(기능1) 을  1,3 입력받아서 뺴거나 
 	 * (기능2)음식명을 입력해서 유통기한 짧게 남은거 삭제후
 	 *  냉장고 상태 보여주기 
 	 */
-	  private static void removeIngredient(MemberVO member) {
-//          Scanner sc = new Scanner(System.in);
-//          
-//          // 1. 냉장고 현황 보여주기
-//          List<IngredientDTO> ingredientList = RefrigeratorDAO.getIngredientList(member);
-//          
-//          System.out.println("----냉장고 현황----");
-//          for (int idx = 0; idx < ingredientList.size(); idx++) {
-//              IngredientDTO ingredient = ingredientList.get(idx);
-//              System.out.println((idx + 1) + ". " + ingredient.getSubCategory() + " | 유통기한: " + ingredient.getExpirationDate());
-//          }
-//          
-//          // 2. 기능 선택
-//          System.out.println("식재료 빼기 기능을 선택해주세요.");
-//          System.out.println("1. 해당 칸(번호)으로 제거");
-//          System.out.println("2. 음식명으로 유통기한 짧은 것 제거");
-//          
-//          int choice = sc.nextInt();
-//          
-//          if (choice == 1) {
-//              // 기능 1: 해당 칸(번호)으로 제거
-//              System.out.println("제거할 식재료의 번호를 입력해주세요 (예: 1, 3):");
-//              int index = sc.nextInt();
-//              IngredientDTO ingredientToRemove = ingredientList.get(index - 1);
-//              RefrigeratorDAO.removeIngredientByIndex(member, index - 1);
-//              System.out.println(ingredientToRemove.getSubCategory() + "가 제거되었습니다.");
-//              
-//          } else if (choice == 2) {
-//              // 기능 2: 음식명으로 유통기한 짧은 것 제거
-//              sc.nextLine(); // 버퍼 비우기
-//              System.out.println("제거할 음식명을 입력해주세요:");
-//              String foodName = sc.nextLine();
-//              IngredientDTO ingredientToRemove = RefrigeratorDAO.removeIngredientByName(member, foodName);
-//              if (ingredientToRemove != null) {
-//                  System.out.println(ingredientToRemove.getSubCategory() + " 중 유통기한이 가장 짧은 항목이 제거되었습니다.");
-//              } else {
-//                  System.out.println("해당 음식명이 냉장고에 없습니다.");
-//              }
-//          }
-//          
-//          // 3. 냉장고 상태 다시 보여주기
-//          ingredientList = RefrigeratorDAO.getIngredientList(member);
-//          System.out.println("----현재 냉장고 현황----");
-//          for (IngredientDTO ingredient : ingredientList) {
-//              System.out.println(ingredient.getSubCategory() + " | 유통기한: " + ingredient.getExpirationDate());
-//          }
+	  private static void removeIngredient() {
+		  //회원번호로 냉장고 조회해서 식재료 목록 출력 
+//		  RefrigeratorController
+		  //→ 번호 입력 → 수량 → 
+		  //유통기한 얼마안남은거부터 자동으로 빼기 → 통계 테이블에 넣기
       }
 
 	/*
 	 * 식재료 상세보기
-	 * ?
 	 * 
 	 */
 	
@@ -395,46 +349,76 @@ public class MenuView {
 		WishListController.removeWishList(wl);
 	}
 	
+	
 	public static void board(MemberVO member) {
-		System.out.println("1.나만의 레시피 게시판 ");
-		System.out.println("2.레시피 후기 게시판");
-		System.out.println("3.메인 메뉴로 가기");
+		while(true) {
+			System.out.println("------------------------------------------------------");
+			System.out.println(" 1.나만의 레시피 게시판 |  2.레시피 후기 게시판 |  3.뒤로가기 ");
+			System.out.println("------------------------------------------------------");
+	
 
-		int choice = sc.nextInt();
+			String choice = sc.next();
+			if(!MenuController.IsCheckNum(choice)) {
+					board(member);
+					continue;
+			}
+			boardSelect(member,Integer.valueOf(choice));
+
+		}
+		
+	}
+	
+	public static void boardSelect(MemberVO member,int choice) {
+		
 		
 		switch(choice) {
 		
 		case 1:
 				BoardController.searchPostByName("MY_RECIPE");
-				System.out.println("1. 글 작성하기");
-				System.out.println("2. 나만의 레시피 글 상세보기 ");
-				System.out.println("3. 돌아가기");
-				int num = sc.nextInt();
+				displayMyRecipe();
 				
-				recipeBoard(num,member,"MY_RECIPE");
-				continues();
-
+				String num = sc.next();
+				if(!MenuController.IsCheckNum(num))
+					board(member);
+				recipeBoard(Integer.valueOf(num),member,"MY_RECIPE",choice);
+				
 				break;
 		case 2:
 				BoardController.searchPostByName("RECIPE_REVIEW");
-				System.out.println("1. 레시피 후기 글 상세보기 ");
-				System.out.println("2. 돌아가기");
-				num = sc.nextInt();
-				num+=1;
-				recipeBoard(num,member,"RECIPE_REVIEW");
-				continues();
+				displayRecipeReview();
+
+				num = sc.next();
+				
+				if(!MenuController.IsCheckNum(num))
+					board(member);
+				
+				recipeBoard(Integer.valueOf(num)+1,member,"RECIPE_REVIEW",choice);
+				
 				break;
 		case 3:
-				//login(1);
+				login(member);
 				break;
 		default:
-				
+				System.out.println("해당 되는 번호를 입력하세요");
 				break;
 				
 		}
 		
 	}
-	static void recipeBoard(int num, MemberVO member,String name) {
+	
+	static void displayMyRecipe() {
+		System.out.println("1. 글 작성하기");
+		System.out.println("2. 나만의 레시피 글 상세보기 ");
+		System.out.println("3. 돌아가기");
+	}
+	
+	static void displayRecipeReview() {
+		System.out.println("1. 레시피 후기 글 상세보기 ");
+		System.out.println("2. 돌아가기");
+	}
+	
+	
+	static void recipeBoard(int num, MemberVO member,String name,int choice) {
 		switch(num) {
 			case 1:
 				sc.nextLine();
@@ -444,32 +428,56 @@ public class MenuView {
 				String content = sc.nextLine();
 				BoardVO board = new RecipeBoardVO(member.getMNickname(),title, content);
 				BoardController.postBoard(board);
+				boardSelect(member, choice);
 				break;
 			case 2:
-				System.out.println("게시판 번호 입력 :");
+				System.out.print("게시판 번호 입력 :");
 				int no = sc.nextInt();
-				if(!BoardController.postBoardByNo(no,name))
-					board(member);
-				System.out.println("1.댓글 작성");
-				System.out.println("2.뒤로 가기");
-				int menu = sc.nextInt();
-				if(menu==1) {
-					System.out.println("댓글 내용");
-					sc.nextLine();
-					String commentContent = sc.nextLine();
-					System.out.println("평점 : (1~5)점");
-					int rating = sc.nextInt();
-					CommentVO comment =null;
-					if(name.equals("MY_RECIPE"))
-						comment = new RecipeCommentVO(commentContent, rating,member.getMNickname(),no);
-					if(name.equals("RECIOE_REVIEW"))
-						comment = new ReviewCommentVO(commentContent, rating,member.getMNickname(),no);
-					BoardController.writeComment(comment,name+"_Comment");
-					board(member);
-				}else {
-					board(member);
+				while(true) {
+					if(!BoardController.postBoardByNo(no,name))
+						board(member);
+				
+					System.out.println("1.댓글 작성");
+					System.out.println("2.뒤로 가기");
+					String menu = sc.next();
+					
+					if(!MenuController.IsCheckNum(menu)) {
+						continue;
+					}
+				
+					if(Integer.valueOf(menu)==1) {
+						System.out.println("댓글 내용");
+						sc.nextLine();
+						String commentContent = sc.nextLine();
+						System.out.println("평점 : (1~5)점");
+						int rating = sc.nextInt();
+						CommentVO comment =null;
+						if(name.equals("MY_RECIPE"))
+							comment = new RecipeCommentVO(commentContent, rating,member.getMNickname(),no);
+						if(name.equals("RECIPE_REVIEW"))
+							comment = new ReviewCommentVO(commentContent, rating,member.getMNickname(),no);
+						BoardController.writeComment(comment,name+"_Comment");
+						continue;
+				
+					}else if(Integer.valueOf(menu)==2){
+						boardSelect(member, choice);
+					}else {
+						System.out.println("해당하는 번호를 입력해주세요");
+						continue;
+					}
+					break;
+
 				}
 				break;
+
+			case 3:
+				board(member);
+				break;
+			default:
+				System.out.println("해당 되는 번호를 입력해주세요");
+				boardSelect(member, choice);
+
+				
 				
 		}
 		

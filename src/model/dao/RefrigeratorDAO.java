@@ -1,6 +1,8 @@
 package model.dao;
 
 import java.util.List;
+
+import model.vo.IngredientVO;
 import model.vo.RefrigeratorVO;
 
 public interface RefrigeratorDAO {
@@ -19,5 +21,15 @@ public interface RefrigeratorDAO {
 	 */
 
 	List<RefrigeratorVO> searchIngredientByMemberNo(int memberNo);
+
+	/**
+	 * 식재료 대분류 보기
+	 */
+	List<IngredientVO> selectCategory();
+
+	/**
+	 * 식재료 번호로 식재료보기
+	 */
+	List<IngredientVO> selectIngredient(int ingredientNumber);
 	
 }

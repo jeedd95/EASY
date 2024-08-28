@@ -85,18 +85,19 @@ public class BoardVO {
 				break;
 			sum+=commentVo.getRating();
 		}
-		double avg = sum/comment.size();
+		double avg = (double)sum/comment.size();
+		
 		return avg;
 	}
-
+	public String getName() {
+		return "";
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[no=");
-		builder.append(no);
-		builder.append(", title=");
+		builder.append("  | 제목 :");
 		builder.append(title);
-		builder.append(", postDate=");
+		builder.append("| 쓴 날짜=");
 		builder.append(postDate);
 		return builder.toString();
 	}

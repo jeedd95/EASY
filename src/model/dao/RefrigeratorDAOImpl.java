@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.vo.IngredientVO;
 import model.vo.RefrigeratorVO;
 import util.DbManager;
 
@@ -26,8 +27,8 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
             ps = con.prepareStatement(sql);
 
             for (RefrigeratorVO vo : refrigeratorList) {
-                ps.setInt(1, vo.getrNo());  // RefrigeratorVO의 필드와 메서드 이름에 맞게 수정
-                ps.setInt(2, vo.getmNo());
+                ps.setInt(1, vo.getSerialNumber());  // RefrigeratorVO의 필드와 메서드 이름에 맞게 수정
+                ps.setInt(2, vo.getMemberNumber());
                 ps.setInt(3, vo.getIngredientNo());
                 ps.setInt(4, vo.getAmount());
                 ps.setDate(5, new java.sql.Date(vo.getRegistDate().getTime()));  
@@ -58,7 +59,7 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
             ps = con.prepareStatement(sql);
 
             for (RefrigeratorVO vo : refrigeratorList) {
-                ps.setInt(1, vo.getmNo());
+                ps.setInt(1, vo.getMemberNumber());
                 ps.setInt(2, vo.getIngredientNo());
                 ps.setInt(3, vo.getAmount());
                 
@@ -110,4 +111,65 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 
         return resultList;
     }
+
+	@Override
+	public List<IngredientVO> selectCategory() {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from INGREDIENT where CATEGORY is null";
+		
+		List<IngredientVO> categoryList = new ArrayList<IngredientVO>();
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int serialNumber = rs.getInt("INGREDIENT_NO");
+				String ingredientName = rs.getString("INGREDIENT_NAME");
+				int category = rs.getInt("CATEGORY");
+				
+				categoryList.add(new IngredientVO(serialNumber, ingredientName, category));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+
+		
+		return categoryList;
+	}
+
+	@Override
+	public List<IngredientVO> selectIngredient(int ingredientNumber) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from INGREDIENT where CATEGORY =?";
+		
+		List<IngredientVO> ingredientList = new ArrayList<IngredientVO>();
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, ingredientNumber);
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+//				int serialNumber = rs.getInt("INGREDIENT_NO");
+				String ingredientName = rs.getString("INGREDIENT_NAME");
+				int category = rs.getInt("CATEGORY");
+				
+				ingredientList.add(new IngredientVO(ingredientNumber, ingredientName, category));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbManager.dbClose(con, ps, rs);
+		}
+
+		
+		return ingredientList;
+	}
 }
