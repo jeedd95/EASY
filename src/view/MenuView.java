@@ -50,7 +50,6 @@ public class MenuView {
 			String selectNo = sc.next();
 
 			if(!MenuController.checkNum(selectNo)) {
-				FailView.printMessage("숫자만 입력하세요");	
 				login(member);
 			}
 			switch(Integer.valueOf(selectNo)){
