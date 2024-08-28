@@ -123,6 +123,41 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
         return resultList;
     }
 
+    
+    @Override
+    public List<RefrigeratorVO> showRefrigeror(int memberNo) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<RefrigeratorVO> resultList = new ArrayList<>();
+
+
+		String sql = "select i.INGREDIENT_NAME , r.AMOUNT from REFRIGERATOR_STATUS r\r\n"
+				+ "join  INGREDIENT i on r.INGREDIENT_NO = i.INGREDIENT_NO AND r.M_NO = ? ";
+
+        try {
+        	con =DbManager.getConnection();
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, memberNo);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				RefrigeratorVO refri = new RefrigeratorVO(
+						rs.getInt(2)
+				);
+				refri.getIngredient().setName(rs.getString(1));
+
+				resultList.add(refri);
+			}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DbManager.dbClose(con, ps, rs);
+        }
+
+        return resultList;
+    }
 	@Override
 	public List<IngredientVO> selectCategory() {
 		Connection con = null;

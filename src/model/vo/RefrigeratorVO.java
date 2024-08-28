@@ -15,19 +15,23 @@ public class RefrigeratorVO {
     public RefrigeratorVO() {}
     
     
-    public RefrigeratorVO(int amount, String expirationDate) {
-    	this.expirationDate = expirationDate;
+    public RefrigeratorVO(int amount) {
         this.amount = amount;
+  
+    }
+    
+    public RefrigeratorVO(int amount, String expirationDate) {
+    	this(amount);
+    	this.expirationDate = expirationDate;
   
     }
   
     public RefrigeratorVO(int serialNumber, int memberNumber, int ingredientNo, int amount, String registDate, String expirationDate) {
+    	this(amount,expirationDate);
     	this.ingredientNo = ingredientNo;
-    	this.expirationDate = expirationDate;
     	this.ingredientNo=ingredientNo;
     	this.serialNumber = serialNumber;
         this.memberNumber = memberNumber;
-        this.amount = amount;
   
     }
 

@@ -44,12 +44,11 @@ public class RefrigeratorServiceImpl implements RefrigeratorService {
 
     @Override
     public List<RefrigeratorVO> searchIngredientByMemberNo(int memberNo) {
-        // 회원 번호가 0 이하인지 확인
-        if (memberNo <= 0) {
-            throw new IllegalArgumentException("유효하지 않은 회원 번호입니다.");
-        }
-        return dao.searchIngredientByMemberNo(memberNo);
+    	List<RefrigeratorVO> list = dao.searchIngredientByMemberNo(memberNo);
+
+        return list;
     }
+    
 
 	@Override
 	public List<IngredientVO> selectCategory() {

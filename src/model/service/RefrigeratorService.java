@@ -33,5 +33,6 @@ public interface RefrigeratorService {
 	 */
 	List<IngredientVO> selectIngredient(int ingredientNumber); 
 	
-    List<RefrigeratorVO> alarmExpirationDate(int memberNo) throws SQLException; 
+    List<RefrigeratorVO> alarmExpirationDate(int memberNo) throws SQLException;
+	
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import model.service.RefrigeratorService;
 import model.service.RefrigeratorServiceImpl;
 import model.vo.IngredientVO;
+import model.vo.MemberVO;
 import model.vo.RefrigeratorVO;
 import view.FailView;
 import view.SuccessView;
@@ -35,14 +36,17 @@ public class RefrigeratorController {
         }
     }
 
-    public void searchIngredientByMemberNo(int memberNo) {
+    public static void searchIngredientByMemberNo(int memberNo) {
         try {
             List<RefrigeratorVO> ingredients = service.searchIngredientByMemberNo(memberNo);
             ingredients.forEach(System.out::println);
-        } catch (IllegalArgumentException e) {
+        } 	catch (IllegalArgumentException e) {
             System.out.println("재료 검색 실패: " + e.getMessage());
         }
     }
+    
+  
+
 
 	public static List<IngredientVO> selectIngredient(int ingredientNumber) {
 		List<IngredientVO> result = null;

@@ -6,13 +6,14 @@ import java.util.Map;
 
 import model.vo.BoardVO;
 import model.vo.CommentVO;
+import model.vo.IngredientVO;
 import model.vo.MemberVO;
 import model.vo.RefrigeratorVO;
 import model.vo.StatsVO;
 import model.vo.WishListVO;
 
 public class SuccessView {
-
+	
 	public static void printmessage(String message) {
 		System.out.println(message);
 	}

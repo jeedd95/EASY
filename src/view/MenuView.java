@@ -1,6 +1,5 @@
 package view;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +39,6 @@ public class MenuView {
 
 		RefrigeratorView refri =RefrigeratorView.getInstance();
 		while(true) {
-			System.out.println();
 			refri.DrawMap(member);
 			alarmExpirationDate(member);
 			System.out.println("<메뉴를 선택해주세요>");
