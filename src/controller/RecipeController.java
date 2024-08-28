@@ -7,6 +7,7 @@ import model.service.RecipeService;
 import model.service.RecipeServiceImpl;
 import model.vo.RecipeIngredientVO;
 import model.vo.RecipeVO;
+import model.vo.RefrigeratorVO;
 import model.vo.StatsVO;
 
 public class RecipeController {
@@ -84,6 +85,10 @@ public class RecipeController {
 
 	public static int removeRecipeIngredient(int removeRecipeIngredientNumber, int amount) {
 		return service.removeRecipeIngredient(removeRecipeIngredientNumber,amount);
+	}
+
+	public static void addReicpeStats(int addRecipeIngredientNumber, RefrigeratorVO recipe,int amount) {
+		service.addReicpeStats(addRecipeIngredientNumber, recipe,amount);
 	}
 	
 }

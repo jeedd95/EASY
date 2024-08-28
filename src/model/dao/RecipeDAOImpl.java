@@ -12,6 +12,7 @@ import model.vo.RecipeIngredientVO;
 import model.vo.RecipeVO;
 import model.vo.RefrigeratorVO;
 import util.DbManager;
+import util.Session;
 
 public class RecipeDAOImpl implements RecipeDAO {
 
@@ -289,5 +290,29 @@ public class RecipeDAOImpl implements RecipeDAO {
 		}
 
 		return result;
+	}
+
+	@Override
+	public void addReicpeStats(int addRecipeIngredientNumber, RefrigeratorVO recipe,int amount) {
+		Connection con = null;
+		PreparedStatement ps = null;
+//		int result = 0;
+		String sql = "INSERT INTO STATS VALUES (STATS_SEQ.nextval,?,?,?,sysdate)";
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, Session.getCurrentMember().getMNo());
+			ps.setInt(2, addRecipeIngredientNumber);
+			ps.setInt(3, amount);
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbManager.dbClose(con, ps);
+		}
+
+//		return result;
 	}
 }
