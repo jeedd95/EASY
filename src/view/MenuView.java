@@ -1,5 +1,7 @@
 package view;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,7 @@ import model.vo.RefrigeratorVO;
 import model.vo.ReviewCommentVO;
 import model.vo.StatsVO;
 import model.vo.WishListVO;
+import util.Session;
 
 public class MenuView {
 	public static Scanner sc = new Scanner(System.in);
@@ -31,12 +34,13 @@ public class MenuView {
 	/**
 	 * 로그인 성공했을 때 화면
 	 */
+
 	public static void login(MemberVO member) {
 
 		RefrigeratorView refri =RefrigeratorView.getInstance();
 		while(true) {
-			System.out.println();
 			refri.DrawMap(member);
+			alarmExpirationDate(member);
 			System.out.println("<메뉴를 선택해주세요>");
 			System.out.println("[1] 식재료 넣기");
 			System.out.println("[2] 식재료 빼기");
@@ -93,6 +97,13 @@ public class MenuView {
 		
 	}
 	/*
+	 * 알람
+	 */
+	public static void alarmExpirationDate(MemberVO member) {
+		RefrigeratorController.alarmExpirationDate(member.getMNo());
+		
+	}
+	/*
 	 * 회원가입 화면
 	 */
 	public static void logOut() {
@@ -134,14 +145,42 @@ public class MenuView {
 		
 		int choice = sc.nextInt();
 		if(choice ==0) return;
-		수량뷰(serialNumberMap.get(choice));
+		
+		System.out.println();
+		RefrigeratorVO refrigerator =수량뷰(serialNumberMap.get(choice));
+		날짜뷰(refrigerator);
 	}
 	
 	private static RefrigeratorVO 수량뷰(int ingredientNumber) {
+		System.out.println("재료의 수량을 1 이상 정수로 입력해주세요"); //0이하일때 안되게
+		
+		int amount=sc.nextInt();
+		while (amount <=0) {
+			System.out.println("1 이상의 정수만 입력해주세요");
+			amount =sc.nextInt();
+		}
+		
 		RefrigeratorVO refrigerator = new RefrigeratorVO();
-//		refi
-//		refrigerator.setAmount();
-		return null;
+		refrigerator.setAmount(amount);
+		refrigerator.setIngredientNo(ingredientNumber);
+		refrigerator.setMemberNumber(Session.getCurrentMember().getMNo());
+		
+		return refrigerator;
+	}
+	
+	private static RefrigeratorVO 날짜뷰(RefrigeratorVO refrigerator) {
+		System.out.println("오늘부터 남은 유통기한의 일수를 입력해주세요");
+		int days = sc.nextInt();
+		
+		LocalDate today = LocalDate.now();
+		refrigerator.setRegistDate(LocalDate.now().toString());
+		refrigerator.setExpirationDate(LocalDate.now().plusDays(days).toString());
+		
+		List<RefrigeratorVO> refrigeratorList= new ArrayList<RefrigeratorVO>();
+		refrigeratorList.add(refrigerator);
+		RefrigeratorController.insertIngredient(refrigeratorList);
+		
+		return refrigerator;
 	}
 	
 	/*

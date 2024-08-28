@@ -1,6 +1,7 @@
 package model.service;
 
 
+import java.sql.SQLException;
 import java.util.List;
 
 import model.vo.IngredientVO;
@@ -31,4 +32,7 @@ public interface RefrigeratorService {
 	 * 식재료 번호로 식재료 가져오기
 	 */
 	List<IngredientVO> selectIngredient(int ingredientNumber); 
+	
+    List<RefrigeratorVO> alarmExpirationDate(int memberNo) throws SQLException;
+	
 }

@@ -1,26 +1,38 @@
 package model.vo;
 
-import java.util.Date;
-
 public class RefrigeratorVO {
     private int serialNumber;            
     private int memberNumber;           
     private int ingredientNo;   
     private int amount;         
-    private Date registDate;    
-    private Date expirationDate; 
+    private String registDate;    
+    private String expirationDate; 
 
-  
+	private IngredientVO ingredient = new IngredientVO();
+
+	
+
     public RefrigeratorVO() {}
-
     
-    public RefrigeratorVO(int rNo, int mNo, int ingredientNo, int amount, Date registDate, Date expirationDate) {
-        this.serialNumber = rNo;
-        this.memberNumber = mNo;
-        this.ingredientNo = ingredientNo;
+    
+    public RefrigeratorVO(int amount) {
         this.amount = amount;
-        this.registDate = registDate;
-        this.expirationDate = expirationDate;
+  
+    }
+    
+    public RefrigeratorVO(int amount, String expirationDate) {
+    	this(amount);
+    	this.expirationDate = expirationDate;
+  
+    }
+  
+    public RefrigeratorVO(int serialNumber, int memberNumber, int ingredientNo, int amount, String registDate, String expirationDate) {
+    	this(amount,expirationDate);
+    	this.ingredientNo = ingredientNo;
+    	this.ingredientNo=ingredientNo;
+    	this.serialNumber = serialNumber;
+        this.memberNumber = memberNumber;
+  
     }
 
    
@@ -56,49 +68,35 @@ public class RefrigeratorVO {
         this.amount = amount;
     }
 
-    public Date getRegistDate() {
+    public String getRegistDate() {
         return registDate;
     }
 
-    public void setRegistDate(Date registDate) {
+    public void setRegistDate(String registDate) {
         this.registDate = registDate;
     }
 
-    public Date getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 
+    public IngredientVO getIngredient() {
+		return ingredient;
+	}
 
-//	@Override
-//	public String toString() {
-//		StringBuilder builder = new StringBuilder();
-//		builder.append("RefrigeratorVO [serialNumber=");
-//		builder.append(serialNumber);
-//		builder.append(", memberNumber=");
-//		builder.append(memberNumber);
-//		builder.append(", ingredientNo=");
-//		builder.append(ingredientNo);
-//		builder.append(", amount=");
-//		builder.append(amount);
-//		builder.append(", registDate=");
-//		builder.append(registDate);
-//		builder.append(", expirationDate=");
-//		builder.append(expirationDate);
-//		builder.append("]");
-//		return builder.toString();
-//	}
-    
-	
+	public void setIngredient(IngredientVO ingredient) {
+		this.ingredient = ingredient;
+	}
+
 	public String toString(String ingredientName) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(ingredientName);
 		builder.append(amount);
 		return builder.toString();
 	}
-    
     
 }

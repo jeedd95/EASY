@@ -6,6 +6,9 @@ public class IngredientVO {
 	private int category;
 	
 	
+	public IngredientVO() {
+	}
+	
 	public IngredientVO(int serialNumber, String name, int category) {
 		this.serialNumber = serialNumber;
 		this.name = name;

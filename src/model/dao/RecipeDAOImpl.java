@@ -194,8 +194,8 @@ public class RecipeDAOImpl implements RecipeDAO {
 				int serialNumber = rs.getInt("R_NO");
 				int memberNumber = rs.getInt("M_NO");
 				int amount = rs.getInt("AMOUNT");
-				Date registDate = rs.getDate("REGISTDATE");
-				Date expirationDate = rs.getDate("EXPIRATIONDATE");
+				String registDate = rs.getString("REGISTDATE");
+				String expirationDate = rs.getString("EXPIRATIONDATE");
 				
 				RefrigeratorVO refrigerator= new RefrigeratorVO(serialNumber,memberNumber,ingredientNumber,amount,registDate,expirationDate);
 				refrigeratorList.add(refrigerator);

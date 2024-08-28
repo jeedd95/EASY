@@ -13,6 +13,17 @@ import util.DbManager;
 
 public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 
+	private static  RefrigeratorDAO refriDAO;
+	
+	
+	public static RefrigeratorDAO getInstance() {
+		if(refriDAO == null)
+			refriDAO = new RefrigeratorDAOImpl();
+	
+		return refriDAO;
+	}
+
+	
     @Override
     public int insertIngredient(List<RefrigeratorVO> refrigeratorList) {
         Connection con = null;
@@ -31,8 +42,8 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
                 ps.setInt(2, vo.getMemberNumber());
                 ps.setInt(3, vo.getIngredientNo());
                 ps.setInt(4, vo.getAmount());
-                ps.setDate(5, new java.sql.Date(vo.getRegistDate().getTime()));  
-                ps.setDate(6, new java.sql.Date(vo.getExpirationDate().getTime()));  
+                ps.setString(5, vo.getRegistDate());  
+                ps.setString(6, vo.getExpirationDate());  
                 
                 result += ps.executeUpdate();
             }
@@ -97,8 +108,8 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
                     rs.getInt("m_no"),
                     rs.getInt("ingredient_no"),
                     rs.getInt("amount"),
-                    rs.getDate("registdate"),
-                    rs.getDate("expirationdate")
+                    rs.getString("registdate"),
+                    rs.getString("expirationdate")
                 );
                 resultList.add(vo);
             }
@@ -112,6 +123,8 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
         return resultList;
     }
 
+    
+   
 	@Override
 	public List<IngredientVO> selectCategory() {
 		Connection con = null;
@@ -171,5 +184,39 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 
 		
 		return ingredientList;
+	}
+	
+	@Override
+	public List<RefrigeratorVO> alarmExpirationDate(int memberNo) throws SQLException {
+		List<RefrigeratorVO> refriList= new ArrayList<RefrigeratorVO>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = "select i.INGREDIENT_NAME , r.AMOUNT, r.EXPIRATIONDATE from REFRIGERATOR_STATUS r\r\n"
+				+ "join  INGREDIENT i on r.INGREDIENT_NO = i.INGREDIENT_NO AND r.M_NO = ? ";
+		try {
+			con =DbManager.getConnection();
+			ps=con.prepareStatement(sql);
+			ps.setInt(1, memberNo);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				RefrigeratorVO refri = new RefrigeratorVO(
+						rs.getInt(2),
+						rs.getString(3)
+				);
+				refri.getIngredient().setName(rs.getString(1));
+
+				refriList.add(refri);
+			}
+			
+		}catch(SQLException e){
+			throw new SQLException("정보가 없습니다");
+		}
+		
+		
+		return refriList;
 	}
 }
