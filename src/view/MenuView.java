@@ -356,11 +356,7 @@ public class MenuView {
 		System.out.println("---------------------------");
 		System.out.print("선택 > ");
 		
-		String inputButton = sc.next();
-		if(MenuController.checkNum(inputButton)) {
-			int button = Integer.parseInt(inputButton);
-		}
-		
+		int button = Integer.parseInt(sc.next());
 		
 		switch (button) {
 			case 1: 
