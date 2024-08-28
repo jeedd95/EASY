@@ -12,10 +12,10 @@ public class RefrigeratorView {
 	
 	public void DrawMap(MemberVO member) {
 		map[0]=new StringBuffer("            E.A.S.Y :" +member.getMNickname());
-		map[1]=new StringBuffer("  ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐");
+		map[1]=new StringBuffer("  ┌───────────────────────────────────────────┐");
 		for(int i = 2; i < 22; i++) {
 			if(i%2 != 0)
-				map[i]=new StringBuffer("  ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤");
+				map[i]=new StringBuffer("  ├───────────────────────────────────────────┤");
 			else
 				{if(i/2<10)
 					map[i]=new StringBuffer((i/2)+" │   │   │   │   │   │   │   │   │   │   │   │");
@@ -25,7 +25,9 @@ public class RefrigeratorView {
 			map[23]=new StringBuffer("  └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘");
 		}	
 		map[2].setCharAt(3, 'a');
-
+		map[2].setCharAt(4, 'a');
+		map[2].setCharAt(5, 'a');
+		map[2].setCharAt(6, 'a');
 		for(int i=0; i<24;i++)
 			System.out.println(map[i]);
 	}
