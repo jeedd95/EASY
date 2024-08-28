@@ -49,7 +49,8 @@ public class MenuView {
 			
 			String selectNo = sc.next();
 
-			if(!MenuController.checkNum(selectNo)) {
+
+			if(!MenuController.IsCheckNum(selectNo)) {
 				login(member);
 			}
 			switch(Integer.valueOf(selectNo)){
@@ -565,9 +566,7 @@ public class MenuView {
 					int boardNo = sc.nextInt();
 					System.out.println("비번을 입력하세요");
 					String pw = sc.next();
-					String a ="1234";
-					if(a.equals(pw)) {
-						//BoardVO board = new RecipeBoardVO(boardNo,member.getMNo());
+					if(member.getMPw().equals(pw)) {
 						BoardVO board = new RecipeBoardVO(boardNo,member.getMNickname());
 
 						BoardController.deleteMyPost(board);
