@@ -2,6 +2,7 @@ package view;
 
 import java.util.List;
 
+import controller.RefrigeratorController;
 import model.dao.RefrigeratorDAO;
 import model.dao.RefrigeratorDAOImpl;
 import model.dao.TestDAO;
@@ -12,6 +13,7 @@ public class RefrigeratorView {
 	private StringBuffer map[] = new StringBuffer[25];
 	private static RefrigeratorView refri = new RefrigeratorView(); // 싱글톤으로 만들기
 
+	private static RefrigeratorDAO refriDAO = RefrigeratorDAOImpl.getInstance();
 	public static RefrigeratorView getInstance() {
 		return refri;
 	}
@@ -21,6 +23,16 @@ public class RefrigeratorView {
 		List<RefrigeratorVO> refriStatus = refriDao.searchIngredientByMemberNo(member.getMNo());
 		TestDAO test = new TestDAO();
 		List<String> ingredientNameList = test.searchByIngredientNo(refriStatus);
+		
+		List<RefrigeratorVO> expireList = RefrigeratorController.findAlarmExpirationDate(member.getMNo());
+		
+		for(int k=0; k<ingredientNameList.size(); k++) {
+			for(int expire=0; expire<expireList.size(); expire++) {
+				if(expireList.get(expire).getIngredient().getName().equals(ingredientNameList.get(k))) {
+					ingredientNameList.set(k,ingredientNameList.get(k)+"*");
+				}
+			}
+		}
 		
 		System.out.println();
 		System.out.println();
