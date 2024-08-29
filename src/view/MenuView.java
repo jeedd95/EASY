@@ -45,7 +45,7 @@ public class MenuView {
 	         System.out.println();
 	         System.out.println("<메뉴를 선택해주세요>");
 	         System.out.println("[1] 식재료 넣기");
-	         System.out.println("[2] 식재료 상세보기(꺼내기)");
+	         System.out.println("[2] 식재료 상세보기");
 	         System.out.println("[3] 레시피 추천받기");
 	         System.out.println("[4] 찜 목록");
 	         System.out.println("[5] 게시판 보기");
@@ -265,7 +265,7 @@ public class MenuView {
 //	}
 	private static void 삭제수량뷰(int removeRecipeIngredientNumber,RefrigeratorVO recipe) {
 		while(true) {
-			System.out.println("사용할 재료의 수량을 입력해주세요 "+removeRecipeIngredientNumber+"z"+recipe.getSerialNumber());
+			System.out.println("사용할 재료의 수량을 입력해주세요 ");
 			String amount = sc.next();
 			if(!MenuController.IsCheckNum(amount))
 				continue;
@@ -501,14 +501,13 @@ public class MenuView {
 				if(Integer.valueOf(choice) ==0) addWishList(memberNo);
 				//식재료 번호 꺼내옴
 				int i = serialNumberMap.get(Integer.valueOf(choice));
-		System.out.println("");
+		
 		return i;
 	}
 	
 	public static void addWishList (int memberNo) {
 		//추가하고 싶은 식재료 입력값 받아 식재료 번호로 받아오기
 		int ingredientNo = MenuView.searchIngredientNoByInput(memberNo);
-		System.out.println(ingredientNo);
 		
 		while(true) {
 			System.out.println("보관 유지 수량 입력 > ");
@@ -823,7 +822,7 @@ public class MenuView {
 				System.out.println("비밀번호를 입력하세요");
 				String pw = sc.next();
 				if(member.getMPw().equals(pw)) {
-					System.out.println("정말로 탈퇴하시겠습니까? (y or n)");
+					System.out.println("정말로 탈퇴하시겠습니까?");
 					String ans = sc.next();
 					if(ans.equals("y"))
 						MemberController.removeMember(member);
