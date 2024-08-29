@@ -216,6 +216,8 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 			
 		}catch(SQLException e){
 			throw new SQLException("정보가 없습니다");
+		}finally {
+			DbManager.dbClose(con, ps);
 		}
 		
 		

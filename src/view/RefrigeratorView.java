@@ -50,7 +50,7 @@ public class RefrigeratorView {
 				 else
 					 map[i]=new StringBuffer((i/2)+"                                             ");}
 			map[22]=new StringBuffer("11│                                           │");
-			map[23]=new StringBuffer("  └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘");
+			map[23]=new StringBuffer("  └───────────────────────────────────────────┘");
 		}	
 	
 	
