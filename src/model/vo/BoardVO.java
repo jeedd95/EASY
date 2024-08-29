@@ -12,7 +12,7 @@ public class BoardVO {
 	private String postDate;
 	private DecimalFormat df = new DecimalFormat("0.0");
 
-	private List<CommentVO> comment;
+	private List<CommentVO> comment = new ArrayList<CommentVO>();
 	
 	public BoardVO() {}
 	
