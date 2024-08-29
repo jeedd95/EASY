@@ -45,39 +45,43 @@ public class RefrigeratorView {
 			if(i%2 != 0)
 				map[i]=new StringBuffer("  ├───────────────────────────────────────────┤");
 			else
-				{if(i/2<10)
-					map[i]=new StringBuffer((i/2)+"                                              ");
+				{if(i/2<=10)
+					map[i]=new StringBuffer((i/2)+" ");
 				 else
 					 map[i]=new StringBuffer((i/2)+"                                             ");}
+<<<<<<< HEAD
 			map[22]=new StringBuffer("11│                                           │");
+=======
+			map[22]=new StringBuffer("11 ");
+>>>>>>> 0f1f702d2749bf113eb756dfa4b4618a712f4cdb
 			map[23]=new StringBuffer("  └───────────────────────────────────────────┘");
 		}	
 	
-	
+		int max = 0;
 		for (int i = 0; i < refriStatus.size(); i++) { // 냉장고 현황(보유 품목) 개수만큼 반복
 			RefrigeratorVO refre = refriStatus.get(i); // 냉장고 현황 한줄씩 꺼내기
-
+	
 			// 식자재 이름 list에서 하나씩 꺼내서 char[]로 변환(String > char[])
 			String ingredientName = ingredientNameList.get(i); // 식자재 이름도 하나씩 꺼내고
-			char[] ingredientChar = ingredientName.toCharArray(); // 식자재 이름을 char[] 배열로 변환
 
 			// 식자재 이름 char 타입으로 꺼내 set으로 대입 (char[] > char)
-			for (int j = 0; j < ingredientChar.length; j++) { // 식자재 이름 char[] 길이만큼 반복
-				char ingredientCh = ingredientChar[j]; // char타입 하나씩 꺼내서
-				map[4+2*i].setCharAt(j + 4, ingredientCh); // set으로 대입하기
-			}
+			map[4+2*max].append("    " +ingredientName+" "); // set으로 대입하기
+			
 
 			// 냉장고 현황에서 식자재 수량 꺼내서 char[]로 변환 (int > String > char[])
 			int amount = refre.getAmount(); // 냉장고 현황에서 수량 꺼내오기
 			String amountString = Integer.toString(amount); // 수량 int타입을 String타입으로 변환(10이상도 출력 위해)
-			char[] amountCharArr = amountString.toCharArray(); // 수량 String타입을 char[] 배열로 변환
 
 			// 식자재 수량 char타입으로 변환해 출력 (char[] > char)
-			for (int k = 0; k < amountCharArr.length; k++) {
-				char amountCh = amountCharArr[k];
-				map[4+2*i].setCharAt(k + 10, amountCh);
-			}
+			map[4+2*max].append(amountString+ "   "); // set으로 대입하기
 			
+			
+	        max+=1;
+	        if(4+2*max>22) {
+	              max=0;
+	              continue;
+	     }
+
 
 		}
 		for (int i = 0; i < 24; i++)
