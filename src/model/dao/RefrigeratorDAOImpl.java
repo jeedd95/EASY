@@ -227,7 +227,7 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from REFRIGERATOR_STATUS where M_NO=?";
+		String sql = "select * from REFRIGERATOR_STATUS where M_NO=? order by R_NO";
 		
 		List<RefrigeratorVO> refrigeratorList = new ArrayList<RefrigeratorVO>();
 		try {

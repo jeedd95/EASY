@@ -19,7 +19,7 @@ public class RefrigeratorView {
 
 	public void DrawMap(MemberVO member) {
 		RefrigeratorDAO refriDao = new RefrigeratorDAOImpl();
-		List<RefrigeratorVO> refriStatus = refriDao.searchIngredientByMemberNo(member.getMNo());
+		List<RefrigeratorVO> refriStatus = refriDao.selectIngredientByMemberNumber(member.getMNo());
 		List<String> ingredientNameList = null;
 		if(refriDao instanceof RefrigeratorDAOImpl) {
 			ingredientNameList = ((RefrigeratorDAOImpl) refriDao).searchByIngredientNo(refriStatus);
@@ -43,7 +43,7 @@ public class RefrigeratorView {
 		map[3] = new StringBuffer("  ├───────────────────────────────────────────┤");
 		for (int i = 4; i < 22; i++) {
 			if (i  < 13)
-				map[i] = new StringBuffer( (i-3) + " │                    │                     │"); // 번호 있는 줄
+				map[i] = new StringBuffer( (i-3) + " │                     │                     │"); // 번호 있는 줄
 			else
 				map[i] = new StringBuffer( (i-3) + "│                     │                     │"); // 번호 없는 줄
 
