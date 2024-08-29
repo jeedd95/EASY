@@ -77,7 +77,7 @@ public class BoardDAOImpl implements  BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<BoardVO> boardList = new ArrayList<BoardVO>();
-		String sql = "select * from MY_RECIPE_BOARD WHERE M_NICKNAME = ?";
+		String sql = "select * from MY_RECIPE_BOARD WHERE M_NICKNAME = ? ORDER BY BOARD_NO";
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
@@ -142,7 +142,7 @@ public class BoardDAOImpl implements  BoardDAO {
 		ResultSet rs = null;
 		
 		//테이블 이름 갖고 온걸로 그 테이블 정보 검색
-		String sql = "select * from "+name+" where M_NICKNAME = ?";
+		String sql = "select * from "+name+" where M_NICKNAME = ? ORDER BY COMMENT_NO";
 		
 		//name 당 map 생성해서 <게시판번호,게시판> 해서 map에 넣고 그걸 board에 넣을 것이다.
         Map<String,Object> map = new HashMap<String, Object>();
@@ -387,7 +387,7 @@ public class BoardDAOImpl implements  BoardDAO {
 		try {
 			con=DbManager.getConnection();
             createBoardView(con);
-    		String sql = "select * from Board_VIEW where BOARD_TYPE = ?";
+    		String sql = "select * from Board_VIEW where BOARD_TYPE = ? ORDER BY BOARD_NO";
 
 			ps=con.prepareStatement(sql);
 			ps.setString(1, table+"_BOARD");
@@ -423,7 +423,7 @@ public class BoardDAOImpl implements  BoardDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from "+boardName +"_BOARD where BOARD_NO = ?";
+		String sql = "select * from "+boardName +"_BOARD where BOARD_NO = ? ORDER BY BOARD_NO";
 		List<CommentVO> comment;
 		BoardVO board = null;
 		try {
@@ -473,7 +473,7 @@ public class BoardDAOImpl implements  BoardDAO {
 	public BoardVO boardSelectByNo(Connection con,int boardNO,String boardName) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from "+boardName +"_BOARD where BOARD_NO = ?";
+		String sql = "select * from "+boardName +"_BOARD where BOARD_NO = ? ORDER BY BOARD_NO";
 		List<CommentVO> comment;
 		BoardVO board = null;
 		try {
@@ -524,7 +524,7 @@ public class BoardDAOImpl implements  BoardDAO {
 		ResultSet rs = null;
 		String[] name = commentName.split("_");
 		commentName = name[0]+"_"+name[1];
-		String sql = "select * from "+commentName+"_Comment where BOARD_NO = ?";
+		String sql = "select * from "+commentName+"_Comment where BOARD_NO = ? ORDER BY COMMENT_NO";
 		List<CommentVO> comment = new ArrayList<CommentVO>();
 		try {
 			ps=con.prepareStatement(sql);

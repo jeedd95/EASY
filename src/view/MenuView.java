@@ -747,6 +747,8 @@ public class MenuView {
 		System.out.println("1.내가 쓴 글 보기");
 		System.out.println("2.내가 쓴 댓글 보기");
 		System.out.println("3.회원 탈퇴");
+		System.out.println("4.돌아가기");
+
 		String myPageNum;
 		while(true) {
 			myPageNum = sc.next();
@@ -829,9 +831,14 @@ public class MenuView {
 						login(member);
 				}
 				else
-					login(member);
-				break;		
+					MainView.LoginMenu();
+				break;
+			case 4:
+				login(member);
+				break;
 			default:
+				System.out.println("해당 되는 번호를 입력해주세요");
+				myPage(member);
 		}
 	}
 	
