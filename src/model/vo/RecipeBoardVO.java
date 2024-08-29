@@ -2,7 +2,7 @@ package model.vo;
 
 public class RecipeBoardVO extends BoardVO{
 	
-	String mNickname;
+	private String mNickname;
 	
 	public RecipeBoardVO (int no,String mNickname,String title, String content, String postdate) {
 		super(no,title,content,postdate);

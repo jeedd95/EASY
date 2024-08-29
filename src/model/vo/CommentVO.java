@@ -1,10 +1,10 @@
 package model.vo;
 
 public class CommentVO {
-	int commentNo;
-	String content;
-	int rating;
-	String memberNickName;
+	private int commentNo;
+	private String content;
+	private int rating;
+	private String memberNickName;
 	
 	public CommentVO(String content, int rating, String memberNickName){
 		this.content = content;

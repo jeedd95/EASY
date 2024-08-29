@@ -30,10 +30,9 @@ public class SuccessView {
 	}
 	
 	public static void printPostByName(List<BoardVO> boardList) {
-		DecimalFormat df = new DecimalFormat("0.0");
 		System.out.println("============================"+boardList.get(0).getName()+"=============================");
 		for(BoardVO board : boardList)
-			System.out.println(board.toString()+"평균 평점: "+df.format((board.getRating())));
+			System.out.println(board.toString());
 		System.out.println("====================================================================");
 
 	}

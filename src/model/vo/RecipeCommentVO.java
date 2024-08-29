@@ -1,7 +1,7 @@
 package model.vo;
 
 public class RecipeCommentVO extends CommentVO{
-	int boardNo;
+	private int boardNo;
 	
 	
 	public RecipeCommentVO(int commentNo, String content, int rating, String NickName,int boardNo) {

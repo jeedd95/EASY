@@ -1,7 +1,7 @@
 package model.vo;
 
 public class ReviewBoardVO extends BoardVO{
-	int RecipeNo;
+	private int RecipeNo;
 	
 	public ReviewBoardVO(int no, int RecipeNo ,String title, String content, String postdate) {
 		super(no,title,content,postdate);

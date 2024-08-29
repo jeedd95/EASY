@@ -1,16 +1,18 @@
 package model.vo;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoardVO {
 	
-	int no;
-	String title;
-	String content;
-	String postDate;
-	
-	List<CommentVO> comment;
+	private int no;
+	private String title;
+	private String content;
+	private String postDate;
+	private DecimalFormat df = new DecimalFormat("0.0");
+
+	private List<CommentVO> comment;
 	
 	public BoardVO() {}
 	
@@ -97,6 +99,8 @@ public class BoardVO {
 		StringBuilder builder = new StringBuilder();
 		builder.append("  | 제목 :");
 		builder.append(title);
+		builder.append("  | 평균 평점 :");
+		builder.append(df.format(getRating()));
 		builder.append("| 쓴 날짜=");
 		builder.append(postDate);
 		return builder.toString();
