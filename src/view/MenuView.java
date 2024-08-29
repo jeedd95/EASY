@@ -822,10 +822,12 @@ public class MenuView {
 				System.out.println("비밀번호를 입력하세요");
 				String pw = sc.next();
 				if(member.getMPw().equals(pw)) {
-					System.out.println("정말로 탈퇴하시겠습니까?");
+					System.out.println("정말로 탈퇴하시겠습니까? y를 입력하세요");
 					String ans = sc.next();
-					if(ans.equals("y"))
+					if(ans.equals("y")) {
 						MemberController.removeMember(member);
+						MainView.LoginMenu();
+					}
 					else
 						login(member);
 				}
