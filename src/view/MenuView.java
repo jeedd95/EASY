@@ -368,7 +368,7 @@ public class MenuView {
 		}
 		System.out.println();
 		
-		System.out.println("재료의 레시피를 보시려면 순위를, 뒤로가시려면 0번을 입력해주세요");
+		//System.out.println("재료의 레시피를 보시려면 순위를, 뒤로가시려면 0번을 입력해주세요");
 		String choice;
 		while(true) {
 			System.out.println("재료의 레시피를 보시려면 순위를, 뒤로가시려면 0번을 입력해주세요");
