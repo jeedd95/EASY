@@ -71,6 +71,7 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
             ps = con.prepareStatement(sql);
 
             for (RefrigeratorVO vo : refrigeratorList) {
+            	System.out.println(vo.toString());
                 ps.setInt(1, vo.getMemberNumber());
                 ps.setInt(2, vo.getIngredientNo());
                 ps.setInt(3, vo.getAmount());
@@ -227,7 +228,7 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select * from REFRIGERATOR_STATUS where M_NO=?";
+		String sql = "select * from REFRIGERATOR_STATUS where M_NO=? ORDER BY R_NO";
 		
 		List<RefrigeratorVO> refrigeratorList = new ArrayList<RefrigeratorVO>();
 		try {

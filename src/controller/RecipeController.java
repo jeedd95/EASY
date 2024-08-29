@@ -83,8 +83,8 @@ public class RecipeController {
 		return service.recipeDetailByIngredientNumber(ingredientNumber);
 	}
 
-	public static int removeRecipeIngredient(int removeRecipeIngredientNumber, int amount) {
-		return service.removeRecipeIngredient(removeRecipeIngredientNumber,amount);
+	public static int removeRecipeIngredient(int removeRecipeIngredientNumber, int amount, RefrigeratorVO recipe) {
+		return service.removeRecipeIngredient(removeRecipeIngredientNumber,amount,recipe);
 	}
 
 	public static void addReicpeStats(int addRecipeIngredientNumber, RefrigeratorVO recipe,int amount) {

@@ -270,17 +270,18 @@ public class RecipeDAOImpl implements RecipeDAO {
 	}
 
 	@Override
-	public int removeRecipeIngredient(int ingredientNumber, int amount) {
+	public int removeRecipeIngredient(int ingredientNumber, int amount, RefrigeratorVO recipe) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-		String sql = "UPDATE REFRIGERATOR_STATUS Set Amount = Amount - ? WHERE R_NO = ?";
-
+		String sql = "UPDATE REFRIGERATOR_STATUS Set Amount = Amount - ? WHERE INGREDIENT_NO = ? and R_NO = ?";
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, amount);
 			ps.setInt(2, ingredientNumber);
+			ps.setInt(3, recipe.getSerialNumber());
+
 			result = ps.executeUpdate();
 			
 		} catch (SQLException e) {

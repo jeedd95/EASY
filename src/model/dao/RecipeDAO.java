@@ -68,11 +68,12 @@ public interface RecipeDAO {
 	/**
 	 * 식재료 삭제
 	 */
-	int removeRecipeIngredient(int ingredientNumber, int amount);
+	int removeRecipeIngredient(int ingredientNumber, int amount, RefrigeratorVO recipe);
 
 	/**
 	 * 삭제한 식재료 통계에 넣기
 	 */
 	void addReicpeStats(int addRecipeIngredientNumber, RefrigeratorVO recipe,int amount);
+
 
 }

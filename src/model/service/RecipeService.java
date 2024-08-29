@@ -50,10 +50,11 @@ public interface RecipeService {
 	/**
 	 * 재료번호로 삭제하기
 	 */
-	int removeRecipeIngredient(int ingredientNumber, int amount);
+	int removeRecipeIngredient(int removeRecipeIngredientNumber, int amount, RefrigeratorVO recipe);
 
 	/**
 	 * 삭제한 재료 통계에 넣기
 	 */
 	void addReicpeStats(int addRecipeIngredientNumber, RefrigeratorVO recipe, int amount);
+
 }
