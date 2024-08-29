@@ -216,6 +216,8 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 			
 		}catch(SQLException e){
 			throw new SQLException("정보가 없습니다");
+		}finally{
+			DbManager.dbClose(con, ps,rs);
 		}
 		
 		
@@ -235,6 +237,7 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 		List<RefrigeratorVO> refrigeratorList = new ArrayList<RefrigeratorVO>();
 		try {
 			con = DbManager.getConnection();
+			deleteAmountZero(con);
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, memberNumber);
 			rs = ps.executeQuery();
@@ -256,6 +259,23 @@ public class RefrigeratorDAOImpl implements RefrigeratorDAO {
 		}
 		
 		return refrigeratorList;
+	}
+	public int deleteAmountZero(Connection con) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "DELETE from REFRIGERATOR_STATUS where AMOUNT<=0";
+		int result=0;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			result += ps.executeUpdate();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbManager.dbClose(ps,rs);
+		}
+		return result;
 	}
 
 
