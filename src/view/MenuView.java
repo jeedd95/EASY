@@ -317,7 +317,7 @@ public class MenuView {
 		System.out.println("현재 냉장고의 재료를 확인 중 입니다 잠시만 기다려주세요...");
 		
 		//현재 로그인한 회원의 회원번호 가져오기
-		List<RecipeVO> recipeList =  RecipeController.recommendRecipeByRefrigerator(5);
+		List<RecipeVO> recipeList =  RecipeController.recommendRecipeByRefrigerator(Session.getCurrentMember().getMNo());
 		
 		System.out.println("냉장고에 있는 재료들로 만들 수 있는 레시피는 아래와 같습니다");
 		
@@ -348,8 +348,8 @@ public class MenuView {
 	public static void 사용기반으로추천받기() {
 		System.out.println("사용기반으로 추천 받기 메뉴에 들어오셨습니다");
 		System.out.println("통계를 확인 중 입니다 잠시만 기다려주세요...");
-		//3대신 현재 회원 받기
-		List<StatsVO> statsList = RecipeController.recommendRecipeByMemberUsed(3);
+		
+		List<StatsVO> statsList = RecipeController.recommendRecipeByMemberUsed(Session.getCurrentMember().getMNo());
 		System.out.println();
 		System.out.println("지난 기간동안 사용한 식재료의 순위입니다===========");
 		System.out.print("순위" +"\t");
