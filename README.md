@@ -1,5 +1,5 @@
-# EASY
-KOSTA 286기 자바1차미니프로젝트
+# E.A.S.Y
+KOSTA_286기 Java 1차미니프로젝트
 
 ## 개요
 - 프로젝트 명 : E.A.S.Y (Easy Accessible System for Your Food)
@@ -17,14 +17,10 @@ KOSTA 286기 자바1차미니프로젝트
 - 협업Tool : Notion / Slack
 
 
-
-
-
 ## 프로젝트 결과물
 <img width="303" alt="KakaoTalk_20240829_104433300" src="https://github.com/user-attachments/assets/713fd75d-9a2d-43f5-ba7e-6c30f373e164"> <br/>
 <img width="303" alt="KakaoTalk_20240829_125904331" src="https://github.com/user-attachments/assets/d516bab4-f112-4bf0-aadb-d50f58d15929"> <br/>
 <img width="603" alt="KakaoTalk_20240829_112232458" src="https://github.com/user-attachments/assets/bcefd9a0-72d0-422f-ac7e-e7e2eef02965">
-
 
 - [DB 모델링](https://www.erdcloud.com/d/t2BAaXxQzs88K6wLd)
 - [시연 영상](https://youtu.be/YtIGRKwmrVg?si=X9xAAr4WcX50vmaD)
