@@ -1,5 +1,5 @@
 # EASY
-KOSTA_286기 자바 1차 미니프로젝트
+KOSTA 286기 자바1차미니프로젝트
 
 ## 개요
 - 프로젝트 명 : E.A.S.Y (Easy Accessible System for Your Food)
