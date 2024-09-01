@@ -20,6 +20,7 @@ KOSTA_286기 Java 1차미니프로젝트
 ## 프로젝트 결과물
 <img width="303" alt="KakaoTalk_20240829_104433300" src="https://github.com/user-attachments/assets/713fd75d-9a2d-43f5-ba7e-6c30f373e164"> <br/>
 <img width="303" alt="KakaoTalk_20240829_125904331" src="https://github.com/user-attachments/assets/d516bab4-f112-4bf0-aadb-d50f58d15929"> <br/>
+<img width="303" alt="image" src="https://github.com/user-attachments/assets/5f22b001-49f2-4947-ac48-6100beb68bb4"> <br/>
 <img width="603" alt="KakaoTalk_20240829_112232458" src="https://github.com/user-attachments/assets/bcefd9a0-72d0-422f-ac7e-e7e2eef02965">
 
 - [DB 모델링](https://www.erdcloud.com/d/t2BAaXxQzs88K6wLd)
